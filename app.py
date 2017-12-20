@@ -570,6 +570,8 @@ def handle_message(event):
         print(e.status_code)
         print(e.error.message)
         print(e.error.details)
+    except Exception as e:
+        replyTextMessage(reply_token, 'error')
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
