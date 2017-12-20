@@ -8,6 +8,7 @@
 
 /instapost [post-ke] [username]
 /instastory [username]
+/instainfo [username]
 
 /gimage: [query]
 
