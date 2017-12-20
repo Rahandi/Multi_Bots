@@ -157,13 +157,13 @@ def youtubevideo(query):
 def youtubedownload(token, query, mode):
     try:
         pafyObj = pafy.new(query)
-        kata = '『Youtube Download』\n\n'
+        kata = '『Youtube Download』\n'
         image = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % (pafyObj.videoid)
         if int(mode) == 1:
             videolist = pafyObj.streams
             for a in videolist:
                 realreso = a.resolution.split('x')
-                kata += '\n %s %s %s' % (a.extension, realreso[1], humansize(a.get_filesize()))
+                kata += '\n %s %s %s' % (a.extension, str(realreso[1])+'p', humansize(a.get_filesize()))
                 kata += '\n%s\n' % (str(shorten(a.url)))
         elif int(mode) == 2:
             audiolist = pafyObj.audiostreams
