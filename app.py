@@ -252,9 +252,9 @@ def instapost(token, username, query, berapa):
         instapost(token, username, query, berapa)
         raise e
 
-def instastory(token, usename):
+def instastory(token, username):
     try:
-        link = 'http://rahandiapi.herokuapp.com/instastory/%s?key=randi123' % (usename)
+        link = 'http://rahandiapi.herokuapp.com/instastory/%s?key=randi123' % (username)
         data = json.loads(requests.get(link).text)
         if data['find'] == True:
             if len(data['url']) == 0:
