@@ -476,7 +476,7 @@ def handle_message(event):
                 isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % videoid[a]
                 isi_TB['title'] = None
                 isi_TB['text'] = str(title[a])[:60]
-                isi_TB['action'] = actionBuilder(4, ['msg', 'msg', 'msg', 'msg'], ['send Video', 'send Audio'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a]), '/youtube-download-video: %s' % (url[a]), '/youtube-download-audio: %s' % (url[a])])
+                isi_TB['action'] = actionBuilder(4, ['msg', 'msg', 'msg', 'msg'], ['send Video', 'send Audio', 'download video', 'download audio'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a]), '/youtube-download-video: %s' % (url[a]), '/youtube-download-audio: %s' % (url[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots youtube-search'
