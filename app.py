@@ -134,7 +134,6 @@ def youtubesearch(query):
                 if hitung >= 10:
                     break
         return title, url, videoid
-
     except Exception as e:
         raise e
 
@@ -152,6 +151,41 @@ def youtubevideo(query):
         video = pafyObj.getbest(preftype='mp4')
         url = shorten(video.url)
         return url, 'https://img.youtube.com/vi/%s/mqdefault.jpg' % (pafyObj.videoid)
+    except Exception as e:
+        raise e
+
+def youtubedownload(token, query, mode):
+    try:
+        pafyObj = pafy.new(query)
+        kata = '『Youtube Download』\n\n'
+        image = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % (pafyObj.videoid)
+        if int(mode) == 1:
+            videolist = pafyObj.streams
+            for a in videolist:
+                realreso = a.resolution.split('X')
+                kata += '\n %s %s %s' % (a.extension, realreso[1], humansize(a.get_filesize()))
+                kata += '\n%s\n' % (str(shorten(a.url)))
+        elif int(mode) == 2:
+            audiolist = pafyObj.audiostreams
+            for a in audiolist:
+                kata += '\n %s %s %s' % (a.extension, a.bitrate, humansize(a.get_filesize()))
+                kata += '\n%s\n' % (str(shorten(a.url)))
+        customMessage(token, [
+                ImageSendMessage(original_content_url=image, preview_image_url=image),
+                TextSendMessage(text=str(kata))
+            ])
+    except Exception as e:
+        raise e
+
+def humansize(nbytes):
+    try:
+        i = 0
+        suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+        while nbytes >= 1024 and i < len(suffixes)-1:
+            nbytes /= 1024.
+            i += 1
+        f = ('%.2f' % nbytes).rstrip('0').rstrip('.')
+        return '%s %s' % (f, suffixes[i])
     except Exception as e:
         raise e
 
@@ -413,7 +447,7 @@ def handle_message(event):
             texet = file.read()
             file.close()
             replyTextMessage(reply_token, texet)
-        elif msgtext.lower().startswith('/youtube-mp3: '):
+        elif msgtext.lower().startswith('/youtube-audio: '):
             query = msgtext[14:]
             url = youtubemp3(query)
             replyAudioMessage(reply_token, url)
@@ -421,15 +455,15 @@ def handle_message(event):
             query = msgtext[16:]
             url, preview = youtubevideo(query)
             replyVideoMessage(reply_token, url, preview)
-        elif msgtext.lower().startswith('/youtube: '):
-            query = msgtext[10:]
+        elif msgtext.lower().startswith('/youtube-link: '):
+            query = msgtext[15:]
             dat = pafy.new(query)
             data = {}
             data['alt'] = 'Multi_Bots Youtube'
             data['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % dat.videoid
             data['title'] = None
             data['text'] = str(dat.title)
-            data['action'] = actionBuilder(2, ['msg', 'msg'], ['send Video', 'send Audio'], ['/youtube-video: %s' % (query), '/youtube-mp3: %s' % (query)])
+            data['action'] = actionBuilder(4, ['msg', 'msg', 'msg', 'msg'], ['send Video', 'send Audio', 'download video', 'download audio'], ['/youtube-video: %s' % (query), '/youtube-audio: %s' % (query), '/youtube-download-video: %s' % (query), '/youtube-download-audio: %s' % (query)])
             replyTemplateMessage(reply_token, data)
         elif msgtext.lower().startswith('/youtube-search: '):
             query = msgtext[17:]
@@ -442,12 +476,18 @@ def handle_message(event):
                 isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % videoid[a]
                 isi_TB['title'] = None
                 isi_TB['text'] = str(title[a])[:60]
-                isi_TB['action'] = actionBuilder(2, ['msg', 'msg'], ['send Video', 'send Audio'], ['/youtube-video: %s' % (url[a]), '/youtube-mp3: %s' % (url[a])])
+                isi_TB['action'] = actionBuilder(4, ['msg', 'msg', 'msg', 'msg'], ['send Video', 'send Audio'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a]), '/youtube-download-video: %s' % (url[a]), '/youtube-download-audio: %s' % (url[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots youtube-search'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(reply_token, data)
+        elif msgtext.lower().startswith('/youtube-download-video: '):
+            query = msgtext[25:]
+            youtubedownload(reply_token, query, 1)
+        elif msgtext.lower().startswith('/youtube-download-audio: '):
+            query = msgtext[25:]
+            youtubedownload(reply_token, query, 2)
         elif msgtext.lower() == 'sp':
             sekarang = time.time()
             line_bot_api.reply_message(reply_token, [TextSendMessage(text = '...'), TextSendMessage(text = str(time.time()-sekarang))])
