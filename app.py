@@ -162,7 +162,7 @@ def youtubedownload(token, query, mode):
         if int(mode) == 1:
             videolist = pafyObj.streams
             for a in videolist:
-                realreso = a.resolution.split('X')
+                realreso = a.resolution.split('x')
                 kata += '\n %s %s %s' % (a.extension, realreso[1], humansize(a.get_filesize()))
                 kata += '\n%s\n' % (str(shorten(a.url)))
         elif int(mode) == 2:
@@ -448,7 +448,7 @@ def handle_message(event):
             file.close()
             replyTextMessage(reply_token, texet)
         elif msgtext.lower().startswith('/youtube-audio: '):
-            query = msgtext[14:]
+            query = msgtext[16:]
             url = youtubemp3(query)
             replyAudioMessage(reply_token, url)
         elif msgtext.lower().startswith('/youtube-video: '):

@@ -1,7 +1,9 @@
 /youtube-search: [query]
-/youtube: [youtube link]
-/youtube-mp3: [youtube link]
+/youtube-link: [youtube link]
+/youtube-audio: [youtube link]
 /youtube-video: [youtube link]
+/youtube-download-video: [youtube link]
+/youtube-download-audio: [youtube link]
 
 /instapost [post-ke] [username]
 /instastory [username]
