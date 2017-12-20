@@ -172,6 +172,7 @@ def instapost(token, username, query, berapa):
                     kata += '\ncomment: %s' % (data['comment_count'])
                     if medtipe == 1:
                         url = data['url']
+                        kata += '\nlink: %s' % (shorten(url))
                         customMessage(token, [
                             ImageSendMessage(original_content_url=url, preview_image_url=url),
                             TextSendMessage(text = str(kata))
@@ -179,6 +180,7 @@ def instapost(token, username, query, berapa):
                     elif medtipe == 2:
                         url = data['url']
                         pripiw = data['preview']
+                        kata += '\nlink: %s' % (shorten(url))
                         customMessage(token, [
                             VideoSendMessage(original_content_url=url, preview_image_url=pripiw),
                             TextSendMessage(text = str(kata))
@@ -255,6 +257,28 @@ def instastory(token, usename):
                 customMessage(token, cus)
         else:
             replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
+    except Exception as e:
+        raise e
+
+def instainfo(token, username):
+    try:
+        link = 'https://rahandiapi.herokuapp.com/instainfo/%s?key=randi123' % (str(username))
+        data = json.loads(requests.get(link).text)
+        if data['find'] == True:
+            result = data['result']
+            image = result['url']
+            kata = '『Instagram Info』\n\n'
+            kata += 'Username: ' + result['username']
+            kata += '\nName: ' + result['name']
+            kata += '\nTotal post: ' + str(result['mediacount'])
+            kata += '\nFollower: ' + str(result['follower'])
+            kata += '\nFollowing: ' + str(result['following'])
+            kata += '\nPrivate: ' + str(result['private'])
+            kata += '\nBio: ' + str(result['bio'])
+            customMessage(token, [
+                    ImageSendMessage(original_content_url=image, preview_image_url=image),
+                    TextSendMessage(text=str(kata))
+                ])
     except Exception as e:
         raise e
 
@@ -434,6 +458,9 @@ def handle_message(event):
         elif msgtext.lower().startswith('/instastory '):
             query = msgtext[12:]
             instastory(reply_token, query)
+        elif msgtext.lower().startswith('/instainfo '):
+            query = msgtext[11:]
+            instainfo(reply_token, query)
         elif msgtext.lower().startswith('/gimage: '):
             query = msgtext[9:]
             gimage(reply_token, query)
