@@ -476,29 +476,22 @@ def handle_message(event):
                 isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % videoid[a]
                 isi_TB['title'] = None
                 isi_TB['text'] = str(title[a])[:60]
-                isi_TB['action'] = actionBuilder(2, ['msg', 'msg'], ['send Video', 'send Audio'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a])])
+                isi_TB['action'] = actionBuilder(3, ['msg', 'msg', 'msg'], ['send Video', 'send Audio', 'download'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a]), '/youtube-download: %s' % (url[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots youtube-search'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(reply_token, data)
-        elif msgtext.lower().startswith('debug: '):
-            query = msgtext[7:]
-            title, url, videoid = youtubesearch(query)
-            TB = []
-            amon = 10
-            tipe = 'template'
-            for a in range(0, amon):
-                isi_TB = {}
-                isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % videoid[a]
-                isi_TB['title'] = None
-                isi_TB['text'] = str(title[a])[:60]
-                isi_TB['action'] = actionBuilder(4, ['msg', 'msg', 'msg', 'msg'], ['send Video', 'send Audio', 'download Video', 'download Audio'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a]), '/youtube-download-video: %s' % (url[a]), '/youtube-download-audio: %s' % (url[a])])
-                TB.append(isi_TB)
+        elif msgtext.lower().startswith('/youtube-download: '):
+            query = msgtext[19:]
+            dat = pafy.new(query)
             data = {}
-            data['alt'] = 'Multi_Bots youtube-search'
-            data['template'] = templateBuilder(amon, tipe, TB)
-            replyCarrouselMessage(reply_token, data)
+            data['alt'] = 'Multi_Bots Youtube'
+            data['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % dat.videoid
+            data['title'] = None
+            data['text'] = str(dat.title)
+            data['action'] = actionBuilder(2, ['msg', 'msg'], ['download Video', 'download Audio'], ['/youtube-download-video: %s' % (query), '/youtube-download-audio: %s' % (query)])
+            replyTemplateMessage(reply_token, data)
         elif msgtext.lower().startswith('/youtube-download-video: '):
             query = msgtext[25:]
             youtubedownload(reply_token, query, 1)
