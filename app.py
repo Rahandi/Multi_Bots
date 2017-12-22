@@ -420,6 +420,21 @@ def chatbot(token, query):
     except Exception as e:
         raise e
 
+def gaul(token, query):
+    try:
+        quer = query.replace("'", "-")
+        link = 'https://kitabgaul.com/api/entries/%s' % (quer)
+        data = json.loads(requests.get(link).text)
+        if len(data['entries']) == 0:
+            replyTextMessage(token, 'kata %s tidak ditemukan' % (query))
+        else:
+            kata = '『Hasil kata gaul %s』\n' % (query)
+            kata += '\nDefinisi:\n%s\n' % (data['entries'][0]['definition'])
+            kata += '\nContoh:\n%s' % (data['entries'][0]['example'])
+            replyTextMessage(token, str(kata))
+    except Exception as e:
+        raise e
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -539,6 +554,9 @@ def handle_message(event):
         elif msgtext.lower().startswith('/chat: '):
             query = msgtext[7:]
             chatbot(reply_token, query)
+        elif msgtext.lower().startswith('/gaul: '):
+            query = msgtext[7:]
+            gaul(reply_token, query)
         elif msgtext.lower() == 'self profile':
             data = line_bot_api.get_profile(op['source']['userId'])
             data = json.loads(str(data))
