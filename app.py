@@ -411,7 +411,6 @@ def chatbot(token, query):
     try:
         query = query.replace(' ', '+')
         link = 'http://api.ntcorp.us/chatbot/v1/?text=%s&key=beta1.nt&local=id' % (query)
-        print(link)
         data = json.loads(requests.get(link).text)
         if data['result']['result'] == 100:
             realresp = data['result']['response']
