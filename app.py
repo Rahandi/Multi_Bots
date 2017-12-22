@@ -409,7 +409,8 @@ def gifgifter(token, query):
 
 def chatbot(token, query):
     try:
-        query = query.replace(' ', '+')
+        query = requests.utils.requote_uri(query)
+        #query = query.replace(' ', '+')
         link = 'http://api.ntcorp.us/chatbot/v1/?text=%s&key=beta1.nt&local=id' % (query)
         data = json.loads(requests.get(link).text)
         if data['result']['result'] == 100:
