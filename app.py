@@ -407,6 +407,19 @@ def gifgifter(token, query):
     except Exception as e:
         raise e
 
+def chatbot(token, query):
+    try:
+        query = requests,utils.requote_uri(query)
+        link = 'http://api.ntcorp.us/chatbot/v1/?text=%s&key=beta1.nt&local=id' % (query)
+        data = json.loads(requests.get(link).text)
+        if data['result']['result'] == 100:
+            realresp = data['result']['response']
+            replyTextMessage(token, str(realresp))
+        else:
+            replyTextMessage(token, 'error')
+    except Exception as e:
+        raise e
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -523,6 +536,9 @@ def handle_message(event):
         elif msgtext.lower().startswith('/gif: '):
             query = msgtext[6:]
             gifgifter(reply_token, query)
+        elif msgtext.lower().startswith('/chat: '):
+            query = msgtext[7:]
+            chatbot(reply_token, query)
         elif msgtext.lower() == 'self profile':
             data = line_bot_api.get_profile(op['source']['userId'])
             data = json.loads(str(data))
