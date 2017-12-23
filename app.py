@@ -442,8 +442,11 @@ def devian(token, query):
         listdev = find['results']
         listpict = []
         for a in listdev:
-            dwn = devapi.download_deviation(a)
-            listpict.append(dwn['src'])
+            try:
+                dwn = devapi.download_deviation(a)
+                listpict.append(dwn['src'])
+            except:
+                pass
         TB = []
         amon = len(listpict)
         tipe = 'image'
@@ -457,7 +460,7 @@ def devian(token, query):
         dat['template'] = templateBuilder(amon, tipe, TB)
         replyCarrouselMessage(token, dat)
     except Exception as e:
-        print(e)
+        raise e
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -633,6 +636,7 @@ def handle_message(event):
         print(e.error.details)
     except Exception as e:
         replyTextMessage(reply_token, 'error')
+        print(e)
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
