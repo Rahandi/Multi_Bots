@@ -451,6 +451,9 @@ def devian(token, query):
                 pass
         TB = []
         amon = len(listpict)
+        if amon == 0:
+            replyTextMessage(token, '0 found')
+            return
         tipe = 'img'
         for a in range(len(listpict)):
             isi_TB = {}
