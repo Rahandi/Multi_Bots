@@ -438,7 +438,7 @@ def gaul(token, query):
 def devian(token, query):
     try:
         devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
-        find = devapi.browse(q=query)
+        find = devapi.browse(endpoint='popular' q=query)
         listdev = find['results']
         listpict = []
         for a in listdev:
