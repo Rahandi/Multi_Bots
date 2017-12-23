@@ -14,7 +14,6 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi('E2NW4d5IBfL8zRP2FlbJ5Pg6GTDaUMAvQyfTkOGrzGReNR77kpXQDUOIfX/9XWdIEQfDGMadtkS8kcRB4VtXAeAPmkJB6GGbbb35RghRG4PA3l25h5krMSNuw0B/mEJRO/H3J0FIeDnY0W8yJQMw/QdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
-devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
 
 def customMessage(token, cus):
     try:
@@ -438,6 +437,7 @@ def gaul(token, query):
 
 def devian(token, query):
     try:
+        devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
         find = devapi.browse(q=query)
         listdev = find['results']
         listpict = []
