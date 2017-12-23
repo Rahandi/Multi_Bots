@@ -6,3 +6,4 @@ youtube-dl
 bs4
 lxml
 wikipedia
+deviantart

@@ -1,4 +1,4 @@
-import os, time, json, requests, pafy, random, wikipedia
+import os, time, json, requests, pafy, random, wikipedia, deviantart
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 
@@ -14,6 +14,7 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi('E2NW4d5IBfL8zRP2FlbJ5Pg6GTDaUMAvQyfTkOGrzGReNR77kpXQDUOIfX/9XWdIEQfDGMadtkS8kcRB4VtXAeAPmkJB6GGbbb35RghRG4PA3l25h5krMSNuw0B/mEJRO/H3J0FIeDnY0W8yJQMw/QdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
+devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
 
 def customMessage(token, cus):
     try:
@@ -410,7 +411,6 @@ def gifgifter(token, query):
 def chatbot(token, query):
     try:
         query = requests.utils.requote_uri(query)
-        #query = query.replace(' ', '+')
         link = 'http://api.ntcorp.us/chatbot/v1/?text=%s&key=beta1.nt&local=id' % (query)
         data = json.loads(requests.get(link).text)
         if data['result']['result'] == 100:
@@ -433,6 +433,29 @@ def gaul(token, query):
             kata += '\nDefinisi:\n%s\n' % (data['entries'][0]['definition'])
             kata += '\nContoh:\n%s' % (data['entries'][0]['example'])
             replyTextMessage(token, str(kata))
+    except Exception as e:
+        raise e
+
+def devian(token, query):
+    try:
+        find = devapi.browse(q=query)
+        listdev = find['results']
+        listpict = []
+        for a in listdev:
+            dwn = devapi.download_deviation(a)
+            listpict.append(dwn['src'])
+        TB = []
+        amon = len(listpict)
+        tipe = 'image'
+        for a in range(len(listpict)):
+            isi_TB = {}
+            isi_TB['tumbnail'] = listpict[a]
+            isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
+            TB.append(isi_TB)
+        dat = {}
+        dat['alt'] = 'Multi_Bots Deviantart'
+        dat['template'] = templateBuilder(amon, tipe, TB)
+        replyCarrouselMessage(token, dat)
     except Exception as e:
         raise e
 
@@ -558,6 +581,9 @@ def handle_message(event):
         elif msgtext.lower().startswith('/gaul: '):
             query = msgtext[7:]
             gaul(reply_token, query)
+        elif msgtext.lower().startswith('/deviant: '):
+            query = msgtext[10:]
+            devian(reply_token, query)
         elif msgtext.lower() == 'self profile':
             data = line_bot_api.get_profile(op['source']['userId'])
             data = json.loads(str(data))
