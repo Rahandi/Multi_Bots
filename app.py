@@ -457,7 +457,7 @@ def devian(token, query):
         dat['template'] = templateBuilder(amon, tipe, TB)
         replyCarrouselMessage(token, dat)
     except Exception as e:
-        raise e
+        print(e)
 
 @app.route("/callback", methods=['POST'])
 def callback():
