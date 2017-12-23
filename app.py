@@ -449,7 +449,7 @@ def devian(token, query):
                 pass
         TB = []
         amon = len(listpict)
-        tipe = 'image'
+        tipe = 'img'
         for a in range(len(listpict)):
             isi_TB = {}
             isi_TB['tumbnail'] = listpict[a]
