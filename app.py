@@ -462,6 +462,24 @@ def devian(token, query):
     except Exception as e:
         raise e
 
+def sholat(token, query):
+    try:
+        query = requests.utils.requote_uri(query)
+        link = 'https://time.siswadi.com/pray/' + str(query)
+        data = json.loads(requests.get(link).text)
+        alamat = data['location']['address']
+        shubuh = data['data']['Fajr']
+        dzuhur = data['data']['Dhuhr']
+        ashar = data['data']['Asr']
+        maghrib = data['data']['Maghrib']
+        isya = data['data']['Isha']
+        kata = '『Jadwal sholat untuk』\n'
+        kata += '\nposisi:\n%s\n' % (alamat)
+        kata += 'Shubuh: %s\nDzuhur: %s\nAshar: %s\nMaghrib: %s\nIsya: %s' % (shubuh,dzuhur,ashar,maghrib,isya)
+        replyTextMessage(token, str(kata))
+    except Exception as e:
+        raise e
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
