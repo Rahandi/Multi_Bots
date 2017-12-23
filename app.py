@@ -473,9 +473,9 @@ def sholat(token, query):
         ashar = data['data']['Asr']
         maghrib = data['data']['Maghrib']
         isya = data['data']['Isha']
-        kata = '『Jadwal sholat untuk』\n'
+        kata = '『Jadwal Sholat』\n'
         kata += '\nposisi:\n%s\n' % (alamat)
-        kata += 'Shubuh: %s\nDzuhur: %s\nAshar: %s\nMaghrib: %s\nIsya: %s' % (shubuh,dzuhur,ashar,maghrib,isya)
+        kata += '\nShubuh: %s\nDzuhur: %s\nAshar: %s\nMaghrib: %s\nIsya: %s' % (shubuh,dzuhur,ashar,maghrib,isya)
         replyTextMessage(token, str(kata))
     except Exception as e:
         raise e
