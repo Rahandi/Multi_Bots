@@ -605,6 +605,9 @@ def handle_message(event):
         elif msgtext.lower().startswith('/deviant: '):
             query = msgtext[10:]
             devian(reply_token, query)
+        elif msgtext.lower().startswith('/sholat: '):
+            query = msgtext[9:]
+            sholat(reply_token, query)
         elif msgtext.lower() == 'self profile':
             data = line_bot_api.get_profile(op['source']['userId'])
             data = json.loads(str(data))
