@@ -313,6 +313,8 @@ def instainfo(token, username):
                     ImageSendMessage(original_content_url=image, preview_image_url=image),
                     TextSendMessage(text=str(kata))
                 ])
+        else:
+            replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
     except Exception as e:
         raise e
 
@@ -474,7 +476,7 @@ def sholat(token, query):
         maghrib = data['data']['Maghrib']
         isya = data['data']['Isha']
         kata = '『Jadwal Sholat』\n'
-        kata += '\nposisi:\n%s\n' % (alamat)
+        kata += '\n%s\n' % (alamat)
         kata += '\nShubuh: %s\nDzuhur: %s\nAshar: %s\nMaghrib: %s\nIsya: %s' % (shubuh,dzuhur,ashar,maghrib,isya)
         replyTextMessage(token, str(kata))
     except Exception as e:
