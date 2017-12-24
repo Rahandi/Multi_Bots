@@ -489,6 +489,41 @@ def sholat(token, query):
     except Exception as e:
         raise e
 
+def help(token, mode=0):
+    try:
+        if mode == 0:
+            TB = []
+            tipe = 'template'
+            amon = 4
+            tumbnail = [
+                'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2000px-Instagram_logo_2016.svg.png', 
+                'https://orangeamps.com/wp-content/uploads/2011/09/large-stuff-magazine-logo.png',
+                'https://logosave.com/images/large/23/About-logo.gif']
+            text = [
+                'youtube help',
+                'instagram help',
+                'stuff help',
+                'about']
+            dataaction = [
+                'help youtube',
+                'help instagram',
+                'help stuff',
+                'help about']
+            for a in range(0, amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = tumbnail[a]
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['action'] = actionBuilder(1, ['postback'], ['help'], [dataaction[a]])
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots main Help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(reply_token, data)
+    except Exception as e:
+        raise e
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -626,14 +661,8 @@ def handle_message(event):
             data = line_bot_api.get_profile(op['source']['userId'])
             data = json.loads(str(data))
             replyTextMessage(reply_token, json.dumps(data, indent=2))
-        elif msgtext.lower() == '//coba':
-            data = {}
-            data['alt'] = 'lalalala'
-            data['tumbnail'] = None
-            data['title'] = None
-            data['text'] = 'coba'
-            data['action'] = [actionBuilder(1, ['postback'], ['coba'], ['try'])]
-            replyTemplateMessage(reply_token, data)
+        elif msgtext.lower() == '//coba help':
+            help(reply_token)
         elif msgtext.lower() == '/cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
         elif msgtext.lower() == '/leave':
@@ -664,6 +693,8 @@ def handle_postback(event):
             texet = file.read()
             file.close()
             replyTextMessage(reply_token, texet)
+        else:
+            replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
