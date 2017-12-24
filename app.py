@@ -64,12 +64,16 @@ def actionBuilder(amount, type, param1, param2):
                 built = MessageTemplateAction(label=param1[0], text=param2[0])
             elif type[0] == 'uri':
                 built = URITemplateAction(label=param1[0], uri=param2[0])
+            elif type[0] == 'postback':
+                built = PostbackTemplateAction(label=param1[0], data=param2[i])
         else:
             for i in range(0, amount):
                 if type[i] == 'msg':
                     apped = MessageTemplateAction(label=param1[i], text=param2[i])
                 elif type[i] == 'uri':
                     apped = URITemplateAction(label=param1[i], uri=param2[i])
+                elif type[i] == 'postback':
+                    apped = PostbackTemplateAction(label=param1[i], data=param2[i])
                 built.append(apped)
         return built
     except Exception as e:
@@ -617,34 +621,17 @@ def handle_message(event):
             data = line_bot_api.get_profile(op['source']['userId'])
             data = json.loads(str(data))
             replyTextMessage(reply_token, json.dumps(data, indent=2))
-        elif msgtext.lower() == '///coba':
+        elif msgtext.lower() == '//coba':
             TB = []
-            isi_TB = {}
-            amon = 2
-            tipe = 'img'
-            for i in range(0, amon):
-                isi_TB['tumbnail'] = 'https://img.youtube.com/vi/yq6VhQGz-no/hqdefault.jpg'
-                isi_TB['action'] = actionBuilder(1, ['msg'], ['satu'], ['a'])
-                TB.append(isi_TB)
-            data = {}
-            data['alt'] = 'uji coba carrousel'
-            data['template'] = templateBuilder(amon, tipe, TB)
-            replyCarrouselMessage(reply_token, data)
-        elif msgtext.lower() == '///coba image':
-            TB = []
-            isi_TB = {}
-            amon = 2
+            amon = 1
             tipe = 'template'
-            for i in range(0, amon):
-                isi_TB['tumbnail'] = 'https://img.youtube.com/vi/yq6VhQGz-no/hqdefault.jpg'
-                isi_TB['title'] = 'coba'
-                isi_TB['text'] = 'txt'
-                isi_TB['action'] = actionBuilder(2, ['msg', 'msg'], ['satu', 'dua'], ['a', 'b'])
-                TB.append(isi_TB)
-            data = {}
-            data['alt'] = 'uji coba carrousel'
-            data['template'] = templateBuilder(amon, tipe, TB)
-            replyCarrouselMessage(reply_token, data)
+            isi_TB = {}
+            isi_TB['tumbnail'] = None
+            isi_TB['action'] = actionBuilder(1, ['postback'], ['coba'], ['try'])
+            TB.append(isi_TB)
+            dat['alt'] ='coba'
+            dat['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(reply_token, dat)
         elif msgtext.lower() == '/cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
         elif msgtext.lower() == '/leave':
@@ -670,7 +657,8 @@ def handle_postback(event):
     reply_token = op['replyToken']
     postbackdata = op['postback']['data']
     try:
-        pass
+        if msgtext.lower() == 'try':
+            replyTextMessage(reply_token, 'berhasil')
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
