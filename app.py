@@ -515,8 +515,8 @@ def handle_join(event):
         data['alt'] = 'Multi_Bots Joined'
         data['tumbnail'] = None
         data['title'] = None
-        data['text'] = 'Terimakasih telah mengundang !!!\ntap untuk bantuan penggunaan'
-        data['action'] = [actionBuilder(1, ['postback'], ['tap !!!'], ['help'])]
+        data['text'] = 'klik tombol dibawah ini untuk bantuan penggunaan'
+        data['action'] = [actionBuilder(1, ['postback'], ['help'], ['help'])]
         replyTemplateMessage(reply_token, data)
     except LineBotApiError as e:
         print(e.status_code)
