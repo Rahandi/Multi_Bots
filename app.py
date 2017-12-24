@@ -627,7 +627,7 @@ def handle_message(event):
             data['tumbnail'] = None
             data['title'] = None
             data['text'] = 'coba'
-            data['action'] = actionBuilder(1, ['postback'], ['coba'], ['try'])
+            data['action'] = [actionBuilder(1, ['postback'], ['coba'], ['try'])]
             replyTemplateMessage(reply_token, data)
         elif msgtext.lower() == '/cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
