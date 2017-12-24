@@ -627,6 +627,8 @@ def handle_message(event):
             tipe = 'template'
             isi_TB = {}
             isi_TB['tumbnail'] = None
+            isi_TB['title'] = None
+            isi_TB['text'] = 'lalalalla'
             isi_TB['action'] = actionBuilder(1, ['postback'], ['coba'], ['try'])
             TB.append(isi_TB)
             dat = {}
