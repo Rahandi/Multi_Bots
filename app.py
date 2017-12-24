@@ -511,8 +511,13 @@ def handle_join(event):
     try:
         op = json.loads(str(event))
         reply_token = op['replyToken']
-        replyTextMessage(reply_token, 'Terimakasih telah mengundang\n\nketik help untuk bantuan penggunaan')
-
+        data = {}
+        data['alt'] = 'Multi_Bots Joined'
+        data['tumbnail'] = None
+        data['title'] = None
+        data['text'] = 'tap untuk bantuan'
+        data['action'] = [actionBuilder(1, ['postback'], ['tap !!!'], ['help'])]
+        replyTemplateMessage(reply_token, data)
     except LineBotApiError as e:
         print(e.status_code)
         print(e.error.message)
@@ -654,8 +659,11 @@ def handle_postback(event):
     reply_token = op['replyToken']
     postbackdata = op['postback']['data']
     try:
-        if postbackdata.lower() == 'try':
-            replyTextMessage(reply_token, 'berhasil')
+        if postbackdata.lower() == 'help':
+            file = open('help', 'r')
+            texet = file.read()
+            file.close()
+            replyTextMessage(reply_token, texet)
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
