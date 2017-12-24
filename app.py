@@ -622,19 +622,13 @@ def handle_message(event):
             data = json.loads(str(data))
             replyTextMessage(reply_token, json.dumps(data, indent=2))
         elif msgtext.lower() == '//coba':
-            TB = []
-            amon = 1
-            tipe = 'template'
-            isi_TB = {}
-            isi_TB['tumbnail'] = None
-            isi_TB['title'] = None
-            isi_TB['text'] = 'lalalalla'
-            isi_TB['action'] = actionBuilder(1, ['postback'], ['coba'], ['try'])
-            TB.append(isi_TB)
-            dat = {}
-            dat['alt'] ='coba'
-            dat['template'] = templateBuilder(amon, tipe, TB)
-            replyCarrouselMessage(reply_token, dat)
+            data = {}
+            data['alt'] = 'lalalala'
+            data['tumbnail'] = None
+            data['title'] = None
+            data['text'] = 'coba'
+            data['action'] = actionBuilder(1, ['postback'], ['coba'], ['try'])
+            replyTemplateMessage(reply_token, data)
         elif msgtext.lower() == '/cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
         elif msgtext.lower() == '/leave':
