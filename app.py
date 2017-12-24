@@ -629,6 +629,7 @@ def handle_message(event):
             isi_TB['tumbnail'] = None
             isi_TB['action'] = actionBuilder(1, ['postback'], ['coba'], ['try'])
             TB.append(isi_TB)
+            dat = {}
             dat['alt'] ='coba'
             dat['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(reply_token, dat)
