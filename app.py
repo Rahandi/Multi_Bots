@@ -65,7 +65,7 @@ def actionBuilder(amount, type, param1, param2):
             elif type[0] == 'uri':
                 built = URITemplateAction(label=param1[0], uri=param2[0])
             elif type[0] == 'postback':
-                built = PostbackTemplateAction(label=param1[0], data=param2[i])
+                built = PostbackTemplateAction(label=param1[0], data=param2[0])
         else:
             for i in range(0, amount):
                 if type[i] == 'msg':
