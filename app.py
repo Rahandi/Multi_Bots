@@ -520,7 +520,7 @@ def help(token, mode=0):
             data = {}
             data['alt'] = 'Multi_Bots main Help'
             data['template'] = templateBuilder(amon, tipe, TB)
-            replyCarrouselMessage(reply_token, data)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
