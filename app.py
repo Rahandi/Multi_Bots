@@ -515,7 +515,7 @@ def help(token, mode=0):
                 isi_TB['tumbnail'] = tumbnail[a]
                 isi_TB['title'] = None
                 isi_TB['text'] = text[a]
-                isi_TB['action'] = actionBuilder(1, ['postback'], ['help'], [dataaction[a]])
+                isi_TB['action'] = [actionBuilder(1, ['postback'], ['help'], [dataaction[a]])]
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots main Help'
