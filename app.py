@@ -654,7 +654,7 @@ def handle_postback(event):
     reply_token = op['replyToken']
     postbackdata = op['postback']['data']
     try:
-        if msgtext.lower() == 'try':
+        if postbackdata.lower() == 'try':
             replyTextMessage(reply_token, 'berhasil')
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
