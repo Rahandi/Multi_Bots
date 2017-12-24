@@ -650,7 +650,7 @@ def handle_message(event):
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    op = json.loads(event)
+    op = json.loads(str(event))
     reply_token = op['replyToken']
     postbackdata = op['postback']['data']
     try:
