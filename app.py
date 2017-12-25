@@ -195,9 +195,6 @@ def humansize(nbytes):
 
 def instapost(token, username, query, berapa):
     try:
-        if int(berapa) >= 5:
-            replyTextMessage(token, 'error')
-            return
         link = 'http://rahandiapi.herokuapp.com/instapost/%s/%s?key=randi123' % (username, query)
         data = json.loads(requests.get(link).text)
         if data['find'] == True:
@@ -250,13 +247,19 @@ def instapost(token, username, query, berapa):
             else:
                 replyTextMessage(token, 'akun di private, akan mencoba mem-follow, coba beberapa saat lagi')
         else:
-            replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
+            if int(berapa) >= 5:
+                replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
+            else:
+                berapa = str(int(berapa)+1)
+                instapost(token, username, query, berapa)
     except Exception as e:
-        berapa = str(int(berapa) + 1)
-        instapost(token, username, query, berapa)
-        raise e
+        if int(berapa) >= 5:
+            raise e
+        else:
+            berapa = str(int(berapa) + 1)
+            instapost(token, username, query, berapa)
 
-def instastory(token, username):
+def instastory(token, username, berapa):
     try:
         link = 'http://rahandiapi.herokuapp.com/instastory/%s?key=randi123' % (username)
         data = json.loads(requests.get(link).text)
@@ -294,11 +297,19 @@ def instastory(token, username):
                     cus.append(kirimasli)
                 customMessage(token, cus)
         else:
-            replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
+            if int(berapa) >= 5:
+                replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
+            else:
+                berapa = str(int(berapa) + 1)
+                instastory(token, username, berapa)
     except Exception as e:
-        raise e
+        if int(berapa) >= 5:
+            raise e
+        else:
+            berapa = str(int(berapa) + 1)
+            instastory(token, username, berapa)
 
-def instainfo(token, username):
+def instainfo(token, username, berapa):
     try:
         link = 'https://rahandiapi.herokuapp.com/instainfo/%s?key=randi123' % (str(username))
         data = json.loads(requests.get(link).text)
@@ -318,9 +329,17 @@ def instainfo(token, username):
                     TextSendMessage(text=str(kata))
                 ])
         else:
-            replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
+            if int(berapa) >= 5:
+                replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
+            else:
+                berapa = str(int(berapa) + 1)
+                instainfo(token, username, berapa)
     except Exception as e:
-        raise e
+        if int(berapa) >= 5:
+            raise e
+        else:
+            berapa = str(int(berapa) + 1)
+            instainfo(token, username, berapa)
 
 def gimage(token, query):
     try:
@@ -497,7 +516,7 @@ def help(token, mode=0):
             amon = 4
             tumbnail = [
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2000px-Instagram_logo_2016.svg.png', 
+                'http://www.pingview.io/wp-content/uploads/2016/09/instagram-logo.png', 
                 'https://orangeamps.com/wp-content/uploads/2011/09/large-stuff-magazine-logo.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
@@ -629,10 +648,10 @@ def handle_message(event):
             instapost(reply_token, query[1], query[0], 1)
         elif msgtext.lower().startswith('/instastory '):
             query = msgtext[12:]
-            instastory(reply_token, query)
+            instastory(reply_token, query, 1)
         elif msgtext.lower().startswith('/instainfo '):
             query = msgtext[11:]
-            instainfo(reply_token, query)
+            instainfo(reply_token, query, 1)
         elif msgtext.lower().startswith('/gimage: '):
             query = msgtext[9:]
             gimage(reply_token, query)
