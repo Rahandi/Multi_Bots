@@ -623,7 +623,7 @@ def help(token, mode=0):
                 isi_TB['tumbnail'] = None
                 isi_TB['title'] = None
                 isi_TB['text'] = text[a]
-                isi_TB['tumbnail'] = action[a]
+                isi_TB['action'] = action[a]
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots stuff help'
