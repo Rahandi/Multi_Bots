@@ -545,13 +545,13 @@ def help(token, mode=0):
             tipe = 'template'
             amon = 7
             action = []
-            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-search: anime']))
-            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-link: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
-            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-audio: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
-            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-video: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
-            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-download: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
-            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-download-video: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
-            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-download-audio: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/youtube-search: anime'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/youtube-link: https://www.youtube.com/watch?v=UDjuWmhIKuE'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/youtube-audio: https://www.youtube.com/watch?v=UDjuWmhIKuE'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/youtube-video: https://www.youtube.com/watch?v=UDjuWmhIKuE'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/youtube-download: https://www.youtube.com/watch?v=UDjuWmhIKuE'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/youtube-download-video: https://www.youtube.com/watch?v=UDjuWmhIKuE'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/youtube-download-audio: https://www.youtube.com/watch?v=UDjuWmhIKuE'])])
             text = [
                 '/youtube-search: [query]',
                 '/youtube-link: [link youtube]',
