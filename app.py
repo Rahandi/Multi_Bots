@@ -14,6 +14,7 @@ app = Flask(__name__)
 
 line_bot_api = LineBotApi('E2NW4d5IBfL8zRP2FlbJ5Pg6GTDaUMAvQyfTkOGrzGReNR77kpXQDUOIfX/9XWdIEQfDGMadtkS8kcRB4VtXAeAPmkJB6GGbbb35RghRG4PA3l25h5krMSNuw0B/mEJRO/H3J0FIeDnY0W8yJQMw/QdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
+adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 
 def customMessage(token, cus):
     try:
@@ -632,6 +633,21 @@ def help(token, mode=0):
         elif mode == 4:
             TB = []
             tipe = 'template'
+            amon = 2
+            action = []
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/admin'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/leave'])])
+            text = ['/admin', '/leave']
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['action'] = action[a]
+                TB.append(isi_TB)
+            data['alt'] = 'Multi_Bots about help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
@@ -777,7 +793,6 @@ def handle_message(event):
         elif msgtext.lower() == '//cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
         elif msgtext.lower() == '//cetak profile':
-            print(op['source']['userId'])
             profile = json.loads(str(line_bot_api.get_profile(op['source']['userId'])))
             replyTextMessage(reply_token, json.dumps(profile, indent=2))
         elif msgtext.lower() == '/leave':
@@ -814,6 +829,8 @@ def handle_postback(event):
             help(reply_token, 2)
         elif postbackdata.lower() == 'help stuff':
             help(reply_token, 3)
+        elif postbackdata.lower() == 'help about':
+            help(reply_token, 4)
         else:
             replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:
