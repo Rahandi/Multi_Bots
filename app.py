@@ -791,7 +791,7 @@ def handle_message(event):
             data['tumbnail'] = data['pictureUrl']
             data['title'] = data['displayName']
             data['text'] = 'developer'
-            data['action'] = actionBuilder(1, ['uri'], ['add'], ['line://ti/p/~rahandi'])
+            data['action'] = [actionBuilder(1, ['uri'], ['add'], ['line://ti/p/~rahandi'])]
             replyTemplateMessage(reply_token, data)
         elif msgtext.lower() == '//coba help':
             help(reply_token)
