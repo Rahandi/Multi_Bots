@@ -540,6 +540,38 @@ def help(token, mode=0):
             data['alt'] = 'Multi_Bots main Help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 1:
+            TB = []
+            tipe = 'template'
+            amon = 7
+            action = []
+            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-search: anime']))
+            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-link: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
+            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-audio: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
+            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-video: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
+            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-download: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
+            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-download-video: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
+            action.append(actionBuilder(1, ['msg'], ['coba'], ['/youtube-download-audio: https://www.youtube.com/watch?v=UDjuWmhIKuE']))
+            text = [
+                '/youtube-search: [query]',
+                '/youtube-link: [link youtube]',
+                '/youtube-audio: [link youtube]',
+                '/youtube-video: [link youtube]',
+                '/youtube-download: [link youtube]',
+                '/youtube-download-video: [link youtube]',
+                '/youtube-download-audio: [link youtube]'
+            ]
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['action'] = action[a]
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots youtube help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
@@ -712,6 +744,8 @@ def handle_postback(event):
             texet = file.read()
             file.close()
             replyTextMessage(reply_token, texet)
+        elif postbackdata.lower() == 'help youtube':
+            help(reply_token, 1)
         else:
             replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:
