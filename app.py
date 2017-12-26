@@ -629,6 +629,9 @@ def help(token, mode=0):
             data['alt'] = 'Multi_Bots stuff help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 4:
+            TB = []
+            tipe = 'template'
     except Exception as e:
         raise e
 
@@ -771,8 +774,11 @@ def handle_message(event):
             replyTextMessage(reply_token, json.dumps(data, indent=2))
         elif msgtext.lower() == '//coba help':
             help(reply_token)
-        elif msgtext.lower() == '/cetak op':
+        elif msgtext.lower() == '//cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
+        elif msgtext.lower() == '//cetak profile':
+            profile = json.loads(line_bot_api.get_profile(op['source']['userId']))
+            replyTextMessage(reply_token, json.dumps(profile, indent=2))
         elif msgtext.lower() == '/leave':
             if op['source']['type'] == 'group':
                 replyTextMessage(reply_token, ':(')
