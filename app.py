@@ -577,9 +577,9 @@ def help(token, mode=0):
             tipe = 'template'
             amon = 3
             action = []
-            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instapost [post-ke] [username]'])])
-            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instastory [username]'])])
-            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instainfo [username]'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instapost 1 anime.niisan'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instastory anime.niisan'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instainfo anime.niisan'])])
             text = [
                 '/instapost [post-ke] [username]',
                 '/instastory [username]',
