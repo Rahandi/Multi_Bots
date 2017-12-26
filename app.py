@@ -677,7 +677,7 @@ def handle_join(event):
         data = {}
         data['alt'] = 'Multi_Bots Joined'
         data['tumbnail'] = None
-        data['title'] = None
+        data['title'] = 'Multi_Bots'
         data['text'] = 'klik tombol dibawah ini untuk bantuan penggunaan'
         data['action'] = [actionBuilder(1, ['postback'], ['help'], ['help'])]
         replyTemplateMessage(reply_token, data)
@@ -788,7 +788,7 @@ def handle_message(event):
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
-            data['tumbnail'] = data['pictureUrl']
+            data['tumbnail'] = None
             data['title'] = data['displayName']
             data['text'] = 'developer'
             data['action'] = [actionBuilder(1, ['uri'], ['add'], ['line://ti/p/~rahandi'])]
