@@ -596,6 +596,39 @@ def help(token, mode=0):
             data['alt'] = 'Multi_Bots instagram help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 3:
+            TB = []
+            tipe = 'template'
+            amon = 8
+            action = []
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/gimage: kaho hinata'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/lyric: numb linkin park'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/gif: hehehehehe'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/wiki: mobil'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/chat: siapa namamu?'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/gaul: kuy'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/deviant: dark'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/sholat: surabaya'])])
+            text = []
+            text.append('/gimage: [query]')
+            text.append('/lyric: [query]')
+            text.append('/gif: [query]')
+            text.append('/wiki: [query]')
+            text.append('/chat: [query]')
+            text.append('/gaul: [query]')
+            text.append('/deviant: [query]')
+            text.append('/sholat: [lokasi]')
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['tumbnail'] = action[a]
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots stuff help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
@@ -772,6 +805,8 @@ def handle_postback(event):
             help(reply_token, 1)
         elif postbackdata.lower() == 'help instagram':
             help(reply_token, 2)
+        elif postbackdata.lower() == 'help stuff':
+            help(reply_token, 3)
         else:
             replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:
