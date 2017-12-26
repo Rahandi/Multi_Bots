@@ -645,6 +645,7 @@ def help(token, mode=0):
                 isi_TB['text'] = text[a]
                 isi_TB['action'] = action[a]
                 TB.append(isi_TB)
+            data = {}
             data['alt'] = 'Multi_Bots about help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
