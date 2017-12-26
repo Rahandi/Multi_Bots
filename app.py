@@ -572,6 +572,30 @@ def help(token, mode=0):
             data['alt'] = 'Multi_Bots youtube help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 2:
+            TB = []
+            tipe = 'template'
+            amon = 3
+            action = []
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instapost [post-ke] [username]'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instastory [username]'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/instainfo [username]'])])
+            text = [
+                '/instapost [post-ke] [username]',
+                '/instastory [username]',
+                '/instainfo [username]'
+            ]
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['action'] = action[a]
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots instagram help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
@@ -746,6 +770,8 @@ def handle_postback(event):
             replyTextMessage(reply_token, texet)
         elif postbackdata.lower() == 'help youtube':
             help(reply_token, 1)
+        elif postbackdata.lower() == 'help instagram':
+            help(reply_token, 2)
         else:
             replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:
