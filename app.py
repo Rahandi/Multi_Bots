@@ -785,10 +785,14 @@ def handle_message(event):
         elif msgtext.lower().startswith('/sholat: '):
             query = msgtext[9:]
             sholat(reply_token, query)
-        elif msgtext.lower() == 'self profile':
-            data = line_bot_api.get_profile(op['source']['userId'])
-            data = json.loads(str(data))
-            replyTextMessage(reply_token, json.dumps(data, indent=2))
+        elif msgtext.lower() == '/admin':
+            data = json.loads(str(line_bot_api.get_profile(adminid)))
+            data['alt'] = 'Multi_Bots admin'
+            data['tumbnail'] = data['pictureUrl']
+            data['title'] = data['displayName']
+            data['text'] = 'developer'
+            data['action'] = actionBuilder(1, ['uri'], ['add'], ['line://ti/p/~rahandi'])
+            replyTemplateMessage(reply_token, data)
         elif msgtext.lower() == '//coba help':
             help(reply_token)
         elif msgtext.lower() == '//cetak op':
