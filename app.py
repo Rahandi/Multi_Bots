@@ -820,10 +820,7 @@ def handle_postback(event):
     postbackdata = op['postback']['data']
     try:
         if postbackdata.lower() == 'help':
-            file = open('help', 'r')
-            texet = file.read()
-            file.close()
-            replyTextMessage(reply_token, texet)
+            help(reply_token)
         elif postbackdata.lower() == 'help youtube':
             help(reply_token, 1)
         elif postbackdata.lower() == 'help instagram':
