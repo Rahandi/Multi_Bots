@@ -777,7 +777,7 @@ def handle_message(event):
         elif msgtext.lower() == '//cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
         elif msgtext.lower() == '//cetak profile':
-            profile = json.loads(line_bot_api.get_profile(op['source']['userId']))
+            profile = json.loads(str(line_bot_api.get_profile(op['source']['userId'])))
             replyTextMessage(reply_token, json.dumps(profile, indent=2))
         elif msgtext.lower() == '/leave':
             if op['source']['type'] == 'group':
