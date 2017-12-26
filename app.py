@@ -693,10 +693,7 @@ def handle_message(event):
     reply_token = op['replyToken']
     try:
         if msgtext.lower() in ['help', 'key', 'cmd', 'command']:
-            file = open('help', 'r')
-            texet = file.read()
-            file.close()
-            replyTextMessage(reply_token, texet)
+            help(reply_token)
         elif msgtext.lower().startswith('/youtube-audio: '):
             query = msgtext[16:]
             url = youtubemp3(query)
@@ -807,7 +804,6 @@ def handle_message(event):
             elif op['source']['type'] == 'room':
                 replyTextMessage(reply_token, ':(')
                 line_bot_api.leave_room(op['source']['roomId'])
-
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
