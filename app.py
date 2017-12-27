@@ -923,6 +923,10 @@ def handle_message(event):
             if query != 1 and query != 2:
                 replyTextMessage(reply_token, 'hanya bisa mode 1 atau 2')
             else:
+                try:
+                    name = json.loads(str(line_bot_api.get_profile(msgfrom)))
+                except Exception as e:
+                    replyTextMessage(reply_token, 'system tidak bisa mencatat akun anda\nadd dulu ya ~')
                 msgsource = op['source']['type']
                 msgfrom = op['source']['userId']
                 if msgsource == 'user':
@@ -949,8 +953,11 @@ def handle_message(event):
                             if msgfrom not in important['kotakin'][msgsource][ID]:
                                 important['kotakin'][msgsource][ID][msgfrom] = query
                 savejson()
-                name = json.loads(str(line_bot_api.get_profile(msgfrom)))
                 replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
+        elif msgtext.lower().startswith('/memegen: '):
+            query = msgtext[10:]
+            query = query.split(' | ')
+
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
