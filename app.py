@@ -1,6 +1,8 @@
 import os, time, json, requests, pafy, random, wikipedia, deviantart
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
+from PIL import Image
+from imgurpython import ImgurClient
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -15,6 +17,12 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('E2NW4d5IBfL8zRP2FlbJ5Pg6GTDaUMAvQyfTkOGrzGReNR77kpXQDUOIfX/9XWdIEQfDGMadtkS8kcRB4VtXAeAPmkJB6GGbbb35RghRG4PA3l25h5krMSNuw0B/mEJRO/H3J0FIeDnY0W8yJQMw/QdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
 adminid = 'Uc8eed8927818997fec7df0239b827d4e'
+workdir = os.getcwd()
+imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
+file = open('%s/data/jsondata', 'r')
+important = file.read()
+file.close()
+important = json.loads(important)
 
 def customMessage(token, cus):
     try:
@@ -113,6 +121,17 @@ def templateBuilder(amount, type, template):
             return CarouselTemplate(columns=columse)
         elif type == 'img':
             return ImageCarouselTemplate(columns=columse)
+    except Exception as e:
+        raise e
+
+def donwloadContent(mId):
+    try:
+        path = '%s/data/temp/%s.jpg' % (workdir, str(random.randint(1, 1000000)))
+        message_content = line_bot_api.get_message_content(mId)
+        with open(path, 'wb') as fd:
+            for chunk in message_content.iter_content():
+                fd.write(chunk)
+        return path
     except Exception as e:
         raise e
 
@@ -569,6 +588,31 @@ def googlestreet(token, query):
     except Exception as e:
         raise e
 
+def kotakin(token, messageId, mode):
+    try:
+        path = donwloadContent(messageId)
+        im = Image.open(path)
+        if mode == 1:
+            if width > height:
+                ukuran = height
+            else:
+                ukuran = width
+        elif mode == 2:
+            if width > height:
+                ukuran = width
+            else:
+                ukuran = height
+        left = (width-ukuran)/2
+        top = (height-ukuran)/2
+        right = (width+ukuran)/2
+        bottom = (height+ukuran)/2
+        crop = im.crop((left, top, right, bottom))
+        crop.save(path)
+        data = imgur.upload_from_path(path, config=None, anon=False)
+        replyImageMessage(token, data['link'], data['link'])
+    except Exception as e:
+        raise e
+
 def help(token, mode=0):
     try:
         if mode == 0:
@@ -857,6 +901,37 @@ def handle_message(event):
         elif msgtext.lower().startswith('/loc: '):
             query = msgtext[6:]
             googlestreet(reply_token, query)
+        elif msgtext.lower().startswith('/kotakin: '):
+            query = msgtext[10:]
+            query = int(query)
+            if query != 1 and query != 2:
+                replyTextMessage(reply_token, 'hanya bisa mode 1 atau 2')
+            else:
+                msgsource = op['source']['type']
+                msgfrom = op['source']['userId']
+                if msgsource == 'user':
+                    if msgsource not in important['kotakin']:
+                        important['kotakin'][msgsource] = {}
+                        important['kotakin'][msgsource][msgfrom] = query
+                    else:
+                        if msgfrom not in important['kotakin'][msgsource]:
+                            important['kotakin'][msgsource].append(msgfrom)
+                else:
+                    try:
+                        ID = op['source']['roomId']
+                    except Exception as e:
+                        ID = op['source']['groupId']
+                    if msgsource not in important['kotakin']:
+                        important['kotakin'][msgsource] = {}
+                        important['kotakin'][msgsource][ID] = {}
+                        important['kotakin'][msgsource][ID][msgfrom] = query
+                    else:
+                        if ID not in important['kotakin'][msgsource]:
+                            important['kotakin'][msgsource][ID] = {}
+                            important['kotakin'][msgsource][ID][msgfrom] = query
+                        else:
+                            if msgfrom not in important['kotakin'][msgsource][ID]:
+                                important['kotakin'][msgsource][ID][msgfrom] = query
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
@@ -879,6 +954,47 @@ def handle_message(event):
             elif op['source']['type'] == 'room':
                 replyTextMessage(reply_token, ':(')
                 line_bot_api.leave_room(op['source']['roomId'])
+    except LineBotApiError as e:
+        replyTextMessage(reply_token, 'error')
+        print(e.status_code)
+        print(e.error.message)
+        print(e.error.details)
+    except Exception as e:
+        replyTextMessage(reply_token, 'error')
+        print(e)
+
+@handler.add(MessageEvent, message=ImageMessage)
+def handle_imgmessage(event):
+    op = json.loads(str(event))
+    reply_token = op['replyToken']
+    userId = op['source']['userId']
+    msgId = op['message']['id']
+    tipe = op['source']['type']
+    if tipe == 'room':
+        ID = op['source']['roomId']
+    elif tipe == 'group':
+        ID = op['source']['groupId']
+    try:
+        if tipe in important['kotakin']:
+            if tipe == 'user':
+                if tipe in important['kotakin']:
+                    if userId in important['kotakin'][tipe]:
+                        mode = important['kotakin'][tipe][userId]
+                        try:
+                            del important['kotakin'][tipe][userId]
+                        except:
+                            pass
+                        kotakin(reply_token, msgId, mode)
+            else:
+                if tipe in important['kotakin']:
+                    if ID in important['kotakin'][tipe]:
+                        if userId in important['kotakin'][tipe][ID]:
+                            mode = important['kotakin'][tipe][ID][userId]
+                            try:
+                                del important['kotakin'][tipe][ID][userId]
+                            except:
+                                pass
+                            kotakin(reply_token, msgId, mode)
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
