@@ -660,7 +660,7 @@ def help(token, mode=0):
         elif mode == 3:
             TB = []
             tipe = 'template'
-            amon = 9
+            amon = 10
             action = []
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/gimage: kaho hinata'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/lyric: numb linkin park'])])
@@ -671,6 +671,7 @@ def help(token, mode=0):
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/deviant: dark'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/sholat: surabaya'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/love: koyo akizuki + kaho hinata'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/loc: surabaya'])])
             text = []
             text.append('/gimage: [query]')
             text.append('/lyric: [query]')
@@ -681,6 +682,7 @@ def help(token, mode=0):
             text.append('/deviant: [query]')
             text.append('/sholat: [lokasi]')
             text.append('/love: [nama pertama] + [nama kedua]')
+            text.append('/loc: [lokasi]')
             for a in range(amon):
                 isi_TB = {}
                 isi_TB['tumbnail'] = None
