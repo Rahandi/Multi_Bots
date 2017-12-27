@@ -934,7 +934,7 @@ def handle_message(event):
                             if msgfrom not in important['kotakin'][msgsource][ID]:
                                 important['kotakin'][msgsource][ID][msgfrom] = query
                 name = json.loads(str(line_bot_api.get_profile(msgfrom)))
-                replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name.displayName))
+                replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
