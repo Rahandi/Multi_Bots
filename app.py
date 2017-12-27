@@ -19,7 +19,7 @@ handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
 adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 workdir = os.getcwd()
 imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
-file = open('%s/data/jsondata', 'r')
+file = open('%s/data/jsondata' % (workdir), 'r')
 important = file.read()
 file.close()
 important = json.loads(important)
