@@ -46,6 +46,12 @@ def replyVideoMessage(token, urlvid, urlpic):
     except Exception as e:
         raise e
 
+def replyLocationMessage(token, title, address, lat, lng):
+    try:
+        line_bot_api.reply_message(token, LocationSendMessage(title=title, address=address, latitude=lat, longitude=lng))
+    except Exception as e:
+        raise e
+
 def replyTemplateMessage(token, data):
     try:
         alt = data['alt']
@@ -523,6 +529,43 @@ def lovecalc(token, nameA, nameB):
     except Exception as e:
         raise e
 
+def googlestreet(token, query):
+    try:
+        query = requests.utils.requote_uri(query)
+        link = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&key=AIzaSyAmZEqjaYKV1VcaKm8blPrFMu1w6fzWww0' % (query)
+        data = json.loads(requests.get(link).text)
+        data = data['prediction'][0]['description']
+        data = requests.utils.requote_uri(data)
+        link = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=AIzaSyB0OAiwnVjxOZikcWh8KHymIKzkR1ufjGg' % (data)
+        data = json.loads(requests.get(link).text)
+        namatempat = data['results'][0]['formatted_address']
+        nick = data['results'][0]['name']
+        lat = data['results'][0]['geometry']['location']['lat']
+        lng = data['results'][0]['geometry']['location']['lng']
+        pic = [
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=0&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=90&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=180&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=270&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng)
+        ]
+        TB = []
+        amon = len(pic)
+        tipe = 'img'
+        for a in pic:
+            isi_TB = {}
+            isi_TB['tumbnail'] = a
+            isi_TB['action'] = actionBuilder(1, ['uri'], ['image'], [a])
+            TB.append(isi_TB)
+        dat = {}
+        dat['alt'] = 'Multi_Bots location'
+        dat['template'] = templateBuilder(amon, tipe, TB)
+        customMessage(token,[
+            LocationSendMessage(title=nick[:100], address=namatempat[:100], latitude=lat, longitude=lng),
+            TemplateSendMessage(alt_text=dat['alt'], template=dat['template'])
+        ])
+    except Exception as e:
+        raise e
+
 def help(token, mode=0):
     try:
         if mode == 0:
@@ -806,6 +849,9 @@ def handle_message(event):
                 return
             else:
                 lovecalc(reply_token, query[0], query[1])
+        elif msgtext.lower().startswith('/loc: '):
+            query = msgtext[6:]
+            googlestreet(reply_token, query)
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
