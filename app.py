@@ -509,6 +509,19 @@ def sholat(token, query):
     except Exception as e:
         raise e
 
+def lovecalc(token, nameA, nameB):
+    try:
+        jumlahA = 0
+        jumlahB = 0
+        for a in nameA:
+            jumlahA = jumlahA + ord(a)
+        for b in nameB:
+            jumlahB = jumlahB + ord(b)
+        persen = (jumlahA*jumlahB) % 100
+        replyTextMessage(token, '%s dan %s\ncocok %s%' % (nameA, nameB, str(persen)))
+    except Exception as e:
+        raise e
+
 def help(token, mode=0):
     try:
         if mode == 0:
@@ -782,6 +795,14 @@ def handle_message(event):
         elif msgtext.lower().startswith('/sholat: '):
             query = msgtext[9:]
             sholat(reply_token, query)
+        elif msgtext.lower().startswith('/love: '):
+            query = msgtext[7:]
+            query = query.split(' + ')
+            if len(query) !=  2:
+                replyTextMessage(reply_token, 'format yang dimasukkan salah')
+                return
+            else:
+                lovecalc(reply_token, query[0], query[1])
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
