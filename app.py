@@ -617,7 +617,7 @@ def kotakin(token, messageId, mode):
 
 def savejson():
     try:
-        file = open('%s/data/jsondata', 'w')
+        file = open('%s/data/jsondata' % (workdir), 'w')
         file.write(json.dumps(important, indent=2))
         file.close
     except Exception as e:
