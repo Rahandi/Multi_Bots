@@ -518,6 +518,7 @@ def lovecalc(token, nameA, nameB):
         for b in nameB:
             jumlahB = jumlahB + ord(b)
         persen = (jumlahA*jumlahB) % 100
+        persen = str(persen) + '%'
         replyTextMessage(token, '%s dan %s\ncocok %s' % (nameA, nameB, str(persen)))
     except Exception as e:
         raise e
