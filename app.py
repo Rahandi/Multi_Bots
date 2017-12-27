@@ -547,15 +547,9 @@ def googlestreet(token, query):
         lng = data['results'][0]['geometry']['location']['lng']
         pic = [
             'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=0&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=36&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=72&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=108&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=144&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=90&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
             'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=180&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=216&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=252&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=288&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
-            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=324&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng)
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=270&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng)
         ]
         TB = []
         amon = len(pic)
