@@ -518,7 +518,7 @@ def help(token, mode=0):
             tumbnail = [
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
                 'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg', 
-                'https://orangeamps.com/wp-content/uploads/2011/09/large-stuff-magazine-logo.png',
+                'https://image.ibb.co/gjJwhG/TU_LOGO_300dpi.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
                 'youtube help',
