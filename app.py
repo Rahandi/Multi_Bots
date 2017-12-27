@@ -610,7 +610,16 @@ def kotakin(token, messageId, mode):
         crop = im.crop((left, top, right, bottom))
         crop.save(path)
         data = imgur.upload_from_path(path, config=None, anon=False)
+        os.remove(path)
         replyImageMessage(token, data['link'], data['link'])
+    except Exception as e:
+        raise e
+
+def savejson():
+    try:
+        file = open('%s/data/jsondata', 'w')
+        file.write(json.dumps(important, indent=2))
+        file.close
     except Exception as e:
         raise e
 
@@ -933,6 +942,7 @@ def handle_message(event):
                         else:
                             if msgfrom not in important['kotakin'][msgsource][ID]:
                                 important['kotakin'][msgsource][ID][msgfrom] = query
+                savejson()
                 name = json.loads(str(line_bot_api.get_profile(msgfrom)))
                 replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
         elif msgtext.lower() == '/admin':
@@ -998,6 +1008,7 @@ def handle_imgmessage(event):
                             except:
                                 pass
                             kotakin(reply_token, msgId, mode)
+            savejson()
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
