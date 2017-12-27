@@ -923,13 +923,13 @@ def handle_message(event):
             if query != 1 and query != 2:
                 replyTextMessage(reply_token, 'hanya bisa mode 1 atau 2')
             else:
+                msgsource = op['source']['type']
+                msgfrom = op['source']['userId']
                 try:
                     name = json.loads(str(line_bot_api.get_profile(msgfrom)))
                 except Exception as e:
                     replyTextMessage(reply_token, 'system tidak bisa mencatat akun anda\nadd dulu ya ~')
                     return
-                msgsource = op['source']['type']
-                msgfrom = op['source']['userId']
                 if msgsource == 'user':
                     if msgsource not in important['kotakin']:
                         important['kotakin'][msgsource] = {}
