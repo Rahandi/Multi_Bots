@@ -916,7 +916,7 @@ def handle_message(event):
                         important['kotakin'][msgsource][msgfrom] = query
                     else:
                         if msgfrom not in important['kotakin'][msgsource]:
-                            important['kotakin'][msgsource].append(msgfrom)
+                            important['kotakin'][msgsource][msgfrom] = query
                 else:
                     try:
                         ID = op['source']['roomId']
