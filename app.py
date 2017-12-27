@@ -517,7 +517,7 @@ def help(token, mode=0):
             amon = 4
             tumbnail = [
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
-                'https://instagram-brand.com/wp-content/themes/ig-branding/assets/images/ig-logo-email.png', 
+                'https://image.freepik.com/free-vector/instagram-icon_1057-2227.jpg', 
                 'https://orangeamps.com/wp-content/uploads/2011/09/large-stuff-magazine-logo.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
