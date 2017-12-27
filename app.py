@@ -888,6 +888,40 @@ def handle_message(event):
         replyTextMessage(reply_token, 'error')
         print(e)
 
+@handler.add(MessageEvent, message=LocationMessage)
+def handle_locmessage(event):
+    op = json.loads(str(event))
+    lat = op['message']['latitude']
+    lng = op['message']['longitude']
+    reply_token = op['replyToken']
+    try:
+        pic = [
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=0&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=90&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=180&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng),
+            'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=270&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (lat, lng)
+        ]
+        TB = []
+        amon = len(pic)
+        tipe = 'img'
+        for a in pic:
+            isi_TB = {}
+            isi_TB['tumbnail'] = a
+            isi_TB['action'] = actionBuilder(1, ['uri'], ['image'], [a])
+            TB.append(isi_TB)
+        dat = {}
+        dat['alt'] = 'Multi_Bots location'
+        dat['template'] = templateBuilder(amon, tipe, TB)
+        replyCarrouselMessage(reply_token, dat)
+    except LineBotApiError as e:
+        replyTextMessage(reply_token, 'error')
+        print(e.status_code)
+        print(e.error.message)
+        print(e.error.details)
+    except Exception as e:
+        replyTextMessage(reply_token, 'error')
+        print(e)
+
 @handler.add(PostbackEvent)
 def handle_postback(event):
     op = json.loads(str(event))
