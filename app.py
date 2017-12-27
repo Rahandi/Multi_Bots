@@ -714,7 +714,6 @@ def help(token, mode=0):
         elif mode == 3:
             TB = []
             tipe = 'template'
-            amon = 10
             action = []
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/gimage: kaho hinata'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/lyric: numb linkin park'])])
@@ -726,6 +725,7 @@ def help(token, mode=0):
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/sholat: surabaya'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/love: koyo akizuki + kaho hinata'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/loc: surabaya'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/kotakin: 2'])])
             text = []
             text.append('/gimage: [query]')
             text.append('/lyric: [query]')
@@ -737,17 +737,23 @@ def help(token, mode=0):
             text.append('/sholat: [lokasi]')
             text.append('/love: [nama pertama] + [nama kedua]')
             text.append('/loc: [lokasi]')
-            for a in range(amon):
+            text.append('/kotakin: [angka 1 atau 2]')
+            for a in range(len(action)):
                 isi_TB = {}
                 isi_TB['tumbnail'] = None
                 isi_TB['title'] = None
                 isi_TB['text'] = text[a]
                 isi_TB['action'] = action[a]
                 TB.append(isi_TB)
-            data = {}
-            data['alt'] = 'Multi_Bots stuff help'
-            data['template'] = templateBuilder(amon, tipe, TB)
-            replyCarrouselMessage(token, data)
+            TB = [TB[i:i+10] for i in range(0, len(TB), 10)]
+            cus = []
+            for a in TB:
+                kirimlist = {}
+                kirimlist['alt'] = 'Multi_Bots stuff help'
+                kirimlist['template'] = templateBuilder(len(a), tipe, a)
+                kirimasli = TemplateSendMessage(alt_text=kirimlist['alt'], template=kirimlist['template'])
+                cus.append(kirimasli)
+            customMessage(token, cus)
         elif mode == 4:
             TB = []
             tipe = 'template'
