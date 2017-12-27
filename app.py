@@ -534,6 +534,9 @@ def googlestreet(token, query):
         query = requests.utils.requote_uri(query)
         link = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%s&key=AIzaSyAmZEqjaYKV1VcaKm8blPrFMu1w6fzWww0' % (query)
         data = json.loads(requests.get(link).text)
+        if len(data['predictions']) == 0:
+            replyTextMessage(token, 'lokasi tidak ditemukan')
+            return
         data = data['predictions'][0]['description']
         data = requests.utils.requote_uri(data)
         link = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=AIzaSyB0OAiwnVjxOZikcWh8KHymIKzkR1ufjGg' % (data)
