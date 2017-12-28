@@ -68,7 +68,7 @@ class MAL:
         try:
             kembali = {}
             data = requests.get(link).text
-            soup = bs(data, 'lxml')
+            soup = BeautifulSoup(data, 'lxml')
             kembali['judul'] = soup.find('span', {'itemprop':'name'}).text
             kembali['image'] = soup.find('img', {'class':'ac'})['src']
             kembali['score'] = soup.find('div', {'data-title':'score'}).text[9:-7]
@@ -84,7 +84,7 @@ class MAL:
             query = requests.utils.requote_uri(query)
             link =  'https://myanimelist.net/search/all?q=%s' % (query)
             data = requests.get(link).text
-            soup = bs(data, 'lxml')
+            soup = BeautifulSoup(data, 'lxml')
             image = []
             judul = []
             link = []
