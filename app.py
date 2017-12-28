@@ -661,6 +661,22 @@ def myanime(token, mode, query=None):
             data['alt'] = 'Multi_Bots Top Upcoming Anime'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 2:
+            judul, link, img = myanimelist.getMostPopular()
+            TB = []
+            tipe = 'template'
+            amon = len(img)
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = img[a]
+                isi_TB['title'] = judul[a][:40]
+                isi_TB['text'] = 'Rank %s' % (int(a) + 1)
+                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots Most Popular Anime'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
