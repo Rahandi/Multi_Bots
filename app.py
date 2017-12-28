@@ -645,6 +645,22 @@ def myanime(token, mode, query=None):
             data['alt'] = 'Multi_Bots Top Airing Anime'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 1:
+            judul, link, img = myanimelist.getTopUpcoming()
+            TB = []
+            tipe = 'template'
+            amon = len(img)
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = img[a]
+                isi_TB['title'] = judul[a][:40]
+                isi_TB['text'] = 'Rank %s' % (int(a) + 1)
+                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots Top Upcoming Anime'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
@@ -954,6 +970,10 @@ def handle_message(event):
             googlestreet(reply_token, query)
         elif msgtext.lower() == '/anime top airing':
             myanime(reply_token, 0)
+        elif msgtext.lower() == '/anime top upcoming':
+            myanime(reply_token, 1)
+        elif msgtext.lower() == '/anime most popular':
+            myanime(reply_token, 2)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
