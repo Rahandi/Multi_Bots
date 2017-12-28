@@ -1,0 +1,1 @@
+from MALScrapper import MAL
