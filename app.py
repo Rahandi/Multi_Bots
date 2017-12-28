@@ -981,7 +981,7 @@ def handle_message(event):
                 query = query.replace("''", '"')
                 query = query.split(' | ')
                 tipe = op['source']['type']
-                userId = op['source'][userId]
+                userId = op['source']['userId']
                 try:
                     name = json.loads(str(line_bot_api.get_profile(msgfrom)))
                 except Exception as e:
@@ -1010,6 +1010,8 @@ def handle_message(event):
                         else:
                             if msgfrom not in important['memegen'][tipe][ID]:
                                 important['memegen'][tipe][ID][userId] = query
+                savejson()
+                replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
