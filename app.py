@@ -983,7 +983,7 @@ def handle_message(event):
                 tipe = op['source']['type']
                 userId = op['source']['userId']
                 try:
-                    name = json.loads(str(line_bot_api.get_profile(msgfrom)))
+                    name = json.loads(str(line_bot_api.get_profile(userId)))
                 except Exception as e:
                     replyTextMessage(reply_token, 'system tidak bisa mencatat akun anda\nadd dulu ya ~')
                     return
