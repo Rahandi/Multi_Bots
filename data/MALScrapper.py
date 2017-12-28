@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 class MAL:
-    def getTopAiring():
+    def getTopAiring(self):
         try:
             link = 'https://myanimelist.net/'
             data = requests.get(link).text
@@ -22,7 +22,7 @@ class MAL:
         except Exception as e:
             raise e
 
-    def getTopUpcoming():
+    def getTopUpcoming(self):
         try:
             link = 'https://myanimelist.net/'
             data = requests.get(link).text
@@ -43,7 +43,7 @@ class MAL:
             raise e
         
 
-    def getMostPopular():
+    def getMostPopular(self):
         try:
             link = 'https://myanimelist.net/'
             data = requests.get(link).text
@@ -64,7 +64,7 @@ class MAL:
             raise e
         
 
-    def detailAnime(link):
+    def detailAnime(self, link):
         try:
             kembali = {}
             data = requests.get(link).text
@@ -79,7 +79,7 @@ class MAL:
         except Exception as e:
             raise e
 
-    def searchAnime(query):
+    def searchAnime(self, query):
         try:
             query = requests.utils.requote_uri(query)
             link =  'https://myanimelist.net/search/all?q=%s' % (query)
