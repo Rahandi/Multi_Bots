@@ -1,1 +1,1 @@
-from MALScrapper import MAL
+from .MALScrapper import MAL
