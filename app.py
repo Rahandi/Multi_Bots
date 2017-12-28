@@ -1013,7 +1013,7 @@ def handle_message(event):
             myanime(reply_token, 1)
         elif msgtext.lower() == '/anime most popular':
             myanime(reply_token, 2)
-        elif msgtext.lower() == '/anime: ':
+        elif msgtext.lower().startswith('/anime: '):
             query = msgtext[8:]
             if len(query) < 3:
                 replyTextMessage(reply_token, 'minimum 3 character')
