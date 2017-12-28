@@ -615,6 +615,16 @@ def kotakin(token, messageId, mode):
     except Exception as e:
         raise e
 
+def memegen(token, msgId, query):
+    try:
+        path = donwloadContent(msgId)
+        data = imgur.upload_from_path(path, config=None, anon=False)
+        os.remove(path)
+        link = 'https://memegen.link/custom/%s/%s.jpg?alt=%s' % (query[0], query[1], data['link'])
+        replyImageMessage(token, link, link)
+    except Exception as e:
+        raise e
+
 def savejson():
     try:
         file = open('%s/data/jsondata' % (workdir), 'w')
@@ -958,7 +968,48 @@ def handle_message(event):
         elif msgtext.lower().startswith('/memegen: '):
             query = msgtext[10:]
             query = query.split(' | ')
-
+            if len(query) != 2:
+                replyTextMessage(reply_token, 'format yang dimasukkan salah')
+            else:
+                query = msgtext[10:]
+                query = query.replace('-', '--')
+                query = query.replace('_', '__')
+                query = query.replace('?', '~q')
+                query = query.replace('%', '~p')
+                query = query.replace('#', '~h')
+                query = query.replace('/', '~s')
+                query = query.replace("''", '"')
+                query = query.split(' | ')
+                tipe = op['source']['type']
+                userId = op['source'][userId]
+                try:
+                    name = json.loads(str(line_bot_api.get_profile(msgfrom)))
+                except Exception as e:
+                    replyTextMessage(reply_token, 'system tidak bisa mencatat akun anda\nadd dulu ya ~')
+                    return
+                if tipe == 'user':
+                    if tipe not in important['memegen']:
+                        important['memegen'][tipe] = {}
+                        important['memegen'][tipe][userId] = query
+                    else:
+                        if msgfrom not in important['memegen'][tipe]:
+                            important['memegen'][tipe][userId] = query
+                else:
+                    try:
+                        ID = op['source']['roomId']
+                    except Exception as e:
+                        ID = op['source']['groupId']
+                    if tipe not in important['memegen']:
+                        important['memegen'][tipe] = {}
+                        important['memegen'][tipe][ID] = {}
+                        important['memegen'][tipe][ID][userId] = query
+                    else:
+                        if ID not in important['memegen'][tipe]:
+                            important['memegen'][tipe][ID] = {}
+                            important['memegen'][tipe][ID][userId] = query
+                        else:
+                            if msgfrom not in important['memegen'][tipe][ID]:
+                                important['memegen'][tipe][ID][userId] = query
         elif msgtext.lower() == '/admin':
             data = json.loads(str(line_bot_api.get_profile(adminid)))
             data['alt'] = 'Multi_Bots admin'
@@ -1022,6 +1073,27 @@ def handle_imgmessage(event):
                             except:
                                 pass
                             kotakin(reply_token, msgId, mode)
+            savejson()
+        if tipe in important['memegen']:
+            if tipe == 'user':
+                if tipe in important['memegen']:
+                    if userId in important['memegen'][tipe]:
+                        mode = important['memegen'][tipe][userId]
+                        try:
+                            del important['memegen'][tipe][userId]
+                        except:
+                            pass
+                        memegen(reply_token, msgId, mode)
+            else:
+                if tipe in important['memegen']:
+                    if ID in important['memegen'][tipe]:
+                        if userId in important['memegen'][tipe][ID]:
+                            mode = important['memegen'][tipe][ID][userId]
+                            try:
+                                del important['memegen'][tipe][ID][userId]
+                            except:
+                                pass
+                            memegen(reply_token, msgId, mode)
             savejson()
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
