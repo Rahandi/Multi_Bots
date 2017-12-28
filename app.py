@@ -736,6 +736,7 @@ def help(token, mode=0):
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/love: koyo akizuki + kaho hinata'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/loc: surabaya'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/kotakin: 2'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/memegen: coba | saja'])])
             text = []
             text.append('/gimage: [query]')
             text.append('/lyric: [query]')
@@ -748,6 +749,7 @@ def help(token, mode=0):
             text.append('/love: [nama pertama] + [nama kedua]')
             text.append('/loc: [lokasi]')
             text.append('/kotakin: [angka 1 atau 2]')
+            text.append('/memegen: [top text] | [bottom text]')
             for a in range(len(action)):
                 isi_TB = {}
                 isi_TB['tumbnail'] = None
