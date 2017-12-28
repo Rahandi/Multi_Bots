@@ -684,6 +684,22 @@ def myanime(token, mode, query=None):
                 ImageSendMessage(original_content_url=kembali['image'], preview_image_url=kembali['image']),
                 TextSendMessage(text = teks)
             ])
+        elif mode == 4:
+            judul, link, img = myanimelist.searchAnime(query)
+            TB = []
+            tipe = 'template'
+            amon = len(img)
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = img[a]
+                isi_TB['title'] = judul[a][:40]
+                isi_TB['text'] = 'Urutan %s' % (int(a) + 1)
+                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots Top Upcoming Anime'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
     except Exception as e:
         raise e
 
@@ -997,6 +1013,12 @@ def handle_message(event):
             myanime(reply_token, 1)
         elif msgtext.lower() == '/anime most popular':
             myanime(reply_token, 2)
+        elif msgtext.lower() == '/anime: ':
+            query = msgtext[8:]
+            if len(query) < 3:
+                replyTextMessage(reply_token, 'minimum 3 character')
+            else:
+                myanime(reply_token, 4, query)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
