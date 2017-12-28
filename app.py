@@ -677,6 +677,13 @@ def myanime(token, mode, query=None):
             data['alt'] = 'Multi_Bots Most Popular Anime'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 3:
+            kembali = myanimelist.detailAnime(query)
+            teks = '%s\n\n%s\n%s\n%s\n\n%s' % (kembali['judul'], kembali['score'], kembali['rank'], kembali['popularity'], kembali['description'])
+            customMessage(token, [
+                ImageSendMessage(original_content_url=kembali['image'], preview_image_url=kembali['image']),
+                TextSendMessage(text = teks)
+            ])
     except Exception as e:
         raise e
 
@@ -1219,6 +1226,9 @@ def handle_postback(event):
             help(reply_token, 3)
         elif postbackdata.lower() == 'help about':
             help(reply_token, 4)
+        elif postbackdata.lower().startswith('anidesc '):
+            data = postbackdata[8:]
+            myanime(reply_token, 3, data)
         else:
             replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:
