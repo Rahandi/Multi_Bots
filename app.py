@@ -3,6 +3,7 @@ from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image
 from imgurpython import ImgurClient
+from data.MALScrapper import MAL
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -18,6 +19,7 @@ line_bot_api = LineBotApi('E2NW4d5IBfL8zRP2FlbJ5Pg6GTDaUMAvQyfTkOGrzGReNR77kpXQD
 handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
 adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 workdir = os.getcwd()
+myanimelist = MAL()
 imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
 file = open('%s/data/jsondata' % (workdir), 'r')
 important = file.read()
@@ -625,6 +627,26 @@ def memegen(token, msgId, query):
     except Exception as e:
         raise e
 
+def myanime(token, mode, query=None):
+    try:
+        if mode == 0:
+            judul, link, img = myanimelist.getTopAiring()
+            TB = []
+            tipe = 'template'
+            amon = len(img)
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = img[a]
+                isi_TB['title'] = judul[a][:40]
+                isi_TB['text'] = 'Rank %s' % (int(a) + 1)
+                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                TB.append(isi_TB)
+            data['alt'] = 'Multi_Bots Top Airing Anime'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
+    except Exception as e:
+        raise e
+
 def savejson():
     try:
         file = open('%s/data/jsondata' % (workdir), 'w')
@@ -929,6 +951,8 @@ def handle_message(event):
         elif msgtext.lower().startswith('/loc: '):
             query = msgtext[6:]
             googlestreet(reply_token, query)
+        elif msgtext.lower() == '/anime top airing':
+            myanime(reply_token, 0)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
