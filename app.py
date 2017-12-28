@@ -679,7 +679,7 @@ def myanime(token, mode, query=None):
             replyCarrouselMessage(token, data)
         elif mode == 3:
             kembali = myanimelist.detailAnime(query)
-            teks = '%s\n\n%s\n%s\n%s\n\n%s' % (kembali['judul'], kembali['score'], kembali['rank'], kembali['popularity'], kembali['description'])
+            teks = '%s\n\nScore %s\n%s\n%s\n\n%s' % (kembali['judul'], kembali['score'], kembali['rank'], kembali['popularity'], kembali['description'])
             customMessage(token, [
                 ImageSendMessage(original_content_url=kembali['image'], preview_image_url=kembali['image']),
                 TextSendMessage(text = teks)
