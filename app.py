@@ -641,6 +641,7 @@ def myanime(token, mode, query=None):
                 isi_TB['text'] = 'Rank %s' % (int(a) + 1)
                 isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
                 TB.append(isi_TB)
+            data = {}
             data['alt'] = 'Multi_Bots Top Airing Anime'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
