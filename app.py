@@ -24,6 +24,7 @@ adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 workdir = os.getcwd()
 myanimelist = MAL()
 pixiv = pixivapi('rahandinoor', 'rahandi')
+devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
 imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
 file = open('%s/data/jsondata' % (workdir), 'r')
 important = file.read()
@@ -492,33 +493,58 @@ def gaul(token, query):
     except Exception as e:
         raise e
 
-def devian(token, query):
+def devian(token, mode, query=None):
     try:
-        devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
-        find = devapi.browse(endpoint='popular', q=query)
-        listdev = find['results']
-        listpict = []
-        for a in listdev:
-            try:
-                dwn = devapi.download_deviation(a)
-                listpict.append(dwn['src'])
-            except:
-                pass
-        TB = []
-        amon = len(listpict)
-        if amon == 0:
-            replyTextMessage(token, '0 found')
-            return
-        tipe = 'img'
-        for a in range(len(listpict)):
-            isi_TB = {}
-            isi_TB['tumbnail'] = listpict[a]
-            isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
-            TB.append(isi_TB)
-        dat = {}
-        dat['alt'] = 'Multi_Bots Deviantart'
-        dat['template'] = templateBuilder(amon, tipe, TB)
-        replyCarrouselMessage(token, dat)
+        if mode == 0:
+            find = devapi.browse(endpoint='popular', q=query)
+            listdev = find['results']
+            listpict = []
+            for a in listdev:
+                try:
+                    dwn = devapi.download_deviation(a)
+                    listpict.append(dwn['src'])
+                except:
+                    pass
+            TB = []
+            amon = len(listpict)
+            if amon == 0:
+                replyTextMessage(token, '0 found')
+                return
+            tipe = 'img'
+            for a in range(len(listpict)):
+                isi_TB = {}
+                isi_TB['tumbnail'] = listpict[a]
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
+                TB.append(isi_TB)
+            dat = {}
+            dat['alt'] = 'Multi_Bots Deviantart Search'
+            dat['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, dat)
+        elif mode == 1:
+            find = devapi.browse()
+            listdev = find['results']
+            listpict = []
+            for a in listdev:
+                try:
+                    dwn = devapi.download_deviation(a)
+                    listpict.append(dwn['src'])
+                except:
+                    pass
+            TB = []
+            amon = len(listpict)
+            if amon == 0:
+                replyTextMessage(token, '0 found')
+                return
+            tipe = 'img'
+            for a in range(len(listpict)):
+                isi_TB = {}
+                isi_TB['tumbnail'] = listpict[a]
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
+                TB.append(isi_TB)
+            dat = {}
+            dat['alt'] = 'Multi_Bots Deviantart Hot'
+            dat['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, dat)
     except Exception as e:
         raise e
 
@@ -1086,7 +1112,9 @@ def handle_message(event):
             gaul(reply_token, query)
         elif msgtext.lower().startswith('/deviant: '):
             query = msgtext[10:]
-            devian(reply_token, query)
+            devian(reply_token, 0, query)
+        elif msgtext.lower() == '/deviant hot':
+            devian(reply_token, 1)
         elif msgtext.lower().startswith('/sholat: '):
             query = msgtext[9:]
             sholat(reply_token, query)
