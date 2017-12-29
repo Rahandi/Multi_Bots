@@ -94,6 +94,6 @@ class MAL:
                     image.append(img['src'].replace('/r/100x140', ''))
                     judul.append(img['alt'])
                     link.append(a.find('a')['href'])
-            return judul, link, img
+            return judul, link, image
         except Exception as e:
             raise e

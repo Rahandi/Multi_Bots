@@ -686,9 +686,6 @@ def myanime(token, mode, query=None):
             ])
         elif mode == 4:
             judul, link, img = myanimelist.searchAnime(query)
-            print(judul)
-            print(link)
-            print(img)
             TB = []
             tipe = 'template'
             amon = len(img)
