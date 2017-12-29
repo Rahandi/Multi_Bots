@@ -9,3 +9,4 @@ wikipedia
 deviantart
 imgurpython
 Pillow
+pixivpy
