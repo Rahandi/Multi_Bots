@@ -689,6 +689,7 @@ def myanime(token, mode, query=None):
             TB = []
             tipe = 'template'
             amon = len(img)
+            print(amon)
             for a in range(amon):
                 isi_TB = {}
                 isi_TB['tumbnail'] = img[a]
@@ -697,7 +698,7 @@ def myanime(token, mode, query=None):
                 isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
                 TB.append(isi_TB)
             data = {}
-            data['alt'] = 'Multi_Bots Top Upcoming Anime'
+            data['alt'] = 'Multi_Bots Anime Search'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
     except Exception as e:
