@@ -6,6 +6,8 @@ from imgurpython import ImgurClient
 from data.MALScrapper import MAL
 from data.PixivScrapper import pixivapi
 
+#a
+
 from linebot import (
     LineBotApi, WebhookHandler
 )
