@@ -716,20 +716,23 @@ def help(token, mode=0):
         if mode == 0:
             TB = []
             tipe = 'template'
-            amon = 4
+            amon = 5
             tumbnail = [
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
-                'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg', 
+                'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg',
+                'https://lh3.googleusercontent.com/-qXt3ofPwbOU/VVZ_PbR6CsI/AAAAAAAAABY/IeVNLmQOwpQ/s530-p/AnimeLogo.png',
                 'https://image.ibb.co/gjJwhG/TU_LOGO_300dpi.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
                 'youtube help',
                 'instagram help',
+                'anime help'
                 'stuff help',
                 'about']
             dataaction = [
                 'help youtube',
                 'help instagram',
+                'help anime',
                 'help stuff',
                 'help about']
             for a in range(0, amon):
@@ -861,6 +864,33 @@ def help(token, mode=0):
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots about help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
+        elif mode == 5:
+            TB = []
+            tipe = 'template'
+            action = [
+                [actionBuilder(1, ['msg'], ['coba'], ['/anime top airing'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/anime top upcoming'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/anime most popular'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/anime-search: overlord'])]
+            ]
+            text = [
+                '/anime top airing',
+                '/anime top upcoming',
+                '/anime most popular',
+                '/anime-search: [query]'
+            ]
+            for a in range(len(text)):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['action'] = action[a]
+                TB.append(isi_TB)
+            amon = len(text)
+            data = {}
+            data['alt'] = 'Multi_Bots anime help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
     except Exception as e:
@@ -1013,8 +1043,8 @@ def handle_message(event):
             myanime(reply_token, 1)
         elif msgtext.lower() == '/anime most popular':
             myanime(reply_token, 2)
-        elif msgtext.lower().startswith('/anime: '):
-            query = msgtext[8:]
+        elif msgtext.lower().startswith('/anime-search: '):
+            query = msgtext[15:]
             if len(query) < 3:
                 replyTextMessage(reply_token, 'minimum 3 character')
             else:
@@ -1248,6 +1278,8 @@ def handle_postback(event):
             help(reply_token, 3)
         elif postbackdata.lower() == 'help about':
             help(reply_token, 4)
+        elif postbackdata.lower() == 'help anime':
+            help(reply_token, 5)
         elif postbackdata.lower().startswith('anidesc '):
             data = postbackdata[8:]
             myanime(reply_token, 3, data)
