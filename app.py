@@ -1026,6 +1026,23 @@ def callback():
 
     return 'OK'
 
+@handler.add(FollowEvent)
+def handle_join(event):
+    try:
+        op = json.loads(str(event))
+        reply_token = op['replyToken']
+        data = {}
+        data['alt'] = 'Multi_Bots Added'
+        data['tumbnail'] = None
+        data['title'] = 'Multi_Bots'
+        data['text'] = 'klik tombol dibawah ini untuk bantuan penggunaan'
+        data['action'] = [actionBuilder(1, ['postback'], ['help'], ['help'])]
+        replyTemplateMessage(reply_token, data)
+    except LineBotApiError as e:
+        print(e.status_code)
+        print(e.error.message)
+        print(e.error.details)
+
 @handler.add(JoinEvent)
 def handle_join(event):
     try:
