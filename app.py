@@ -727,6 +727,7 @@ def apipixiv(token, mode, query=None):
             imagelist = pixiv.ranking()
             TB = []
             amon = len(imagelist)
+            print(amon)
             tipe = 'img'
             for a in range(amon):
                 isi_TB = {}
