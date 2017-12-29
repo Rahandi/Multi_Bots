@@ -758,7 +758,7 @@ def help(token, mode=0):
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
                 'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg',
                 'https://lh3.googleusercontent.com/-qXt3ofPwbOU/VVZ_PbR6CsI/AAAAAAAAABY/IeVNLmQOwpQ/s530-p/AnimeLogo.png',
-                'https://upload.wikimedia.org/wikipedia/en/thumb/7/73/Pixiv_logo.svg/1280px-Pixiv_logo.svg.png',
+                'https://static1.squarespace.com/static/56c25cd620c647590146e9c2/572bc1101bbee0b556462e85/572bc1181bbee0b556462ed4/1462485275992/styleframes4.png',
                 'https://image.ibb.co/gjJwhG/TU_LOGO_300dpi.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
