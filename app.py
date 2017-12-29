@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image
 from imgurpython import ImgurClient
 from data.MALScrapper import MAL
+from data.PixivScrapper import pixivapi
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -20,6 +21,7 @@ handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
 adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 workdir = os.getcwd()
 myanimelist = MAL()
+pixiv = pixivapi('rahandinoor', 'rahandi')
 imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
 file = open('%s/data/jsondata' % (workdir), 'r')
 important = file.read()
@@ -703,6 +705,39 @@ def myanime(token, mode, query=None):
     except Exception as e:
         raise e
 
+def apipixiv(token, mode, query=None):
+    try:
+        if mode == 0:
+            imagelist = pixiv.search(query)
+            TB = []
+            amon = len(imagelist)
+            tipe = 'img'
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = imagelist[a]
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [imagelist[a]])
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots pixiv search'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
+        elif mode == 1:
+            imagelist = pixiv.ranking()
+            TB = []
+            amon = len(imagelist)
+            tipe = 'img'
+            for a in range(amon):
+                isi_TB = {}
+                isi_TB['tumbnail'] = imagelist[a]
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['Rank %s' % (str(a+1))], [imagelist[a]])
+                TB.append(isi_TB)
+            data = {}
+            data['alt'] = 'Multi_Bots pixiv rank'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
+    except Exception as e:
+        raise e
+
 def savejson():
     try:
         file = open('%s/data/jsondata' % (workdir), 'w')
@@ -1049,6 +1084,11 @@ def handle_message(event):
                 replyTextMessage(reply_token, 'minimum 3 character')
             else:
                 myanime(reply_token, 4, query)
+        elif msgtext.lower().startswith('/pixiv-search: '):
+            query = msgtext[15:]
+            apipixiv(0, query)
+        elif msgtext.lower() == '/pixiv rank':
+            apipixiv(1)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
