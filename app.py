@@ -726,7 +726,7 @@ def help(token, mode=0):
             text = [
                 'youtube help',
                 'instagram help',
-                'anime help'
+                'anime help',
                 'stuff help',
                 'about']
             dataaction = [
