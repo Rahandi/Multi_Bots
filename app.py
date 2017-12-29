@@ -753,25 +753,29 @@ def help(token, mode=0):
         if mode == 0:
             TB = []
             tipe = 'template'
-            amon = 5
+            
             tumbnail = [
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
                 'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg',
                 'https://lh3.googleusercontent.com/-qXt3ofPwbOU/VVZ_PbR6CsI/AAAAAAAAABY/IeVNLmQOwpQ/s530-p/AnimeLogo.png',
+                'https://upload.wikimedia.org/wikipedia/en/thumb/7/73/Pixiv_logo.svg/1280px-Pixiv_logo.svg.png',
                 'https://image.ibb.co/gjJwhG/TU_LOGO_300dpi.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
                 'youtube help',
                 'instagram help',
                 'anime help',
+                'pixiv help',
                 'stuff help',
                 'about']
             dataaction = [
                 'help youtube',
                 'help instagram',
                 'help anime',
+                'help pixiv',
                 'help stuff',
                 'help about']
+            amon = len(tumbnail)
             for a in range(0, amon):
                 isi_TB = {}
                 isi_TB['tumbnail'] = tumbnail[a]
@@ -907,16 +911,16 @@ def help(token, mode=0):
             TB = []
             tipe = 'template'
             action = [
+                [actionBuilder(1, ['msg'], ['coba'], ['/anime-search: overlord'])],
                 [actionBuilder(1, ['msg'], ['coba'], ['/anime top airing'])],
                 [actionBuilder(1, ['msg'], ['coba'], ['/anime top upcoming'])],
-                [actionBuilder(1, ['msg'], ['coba'], ['/anime most popular'])],
-                [actionBuilder(1, ['msg'], ['coba'], ['/anime-search: overlord'])]
+                [actionBuilder(1, ['msg'], ['coba'], ['/anime most popular'])]
             ]
             text = [
+                '/anime-search: [query]',
                 '/anime top airing',
                 '/anime top upcoming',
-                '/anime most popular',
-                '/anime-search: [query]'
+                '/anime most popular'
             ]
             for a in range(len(text)):
                 isi_TB = {}
@@ -928,6 +932,29 @@ def help(token, mode=0):
             amon = len(text)
             data = {}
             data['alt'] = 'Multi_Bots anime help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
+        elif mode == 6:
+            TB = []
+            tipe = 'template'
+            action = [
+                [actionBuilder(1, ['msg'], ['coba'], ['/pixiv-search: no game no life'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/pixiv rank'])]
+            ]
+            text = [
+                '/pixiv-search: [query]',
+                '/pixiv rank'
+            ]
+            for a in range(len(text)):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['action'] = action[a]
+                TB.append(isi_TB)
+            amon = len(text)
+            data = {}
+            data['alt'] = 'Multi_Bots pixiv help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
     except Exception as e:
@@ -1322,6 +1349,8 @@ def handle_postback(event):
             help(reply_token, 4)
         elif postbackdata.lower() == 'help anime':
             help(reply_token, 5)
+        elif postbackdata.lower() == 'help pixiv':
+            help(reply_token, 6)
         elif postbackdata.lower().startswith('anidesc '):
             data = postbackdata[8:]
             myanime(reply_token, 3, data)
