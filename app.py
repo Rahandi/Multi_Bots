@@ -779,12 +779,12 @@ def help(token, mode=0):
         if mode == 0:
             TB = []
             tipe = 'template'
-            
             tumbnail = [
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
                 'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg',
                 'https://lh3.googleusercontent.com/-qXt3ofPwbOU/VVZ_PbR6CsI/AAAAAAAAABY/IeVNLmQOwpQ/s530-p/AnimeLogo.png',
                 'https://static1.squarespace.com/static/56c25cd620c647590146e9c2/572bc1101bbee0b556462e85/572bc1181bbee0b556462ed4/1462485275992/styleframes4.png',
+                'https://i.pinimg.com/736x/87/02/e6/8702e60c04893b6d32c7e96d9c7f7e32--social-community-antique-shops.jpg',
                 'https://image.ibb.co/gjJwhG/TU_LOGO_300dpi.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
@@ -792,6 +792,7 @@ def help(token, mode=0):
                 'instagram help',
                 'anime help',
                 'pixiv help',
+                'deviantart help',
                 'stuff help',
                 'about']
             dataaction = [
@@ -799,6 +800,7 @@ def help(token, mode=0):
                 'help instagram',
                 'help anime',
                 'help pixiv',
+                'help deviantart',
                 'help stuff',
                 'help about']
             amon = len(tumbnail)
@@ -879,7 +881,6 @@ def help(token, mode=0):
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/wiki: mobil'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/chat: siapa namamu?'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/gaul: kuy'])])
-            action.append([actionBuilder(1, ['msg'], ['coba'], ['/deviant: dark'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/sholat: surabaya'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/love: koyo akizuki + kaho hinata'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/loc: surabaya'])])
@@ -892,7 +893,6 @@ def help(token, mode=0):
             text.append('/wiki: [query]')
             text.append('/chat: [query]')
             text.append('/gaul: [query]')
-            text.append('/deviant: [query]')
             text.append('/sholat: [lokasi]')
             text.append('/love: [nama pertama] + [nama kedua]')
             text.append('/loc: [lokasi]')
@@ -981,6 +981,29 @@ def help(token, mode=0):
             amon = len(text)
             data = {}
             data['alt'] = 'Multi_Bots pixiv help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
+        elif mode == 7:
+            TB = []
+            tipe = 'template'
+            action = [
+                [actionBuilder(1, ['msg'], ['coba'], ['/deviant-search: dark'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/deviant hot'])]
+            ]
+            text = [
+                '/deviant-search: [query]',
+                '/deviant hot'
+            ]
+            for a in range(len(text)):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = text[a]
+                isi_TB['action'] = action[a]
+                TB.append(isi_TB)
+            amon = len(text)
+            data = {}
+            data['alt'] = 'Multi_Bots Deviantart help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
     except Exception as e:
@@ -1110,8 +1133,8 @@ def handle_message(event):
         elif msgtext.lower().startswith('/gaul: '):
             query = msgtext[7:]
             gaul(reply_token, query)
-        elif msgtext.lower().startswith('/deviant: '):
-            query = msgtext[10:]
+        elif msgtext.lower().startswith('/deviant-search: '):
+            query = msgtext[17:]
             devian(reply_token, 0, query)
         elif msgtext.lower() == '/deviant hot':
             devian(reply_token, 1)
@@ -1379,6 +1402,8 @@ def handle_postback(event):
             help(reply_token, 5)
         elif postbackdata.lower() == 'help pixiv':
             help(reply_token, 6)
+        elif postbackdata.lower() == 'help deviantart':
+            help(reply_token, 7)
         elif postbackdata.lower().startswith('anidesc '):
             data = postbackdata[8:]
             myanime(reply_token, 3, data)
