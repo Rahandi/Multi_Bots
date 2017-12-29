@@ -1086,9 +1086,9 @@ def handle_message(event):
                 myanime(reply_token, 4, query)
         elif msgtext.lower().startswith('/pixiv-search: '):
             query = msgtext[15:]
-            apipixiv(0, query)
+            apipixiv(reply_token, 0, query)
         elif msgtext.lower() == '/pixiv rank':
-            apipixiv(1)
+            apipixiv(reply_token, 1)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
