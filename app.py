@@ -727,12 +727,11 @@ def apipixiv(token, mode, query=None):
             imagelist = pixiv.ranking()
             TB = []
             amon = len(imagelist)
-            print(amon)
             tipe = 'img'
             for a in range(amon):
                 isi_TB = {}
                 isi_TB['tumbnail'] = imagelist[a]
-                isi_TB['action'] = actionBuilder(1, ['uri'], ['Rank %s' % (str(a+1))], [imagelist[a]])
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['Rank %s' % (a+1)], [imagelist[a]])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots pixiv rank'

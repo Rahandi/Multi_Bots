@@ -16,5 +16,5 @@ class pixivapi:
 		data = self.api.ranking(page=1, per_page=10)
 		image = []
 		for a in data.response[0].works:
-			image.append(a.work.image_urls.px_480mw)
+			image.append(a.work.image_urls.px_480mw.replace('http://', 'https://'))
 		return image
