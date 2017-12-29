@@ -685,11 +685,11 @@ def myanime(token, mode, query=None):
                 TextSendMessage(text = teks)
             ])
         elif mode == 4:
+            print(query)
             judul, link, img = myanimelist.searchAnime(query)
             TB = []
             tipe = 'template'
             amon = len(img)
-            print(amon)
             for a in range(amon):
                 isi_TB = {}
                 isi_TB['tumbnail'] = img[a]
