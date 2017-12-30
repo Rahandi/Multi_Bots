@@ -494,6 +494,7 @@ def gaul(token, query):
         raise e
 
 def devian(token, mode, berapa, query=None):
+    global devapi
     try:
         if mode == 0:
             find = devapi.browse(endpoint='popular', q=query)
@@ -738,6 +739,7 @@ def myanime(token, mode, query=None):
         raise e
 
 def apipixiv(token, mode, berapa, query=None):
+    global pixiv
     try:
         if mode == 0:
             imagelist = pixiv.search(query)
