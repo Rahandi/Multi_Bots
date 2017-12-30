@@ -10,3 +10,4 @@ deviantart
 imgurpython
 Pillow
 pixivpy
+clarifai
