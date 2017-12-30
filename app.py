@@ -1300,7 +1300,7 @@ def handle_message(event):
                 savejson()
                 replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
         elif msgtext.lower() == '/tebak gambar':
-            query =
+            query = 1
             msgsource = op['source']['type']
             msgfrom = op['source']['userId']
             try:
