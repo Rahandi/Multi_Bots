@@ -493,7 +493,7 @@ def gaul(token, query):
     except Exception as e:
         raise e
 
-def devian(token, mode, query=None):
+def devian(token, mode, berapa, query=None):
     try:
         if mode == 0:
             find = devapi.browse(endpoint='popular', q=query)
@@ -546,7 +546,11 @@ def devian(token, mode, query=None):
             dat['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, dat)
     except Exception as e:
-        raise e
+        if berapa < 1:
+            devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
+            devian(token, mode, berapa+1, query)
+        else:    
+            raise e
 
 def sholat(token, query):
     try:
@@ -733,7 +737,7 @@ def myanime(token, mode, query=None):
     except Exception as e:
         raise e
 
-def apipixiv(token, mode, query=None):
+def apipixiv(token, mode, berapa, query=None):
     try:
         if mode == 0:
             imagelist = pixiv.search(query)
@@ -764,7 +768,11 @@ def apipixiv(token, mode, query=None):
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
     except Exception as e:
-        raise e
+        if berapa < 1:
+            pixiv = pixivapi('rahandinoor', 'rahandi')
+            apipixiv(token, mode, berapa+1, query)
+        else:
+            raise e
 
 def savejson():
     try:
@@ -1152,9 +1160,9 @@ def handle_message(event):
             gaul(reply_token, query)
         elif msgtext.lower().startswith('/deviant-search: '):
             query = msgtext[17:]
-            devian(reply_token, 0, query)
+            devian(reply_token, 0, 0, query)
         elif msgtext.lower() == '/deviant hot':
-            devian(reply_token, 1)
+            devian(reply_token, 1, 0)
         elif msgtext.lower().startswith('/sholat: '):
             query = msgtext[9:]
             sholat(reply_token, query)
@@ -1183,9 +1191,9 @@ def handle_message(event):
                 myanime(reply_token, 4, query)
         elif msgtext.lower().startswith('/pixiv-search: '):
             query = msgtext[15:]
-            apipixiv(reply_token, 0, query)
+            apipixiv(reply_token, 0, 0, query)
         elif msgtext.lower() == '/pixiv rank':
-            apipixiv(reply_token, 1)
+            apipixiv(reply_token, 1, 0)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
