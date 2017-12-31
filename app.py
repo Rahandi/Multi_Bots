@@ -1279,7 +1279,7 @@ def handle_message(event):
                         important['memegen'][tipe] = {}
                         important['memegen'][tipe][userId] = query
                     else:
-                        if msgfrom not in important['memegen'][tipe]:
+                        if userId not in important['memegen'][tipe]:
                             important['memegen'][tipe][userId] = query
                 else:
                     try:
