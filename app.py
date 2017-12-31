@@ -1318,7 +1318,7 @@ def handle_message(event):
                                 important['memegen'][tipe][ID][userId] = query
                 savejson()
                 replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
-        elif msgtext.lower() == '/tebak gambar: ':
+        elif msgtext.lower().startswith('/tebak gambar: '):
             query = int(msgtext[len('/tebak gambar: '):])
             msgsource = op['source']['type']
             msgfrom = op['source']['userId']
