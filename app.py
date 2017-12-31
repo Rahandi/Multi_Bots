@@ -786,7 +786,8 @@ def tebakgambar(token, msgid):
         os.remove(path)
         data = clarifaiapi.predict_by_url(url=data['link'])
         data = data['outputs'][0]['data']['concepts']
-        kata = '『Hasil Tebak Gambar』\n'
+        #kata = '『Hasil Tebak Gambar』\n'
+        kata = '[Konten Gambar]\n'
         for a in range(5):
             persenan = float(data[a]['value']) * 100
             persenan = format(persenan, '.2f')
