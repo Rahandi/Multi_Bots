@@ -791,7 +791,8 @@ def tebakgambar(token, msgid):
             persenan = float(data[a]['value']) * 100
             persenan = format(persenan, '.2f')
             persenan = persenan + '%'
-            kata += '\n%s\t%s' % (data[a]['name'], persenan)
+            dat = '{0:15}{1}'.format(data[a]['name'], persenan)
+            kata += '\n%s' % (dat)
         replyTextMessage(token, str(kata))
     except Exception as e:
         raise e
