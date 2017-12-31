@@ -26,7 +26,6 @@ workdir = os.getcwd()
 myanimelist = MAL()
 pixiv = pixivapi('rahandinoor', 'rahandi')
 clar = ClarifaiApp(api_key='c469606b715140bcbca2660c886d5220')
-clarifaiapi = clar.models.get('general-v1.3')
 devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
 imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
 file = open('%s/data/jsondata' % (workdir), 'r')
@@ -779,21 +778,38 @@ def apipixiv(token, mode, berapa, query=None):
         else:
             raise e
 
-def tebakgambar(token, msgid):
+def tebakgambar(token, msgid, mode):
     try:
-        path = donwloadContent(msgid)
-        data = imgur.upload_from_path(path, config=None, anon=False)
-        os.remove(path)
-        data = clarifaiapi.predict_by_url(url=data['link'])
-        data = data['outputs'][0]['data']['concepts']
-        kata = '『Hasil Tebak Gambar』\n'
-        for a in range(5):
-            persenan = float(data[a]['value']) * 100
-            persenan = format(persenan, '.2f')
-            persenan = persenan + '%'
-            dat = '{0:20}{1}'.format(data[a]['name'], persenan)
-            kata += '\n%s' % (dat)
-        replyTextMessage(token, str(kata))
+        if mode == 1:
+            clarifaiapi = clar.models.get('general-v1.3')
+            path = donwloadContent(msgid)
+            data = imgur.upload_from_path(path, config=None, anon=False)
+            os.remove(path)
+            data = clarifaiapi.predict_by_url(url=data['link'])
+            data = data['outputs'][0]['data']['concepts']
+            kata = '『Hasil Tebak Gambar』\n'
+            for a in range(5):
+                persenan = float(data[a]['value']) * 100
+                persenan = format(persenan, '.2f')
+                persenan = persenan + '%'
+                dat = '{0:20}{1}'.format(data[a]['name'], persenan)
+                kata += '\n%s' % (dat)
+            replyTextMessage(token, str(kata))
+        elif mode == 2:
+            clarifaiapi = clar.models.get('food-items-v1.0')
+            path = donwloadContent(msgid)
+            data = imgur.upload_from_path(path, config=None, anon=False)
+            os.remove(path)
+            data = clarifaiapi.predict_by_url(url=data['link'])
+            data = data['outputs'][0]['data']['concepts']
+            kata = '『Hasil Tebak Gambar』\n'
+            for a in range(5):
+                persenan = float(data[a]['value']) * 100
+                persenan = format(persenan, '.2f')
+                persenan = persenan + '%'
+                dat = '{0:20}{1}'.format(data[a]['name'], persenan)
+                kata += '\n%s' % (dat)
+            replyTextMessage(token, str(kata))
     except Exception as e:
         raise e
 
@@ -1302,8 +1318,8 @@ def handle_message(event):
                                 important['memegen'][tipe][ID][userId] = query
                 savejson()
                 replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
-        elif msgtext.lower() == '/tebak gambar':
-            query = 1
+        elif msgtext.lower() == '/tebak gambar: ':
+            query = int(msgtext[len('/tebak gambar: '):])
             msgsource = op['source']['type']
             msgfrom = op['source']['userId']
             try:
@@ -1430,7 +1446,7 @@ def handle_imgmessage(event):
                             del important['tebak'][tipe][userId]
                         except:
                             pass
-                        tebakgambar(reply_token, msgId)
+                        tebakgambar(reply_token, msgId, mode)
             else:
                 if tipe in important['tebak']:
                     if ID in important['tebak'][tipe]:
@@ -1440,7 +1456,7 @@ def handle_imgmessage(event):
                                 del important['tebak'][tipe][ID][userId]
                             except:
                                 pass
-                            tebakgambar(reply_token, msgId)
+                            tebakgambar(reply_token, msgId, mode)
             savejson()
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
