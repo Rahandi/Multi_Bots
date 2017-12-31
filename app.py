@@ -1295,7 +1295,7 @@ def handle_message(event):
                             important['memegen'][tipe][ID] = {}
                             important['memegen'][tipe][ID][userId] = query
                         else:
-                            if msgfrom not in important['memegen'][tipe][ID]:
+                            if userId not in important['memegen'][tipe][ID]:
                                 important['memegen'][tipe][ID][userId] = query
                 savejson()
                 replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
