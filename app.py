@@ -816,9 +816,7 @@ def tebakgambar(token, msgid, mode):
             data = clarifaiapi.predict([img])
             data = data['outputs'][0]['data']['regions']
             kata = '『Hasil Tebak Gambar』\n'
-            print('a')
             img = Image.open(path)
-            print('b')
             width, height = img.size
             dr = ImageDraw.Draw(img)
             for a in range(len(data)):
@@ -828,7 +826,7 @@ def tebakgambar(token, msgid, mode):
                 right_col = data[a]['region_info']['bounding_box']['right_col']
                 cor = (left_col*width, top_row*height, right_col*width, bottom_row*height)
                 dr.rectangle(cor, outline="red")
-                dr.text((right_col*width, bottom_row*height), '%s' % (str(a+1)), font=ImageFont.truetype("arial"))
+                dr.text((right_col*width, bottom_row*height), '%s' % (str(a+1)), font=ImageFont.truetype("arial.ttf"))
                 kata += '\nNo.%s' % (str(a+1))
                 kata += '\nage: %s' % (str(data[a]['data']['face']['age_appearance']['concepts'][0]['name']))
                 kata += '\ngender: %s' % (str(data[a]['data']['face']['gender_appearance']['concepts'][0]['name']))
