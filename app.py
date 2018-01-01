@@ -777,8 +777,8 @@ def apipixiv(token, mode, berapa, query=None):
             raise e
 
 def tebakgambar(token, msgid, mode):
-    clar = ClarifaiApp(api_key='c469606b715140bcbca2660c886d5220')
     try:
+        clar = ClarifaiApp(api_key='c469606b715140bcbca2660c886d5220')
         if mode == 1:
             clarifaiapi = clar.models.get('general-v1.3')
             path = donwloadContent(msgid)
