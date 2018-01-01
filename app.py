@@ -815,6 +815,9 @@ def tebakgambar(token, msgid, mode):
             img = ClImage(file_obj=open(path, 'rb'))
             data = clarifaiapi.predict([img])
             data = data['outputs'][0]['data']['regions']
+            if len(data) == 0:
+                replyTextMessage(token, 'tidak bisa mendeteksi wajah')
+                return
             kata = '『Hasil Tebak Gambar』\n'
             img = Image.open(path)
             width, height = img.size
@@ -831,6 +834,35 @@ def tebakgambar(token, msgid, mode):
                 kata += '\nage: %s' % (str(data[a]['data']['face']['age_appearance']['concepts'][0]['name']))
                 kata += '\ngender: %s' % (str(data[a]['data']['face']['gender_appearance']['concepts'][0]['name']))
                 kata += '\nrace: %s\n' % (str(data[a]['data']['face']['multicultural_appearance']['concepts'][0]['name']))
+            img.save(path)
+            uploaddata = imgur.upload_from_path(path, config=None, anon=False)
+            customMessage(token, [
+                ImageSendMessage(original_content_url=uploaddata['link'], preview_image_url=uploaddata['link']),
+                TextSendMessage(text = str(kata))
+            ])
+        elif mode == 4:
+            path = donwloadContent(msgid)
+            clarifaiapi = clar.models.get('celeb-v1.3')
+            img = ClImage(file_obj=open(path, 'rb'))
+            data = clarifaiapi.predict([img])
+            data = data['outputs'][0]['data']['regions']
+            if len(data) == 0:
+                replyTextMessage(token, 'tidak bisa mendeteksi wajah')
+                return
+            kata = '『Hasil Tebak Gambar』\n'
+            img = Image.open(path)
+            width, height = img.size
+            dr = ImageDraw.Draw(img)
+            for a in range(len(data)):
+                top_row = data[a]['region_info']['bounding_box']['top_row']
+                left_col = data[a]['region_info']['bounding_box']['left_col']
+                bottom_row = data[a]['region_info']['bounding_box']['bottom_row']
+                right_col = data[a]['region_info']['bounding_box']['right_col']
+                cor = (left_col*width, top_row*height, right_col*width, bottom_row*height)
+                dr.rectangle(cor, outline="red")
+                dr.text((right_col*width, bottom_row*height), '%s' % (str(a+1)), font=ImageFont.truetype("%s/data/arial.ttf" % (workdir)))
+                kata += '\nNo.%s' % (str(a+1))
+                kata += '\nmirip: %s\n' % (str(data[a]['data']['face']['identitiy']['concepts'][0]['name']))
             img.save(path)
             uploaddata = imgur.upload_from_path(path, config=None, anon=False)
             customMessage(token, [
