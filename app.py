@@ -1126,11 +1126,17 @@ def help(token, mode=0):
                 [actionBuilder(1, ['msg'], ['coba'], ['/tebak gambar: 3'])],
                 [actionBuilder(1, ['msg'], ['coba'], ['/tebak gambar: 4'])]
             ]
+            text = [
+                'tebak gambar general',
+                'tebak gambar food',
+                'tebak gambar demographics',
+                'tebak gambar celeb'
+            ]
             for a in range(len(action)):
                 isi_TB = {}
                 isi_TB['tumbnail'] = None
                 isi_TB['title'] = None
-                isi_TB['text'] = '/tebak gambar: [mode]'
+                isi_TB['text'] = text[a]
                 isi_TB['action'] = action[a]
                 TB.append(isi_TB)
             amon = len(action)
