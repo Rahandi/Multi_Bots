@@ -24,7 +24,6 @@ adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 workdir = os.getcwd()
 myanimelist = MAL()
 pixiv = pixivapi('rahandinoor', 'rahandi')
-clar = ClarifaiApp(api_key='c469606b715140bcbca2660c886d5220')
 devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
 imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
 file = open('%s/data/jsondata' % (workdir), 'r')
@@ -778,6 +777,7 @@ def apipixiv(token, mode, berapa, query=None):
             raise e
 
 def tebakgambar(token, msgid, mode):
+    clar = ClarifaiApp(api_key='c469606b715140bcbca2660c886d5220')
     try:
         if mode == 1:
             clarifaiapi = clar.models.get('general-v1.3')
@@ -851,7 +851,7 @@ def tebakgambar(token, msgid, mode):
                 data = data['outputs'][0]['data']['regions']
             except:
                 replyTextMessage(token, 'tidak bisa mendeteksi wajah')
-                return
+                returnz
             kata = '『Hasil Tebak Gambar』\n'
             img = Image.open(path)
             width, height = img.size
