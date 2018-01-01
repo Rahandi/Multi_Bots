@@ -1,13 +1,12 @@
 import os, time, json, requests, pafy, random, wikipedia, deviantart
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from imgurpython import ImgurClient
 from data.MALScrapper import MAL
 from data.PixivScrapper import pixivapi
 from clarifai.rest import ClarifaiApp
-
-#a
+from clarifai.rest import Image as ClImage
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -810,6 +809,34 @@ def tebakgambar(token, msgid, mode):
                 dat = '{0:20}{1}'.format(data[a]['name'], persenan)
                 kata += '\n%s' % (dat)
             replyTextMessage(token, str(kata))
+        elif mode == 3:
+            path = donwloadContent(msgid)
+            clarifaiapi = clar.models.get('demographic')
+            img = ClImage(file_obj=open(path, 'rb'))
+            data = clarifaiapi.predict([img])
+            data = data['outputs'][0]['data']['regions']
+            kata = '『Hasil Tebak Gambar』\n'
+            img = Image.open(path)
+            width, height = img.size
+            dr = ImageDraw.Draw(img)
+            for a in range(len(data)):
+                top_row = data[a]['region_info']['bounding_box']['top_row']
+                left_col = data[a]['region_info']['bounding_box']['left_col']
+                bottom_row = data[a]['region_info']['bounding_box']['bottom_row']
+                right_col = data[a]['region_info']['bounding_box']['right_col']
+                cor = (left_col*width, top_row*height, right_col*width, bottom_row*height)
+                dr.rectangle(cor, outline="red")
+                dr.text((right_col*width, bottom_row*height), '%s' % (str(a+1)), font=ImageFont.truetype("arial"))
+                kata += '\nNo.%s' % (str(a+1))
+                kata += '\nage: %s' % (str(data[a]['data']['face']['age_appearance']['concepts'][0]['name']))
+                kata += '\ngender: %s' % (str(data[a]['data']['face']['gender_appearance']['concepts'][0]['name']))
+                kata += '\nrace: %s\n' % (str(data[a]['data']['face']['multicultural_appearance']['concepts'][0]['name']))
+            img.save(path)
+            uploaddata = imgur.upload_from_path(path, config=None, anon=False)
+            customMessage(token, [
+                ImageSendMessage(original_content_url=uploaddata['link'], preview_image_url=uploaddata['link']),
+                TextSendMessage(text = str(kata))
+            ])
     except Exception as e:
         raise e
 
