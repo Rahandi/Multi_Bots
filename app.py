@@ -862,7 +862,7 @@ def tebakgambar(token, msgid, mode):
                 dr.rectangle(cor, outline="red")
                 dr.text((right_col*width, bottom_row*height), '%s' % (str(a+1)), font=ImageFont.truetype("%s/data/arial.ttf" % (workdir)))
                 kata += '\nNo.%s' % (str(a+1))
-                kata += '\nmirip: %s\n' % (str(data[a]['data']['face']['identitiy']['concepts'][0]['name']))
+                kata += '\nmirip: %s\n' % (str(data[a]['data']['face']['identity']['concepts'][0]['name']))
             img.save(path)
             uploaddata = imgur.upload_from_path(path, config=None, anon=False)
             customMessage(token, [
