@@ -814,8 +814,9 @@ def tebakgambar(token, msgid, mode):
             clarifaiapi = clar.models.get('demographics')
             img = ClImage(file_obj=open(path, 'rb'))
             data = clarifaiapi.predict([img])
-            data = data['outputs'][0]['data']['regions']
-            if len(data) == 0:
+            try:
+                data = data['outputs'][0]['data']['regions']
+            except:
                 replyTextMessage(token, 'tidak bisa mendeteksi wajah')
                 return
             kata = '『Hasil Tebak Gambar』\n'
@@ -846,8 +847,9 @@ def tebakgambar(token, msgid, mode):
             clarifaiapi = clar.models.get('celeb-v1.3')
             img = ClImage(file_obj=open(path, 'rb'))
             data = clarifaiapi.predict([img])
-            data = data['outputs'][0]['data']['regions']
-            if len(data) == 0:
+            try:
+                data = data['outputs'][0]['data']['regions']
+            except:
                 replyTextMessage(token, 'tidak bisa mendeteksi wajah')
                 return
             kata = '『Hasil Tebak Gambar』\n'
