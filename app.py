@@ -811,7 +811,7 @@ def tebakgambar(token, msgid, mode):
             replyTextMessage(token, str(kata))
         elif mode == 3:
             path = donwloadContent(msgid)
-            clarifaiapi = clar.models.get('demographic')
+            clarifaiapi = clar.models.get('demographics')
             img = ClImage(file_obj=open(path, 'rb'))
             data = clarifaiapi.predict([img])
             data = data['outputs'][0]['data']['regions']
