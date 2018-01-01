@@ -816,7 +816,9 @@ def tebakgambar(token, msgid, mode):
             data = clarifaiapi.predict([img])
             data = data['outputs'][0]['data']['regions']
             kata = '『Hasil Tebak Gambar』\n'
+            print('a')
             img = Image.open(path)
+            print('b')
             width, height = img.size
             dr = ImageDraw.Draw(img)
             for a in range(len(data)):
