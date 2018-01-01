@@ -891,6 +891,7 @@ def help(token, mode=0):
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
                 'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg',
                 'https://lh3.googleusercontent.com/-qXt3ofPwbOU/VVZ_PbR6CsI/AAAAAAAAABY/IeVNLmQOwpQ/s530-p/AnimeLogo.png',
+                'https://cdn-images-1.medium.com/max/900/1*NwIjQsu95P2SlRlVqEJSeg.png',
                 'https://static1.squarespace.com/static/56c25cd620c647590146e9c2/572bc1101bbee0b556462e85/572bc1181bbee0b556462ed4/1462485275992/styleframes4.png',
                 'https://i.pinimg.com/736x/87/02/e6/8702e60c04893b6d32c7e96d9c7f7e32--social-community-antique-shops.jpg',
                 'https://image.ibb.co/gjJwhG/TU_LOGO_300dpi.png',
@@ -899,6 +900,7 @@ def help(token, mode=0):
                 'youtube help',
                 'instagram help',
                 'anime help',
+                'tebak gambar help',
                 'pixiv help',
                 'deviantart help',
                 'stuff help',
@@ -907,6 +909,7 @@ def help(token, mode=0):
                 'help youtube',
                 'help instagram',
                 'help anime',
+                'help tbkgmbr',
                 'help pixiv',
                 'help deviantart',
                 'help stuff',
@@ -1112,6 +1115,27 @@ def help(token, mode=0):
             amon = len(text)
             data = {}
             data['alt'] = 'Multi_Bots Deviantart help'
+            data['template'] = templateBuilder(amon, tipe, TB)
+            replyCarrouselMessage(token, data)
+        elif mode == 8:
+            TB = []
+            tipe = 'template'
+            action = [
+                [actionBuilder(1, ['msg'], ['coba'], ['/tebak gambar: 1'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/tebak gambar: 2'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/tebak gambar: 3'])],
+                [actionBuilder(1, ['msg'], ['coba'], ['/tebak gambar: 4'])]
+            ]
+            for a in range(len(action)):
+                isi_TB = {}
+                isi_TB['tumbnail'] = None
+                isi_TB['title'] = None
+                isi_TB['text'] = '/tebak gambar: [mode]'
+                isi_TB['action'] = action[a]
+                TB.append(isi_TB)
+            amon = len(action)
+            data = {}
+            data['alt'] = 'Multi_Bots Tebak Gambar help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
     except Exception as e:
@@ -1381,6 +1405,9 @@ def handle_message(event):
                 replyTextMessage(reply_token, '%s silahkan kirim gambar' % (name['displayName']))
         elif msgtext.lower().startswith('/tebak gambar: '):
             query = int(msgtext[len('/tebak gambar: '):])
+            if query != 1 and query != 2 and query != 3 and query != 4:
+                replyTextMessage(reply_token, 'hanya bisa mode 1 sampai 4')
+                return
             msgsource = op['source']['type']
             msgfrom = op['source']['userId']
             try:
@@ -1584,6 +1611,8 @@ def handle_postback(event):
             help(reply_token, 6)
         elif postbackdata.lower() == 'help deviantart':
             help(reply_token, 7)
+        elif postbackdata.lower() == 'help tbkgmbr':
+            help(reply_token, 8)
         elif postbackdata.lower().startswith('anidesc '):
             data = postbackdata[8:]
             myanime(reply_token, 3, data)
