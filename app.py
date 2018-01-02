@@ -876,6 +876,45 @@ def tebakgambar(token, msgid, mode):
     except Exception as e:
         raise e
 
+def integra(token, username, password):
+    ses = requests.session()
+    data = ses.get('https://integra.its.ac.id/')
+    login = {
+        'userid':username,
+        'password':password
+    }
+    data = ses.post('https://integra.its.ac.id/', data=dat)
+    data = ses.get('https://integra.its.ac.id/dashboard.php')
+    if 'URL=index.php' in data.text:
+        replyTextMessage(token, 'username atau password salah')
+        return
+    data = ses.get('https://integra.its.ac.id/dashboard.php?sim=AKADX__-__')
+    text = data.text
+    indextt = text.find('URL=')
+    link = text[indextt+4:-2]
+    data = ses.get(link)
+    data = ses.get('http://akademik3.its.ac.id/data_nilaimhs.php')
+    soup = bs(data.text, 'lxml')
+    sem = []
+    kirim = ''
+    for c in soup.find_all('table', {'cellpadding':'4'}):
+        la = []
+        for a in c.find_all('tr', {'valign':'top'}):
+            kata = []
+            for b in a.find_all('td'):
+                kata.append(b.text)
+            la.append(kata)
+        sem.append(la)
+    for a in range(len(sem)):
+        kirim += 'Semester: %s\n' % (str(a+1))
+        matkul = sem[a]
+        for b in range(len(matkul)):
+            nial = matkul[b]
+            kirim += 'Matkul: %s\n' % (nial[0][11:])
+            kirim += 'Nilai: %s\n' % (nial[2])
+        kirim += '\n'
+    replyTextMessage(token, kirim)
+
 def savejson():
     try:
         file = open('%s/data/jsondata' % (workdir), 'w')
@@ -1326,6 +1365,13 @@ def handle_message(event):
             apipixiv(reply_token, 0, 0, query)
         elif msgtext.lower() == '/pixiv rank':
             apipixiv(reply_token, 1, 0)
+        elif msgtext.lower().startswith('/integra '):
+            query = msgtext[9:]
+            query = query.split(' ')
+            if op['source']['type'] == 'user':
+                integra(reply_token, query[0], query[1])
+            else:
+                replyTextMessage(reply_token, 'hanya bisa digunakan di personal chat')
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
