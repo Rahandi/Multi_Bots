@@ -877,6 +877,7 @@ def tebakgambar(token, msgid, mode):
         raise e
 
 def integra(token, username, password):
+    waktusekarang = time.time()
     ses = requests.session()
     data = ses.get('https://integra.its.ac.id/')
     login = {
@@ -913,6 +914,7 @@ def integra(token, username, password):
             kirim += 'Matkul: %s\n' % (nial[0][11:])
             kirim += 'Nilai: %s\n' % (nial[2])
         kirim += '\n'
+    kirim += '%s' % (str(time.time()-waktusekarang))
     replyTextMessage(token, kirim)
 
 def savejson():
