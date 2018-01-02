@@ -894,7 +894,7 @@ def integra(token, username, password):
     link = text[indextt+4:-2]
     data = ses.get(link)
     data = ses.get('http://akademik3.its.ac.id/data_nilaimhs.php')
-    soup = bs(data.text, 'lxml')
+    soup = BeautifulSoup(data.text, 'lxml')
     sem = []
     kirim = ''
     for c in soup.find_all('table', {'cellpadding':'4'}):
