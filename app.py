@@ -883,7 +883,7 @@ def integra(token, username, password):
         'userid':username,
         'password':password
     }
-    data = ses.post('https://integra.its.ac.id/', data=dat)
+    data = ses.post('https://integra.its.ac.id/', data=login)
     data = ses.get('https://integra.its.ac.id/dashboard.php')
     if 'URL=index.php' in data.text:
         replyTextMessage(token, 'username atau password salah')
