@@ -801,9 +801,7 @@ def apipixiv(token, mode, berapa, query=None):
 
 def tebakgambar(token, msgid, mode):
     try:
-        print('masuk')
         clar = ClarifaiApp(api_key='c469606b715140bcbca2660c886d5220')
-        print('lanjut')
         if mode == 1:
             clarifaiapi = clar.models.get('general-v1.3')
             path = donwloadContent(msgid)
@@ -863,7 +861,6 @@ def tebakgambar(token, msgid, mode):
             img.save(path)
             uploaddata = imgur.upload_from_path(path, config=None, anon=False)
             os.remove(path)
-            print(uploaddata['link'])
             customMessage(token, [
                 ImageSendMessage(original_content_url=uploaddata['link'], preview_image_url=uploaddata['link']),
                 TextSendMessage(text = str(kata))
@@ -950,7 +947,7 @@ def awsubs(token):
             isi_TB = {}
             isi_TB['tumbnail'] = a.find('img')['src']
             isi_TB['title'] = None
-            isi_TB['text'] = a.find('a')['title'][:60]
+            isi_TB['text'] = a.find('a', {'title':True})['title'][:60]
             isi_TB['action'] = [actionBuilder(1, ['uri'], ['awsubs page'], [a.find('a')['href']])]
             TB.appen(isi_TB)
         dat = {}
