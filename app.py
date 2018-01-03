@@ -21,6 +21,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('E2NW4d5IBfL8zRP2FlbJ5Pg6GTDaUMAvQyfTkOGrzGReNR77kpXQDUOIfX/9XWdIEQfDGMadtkS8kcRB4VtXAeAPmkJB6GGbbb35RghRG4PA3l25h5krMSNuw0B/mEJRO/H3J0FIeDnY0W8yJQMw/QdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('cfc54ea01c497698b82e26d647d9610b')
 adminid = 'Uc8eed8927818997fec7df0239b827d4e'
+botstart = time.time()
 workdir = os.getcwd()
 myanimelist = MAL()
 pixiv = pixivapi('rahandinoor', 'rahandi')
@@ -917,9 +918,10 @@ def integra(token, username, password):
     kirim += '%s' % (str(time.time()-waktusekarang))
     replyTextMessage(token, kirim)
 
-def restart(token):
+def restart(token=''):
     try:
-        replyTextMessage(token, 'restarting')
+        if token != '':
+            replyTextMessage(token, 'restarting')
         print('\n\nRESTARTING\n\n')
         python = sys.executable
         os.execl(python, python, * sys.argv)
@@ -1530,6 +1532,8 @@ def handle_message(event):
             elif op['source']['type'] == 'room':
                 replyTextMessage(reply_token, ':(')
                 line_bot_api.leave_room(op['source']['roomId'])
+        if time.time()-botstart > 24 * 3600:
+            restart()
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
