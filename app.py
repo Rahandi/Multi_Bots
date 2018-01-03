@@ -675,7 +675,7 @@ def myanime(token, mode, query=None):
                 isi_TB['tumbnail'] = img[a]
                 isi_TB['title'] = judul[a][:40]
                 isi_TB['text'] = 'Rank %s' % (int(a) + 1)
-                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                isi_TB['action'] = actionBuilder(3, ['postback', 'uri', 'postback'], ['Description', 'MAL Page', 'Promotional Video'], ['anidesc %s' % (link[a]), link[a], 'anipv %s/video' % (link[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots Top Airing Anime'
@@ -691,7 +691,7 @@ def myanime(token, mode, query=None):
                 isi_TB['tumbnail'] = img[a]
                 isi_TB['title'] = judul[a][:40]
                 isi_TB['text'] = 'Rank %s' % (int(a) + 1)
-                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                isi_TB['action'] = actionBuilder(3, ['postback', 'uri', 'postback'], ['Description', 'MAL Page', 'Promotional Video'], ['anidesc %s' % (link[a]), link[a], 'anipv %s/video' % (link[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots Top Upcoming Anime'
@@ -707,7 +707,7 @@ def myanime(token, mode, query=None):
                 isi_TB['tumbnail'] = img[a]
                 isi_TB['title'] = judul[a][:40]
                 isi_TB['text'] = 'Rank %s' % (int(a) + 1)
-                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                isi_TB['action'] = actionBuilder(3, ['postback', 'uri', 'postback'], ['Description', 'MAL Page', 'Promotional Video'], ['anidesc %s' % (link[a]), link[a], 'anipv %s/video' % (link[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots Most Popular Anime'
@@ -730,7 +730,7 @@ def myanime(token, mode, query=None):
                 isi_TB['tumbnail'] = img[a]
                 isi_TB['title'] = judul[a][:40]
                 isi_TB['text'] = 'Urutan %s' % (int(a) + 1)
-                isi_TB['action'] = actionBuilder(3, ['postback', 'uri', 'postback'], ['description', 'link', 'promotional video'], ['anidesc %s' % (link[a]), link[a], 'anipv %s/video' % (link[a])])
+                isi_TB['action'] = actionBuilder(3, ['postback', 'uri', 'postback'], ['Description', 'MAL Page', 'Promotional Video'], ['anidesc %s' % (link[a]), link[a], 'anipv %s/video' % (link[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots Anime Search'
