@@ -740,6 +740,9 @@ def myanime(token, mode, query=None):
             url, ytid, judul = myanimelist.videoAnime(query)
             TB = []
             tipe = 'template'
+            if len(url) == 0:
+                replyTextMessage(token, '0 Promotional Videos')
+                return
             for a in range(len(url)):
                 isi_TB = {}
                 isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % ytid[a]
