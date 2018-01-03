@@ -730,12 +730,31 @@ def myanime(token, mode, query=None):
                 isi_TB['tumbnail'] = img[a]
                 isi_TB['title'] = judul[a][:40]
                 isi_TB['text'] = 'Urutan %s' % (int(a) + 1)
-                isi_TB['action'] = actionBuilder(2, ['postback', 'uri'], ['description', 'link'], ['anidesc %s' % (link[a]), link[a]])
+                isi_TB['action'] = actionBuilder(2, ['postback', 'uri', 'postback'], ['description', 'link', 'promotional video'], ['anidesc %s' % (link[a]), link[a], 'anipv %s/video' % (link[a])])
                 TB.append(isi_TB)
             data = {}
             data['alt'] = 'Multi_Bots Anime Search'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 5:
+            url, ytid, judul = myanimelist.videoAnime(query)
+            TB = []
+            tipe = 'template'
+            for a in range(len(url)):
+                isi_TB = {}
+                isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % ytid
+                isi_TB['title'] = None
+                isi_TB['text'] = judul[a][:60]
+                isi_TB['action'] = actionBuilder(3, ['msg', 'msg', 'msg'], ['send Video', 'send Audio', 'download'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a]), '/youtube-download: %s' % (url[a])])
+                TB.append(isi_TB)
+                if len(TB) >= 50:
+                    break
+            TB = [TB[i:i+10] for i in range(0, len(TB), 10)]
+            custom = []
+            for a in TB:
+                kirimin = TemplateSendMessage(alt_text = 'Multi_Bots MAL Promotional Video', template = templateBuilder(len(a), tipe, a))
+                custom.append(kirimin)
+            customMessage(token, custom)
     except Exception as e:
         raise e
 
@@ -1702,6 +1721,9 @@ def handle_postback(event):
         elif postbackdata.lower().startswith('anidesc '):
             data = postbackdata[8:]
             myanime(reply_token, 3, data)
+        elif postbackdata.lower().startswith('anipv '):
+            data = postbackdata[6:]
+            myanime(reply_token, 5, data)
         else:
             replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:

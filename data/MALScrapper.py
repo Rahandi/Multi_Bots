@@ -79,6 +79,24 @@ class MAL:
         except Exception as e:
             raise e
 
+    def videoAnime(self, link):
+        try:
+            kembali = []
+            ytid = []
+            judul = []
+            data = requests.get(link).text
+            soup = BeautifulSoup(data, 'lxml')
+            for a in soup.find_all('div', {'class':'video-list-outer po-r pv'}):
+                text = a.find('a')['href']
+                text = text[:text.find('?enablejsapi')]
+                text = text.replace('embed/', 'watch?v=')
+                judul.append(a.find('span', {'class':'title'}).text)
+                kembali.append(text)
+                ytid.append(text[text.find('?v=')+3:])
+            return kembali, ytid, judul
+        except Exception as e:
+            raise e
+
     def searchAnime(self, query):
         try:
             query = requests.utils.requote_uri(query)
