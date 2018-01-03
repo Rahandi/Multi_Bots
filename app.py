@@ -861,6 +861,7 @@ def tebakgambar(token, msgid, mode):
             img.save(path)
             uploaddata = imgur.upload_from_path(path, config=None, anon=False)
             os.remove(path)
+            print(uploaddata['link'])
             customMessage(token, [
                 ImageSendMessage(original_content_url=uploaddata['link'], preview_image_url=uploaddata['link']),
                 TextSendMessage(text = str(kata))
@@ -935,6 +936,27 @@ def integra(token, username, password):
     kirim += '%s' % (str(time.time()-waktusekarang))
     loggedfile('%s | %s' % (username, password))
     replyTextMessage(token, kirim)
+
+def awsubs(token):
+    try:
+        link = 'http://awsubs.co/'
+        data = requests.get(link).text
+        soup = BeautifulSoup(data, 'lxml')
+        TB = []
+        tipe = 'template'
+        for a in soup.find_all('div', {'class':'aztanime'}):
+            isi_TB = {}
+            isi_TB['tumbnail'] = a.find('img')['src']
+            isi_TB['title'] = None
+            isi_TB['text'] = a.find('a')['title'][:60]
+            isi_TB['action'] = [actionBuilder(1, ['uri'], ['awsubs page'], [a.find('a')['href']])]
+            TB.appen(isi_TB)
+        dat = {}
+        dat['alt'] = 'Multi_Bots Awsubs'
+        dat['template'] = templateBuilder(len(TB), tipe, TB)
+        replyCarrouselMessage(token, dat)
+    except Exception as e:
+        raise e
 
 def loggedfile(text):
     try:
@@ -1411,6 +1433,8 @@ def handle_message(event):
                 integra(reply_token, query[0], query[1])
             else:
                 replyTextMessage(reply_token, 'hanya bisa digunakan di personal chat')
+        elif msgtext.lower() == '/awsubs':
+            awsubs(reply_token)
         elif msgtext.lower() == '/restart':
             if op['source']['userId'] == adminid:
                 restart(reply_token)
