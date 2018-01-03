@@ -880,21 +880,16 @@ def tebakgambar(token, msgid, mode):
 def integra(token, username, password):
     waktusekarang = time.time()
     ses = requests.session()
-    data = ses.get('https://integra.its.ac.id/')
     login = {
         'userid':username,
         'password':password
     }
     data = ses.post('https://integra.its.ac.id/', data=login)
-    data = ses.get('https://integra.its.ac.id/dashboard.php')
-    if 'URL=index.php' in data.text:
+    if 'URL=dashboard.php' not in data.text:
         replyTextMessage(token, 'username atau password salah')
         return
     data = ses.get('https://integra.its.ac.id/dashboard.php?sim=AKADX__-__')
-    text = data.text
-    indextt = text.find('URL=')
-    link = text[indextt+4:-2]
-    data = ses.get(link)
+    data = ses.get(data.text[data.text.find('URL=')+4:-2])
     data = ses.get('http://akademik3.its.ac.id/data_nilaimhs.php')
     soup = BeautifulSoup(data.text, 'lxml')
     sem = []
