@@ -1734,6 +1734,9 @@ def handle_postback(event):
         print(e.status_code)
         print(e.error.message)
         print(e.error.details)
+    except Exception as e:
+        replyTextMessage(reply_token, 'error')
+        print(e)
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
