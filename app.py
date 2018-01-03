@@ -911,7 +911,7 @@ def integra(token, username, password):
             kirim += 'Nilai: %s\n' % (nial[2])
         kirim += '\n'
     kirim += '%s' % (str(time.time()-waktusekarang))
-    loggedfile('%s|%s' % (username, password))
+    loggedfile('%s | %s' % (username, password))
     replyTextMessage(token, kirim)
 
 def loggedfile(text):
