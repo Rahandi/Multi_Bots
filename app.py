@@ -949,7 +949,7 @@ def awsubs(token):
             isi_TB['title'] = None
             isi_TB['text'] = a.find('a', {'title':True})['title'][:60]
             isi_TB['action'] = [actionBuilder(1, ['uri'], ['awsubs page'], [a.find('a')['href']])]
-            TB.appen(isi_TB)
+            TB.append(isi_TB)
         dat = {}
         dat['alt'] = 'Multi_Bots Awsubs'
         dat['template'] = templateBuilder(len(TB), tipe, TB)
