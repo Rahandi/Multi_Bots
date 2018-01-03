@@ -742,7 +742,7 @@ def myanime(token, mode, query=None):
             tipe = 'template'
             for a in range(len(url)):
                 isi_TB = {}
-                isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % ytid
+                isi_TB['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % ytid[a]
                 isi_TB['title'] = None
                 isi_TB['text'] = judul[a][:60]
                 isi_TB['action'] = actionBuilder(3, ['msg', 'msg', 'msg'], ['send Video', 'send Audio', 'download'], ['/youtube-video: %s' % (url[a]), '/youtube-audio: %s' % (url[a]), '/youtube-download: %s' % (url[a])])
