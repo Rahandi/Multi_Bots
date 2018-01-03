@@ -1,4 +1,4 @@
-import os, time, json, requests, pafy, random, wikipedia, deviantart
+import os, time, json, requests, pafy, random, wikipedia, deviantart, sys
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image, ImageDraw, ImageFont
@@ -917,6 +917,15 @@ def integra(token, username, password):
     kirim += '%s' % (str(time.time()-waktusekarang))
     replyTextMessage(token, kirim)
 
+def restart(token):
+    try:
+        replyTextMessage(token, 'restarting')
+        print('\n\nRESTARTING\n\n')
+        python = sys.executable
+        os.execl(python, python, * sys.argv)
+    except Exception as e:
+        raise e
+
 def savejson():
     try:
         file = open('%s/data/jsondata' % (workdir), 'w')
@@ -1374,6 +1383,9 @@ def handle_message(event):
                 integra(reply_token, query[0], query[1])
             else:
                 replyTextMessage(reply_token, 'hanya bisa digunakan di personal chat')
+        elif msgtext.lower() == '/restart':
+            if op['source']['userId'] == adminid:
+                restart(reply_token)
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
