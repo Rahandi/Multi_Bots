@@ -1581,6 +1581,10 @@ def handle_message(event):
             help(reply_token)
         elif msgtext.lower() == '//cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
+        elif msgtext.lower() == '//cetak group memid:':
+            if op['source']['type'] == 'group':
+                data = line_bot_api.get_group_member_ids(op['source']['groupId'])
+                replyTextMessage(reply_token, str(data.memberIds))
         elif msgtext.lower() == '//cetak profile':
             profile = json.loads(str(line_bot_api.get_profile(op['source']['userId'])))
             replyTextMessage(reply_token, json.dumps(profile, indent=2))
