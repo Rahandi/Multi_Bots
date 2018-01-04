@@ -971,7 +971,7 @@ def animekompi(token):
                 isi_TB['tumbnail'] = a.find('img')['src'].replace('http://', 'https://')
                 isi_TB['title'] = None
                 isi_TB['text'] = image['title'][:60]
-                isi_TB['action'] = [actionBuilder(1, ['uri'], ['animekompi web'], [image['href']])]
+                isi_TB['action'] = [actionBuilder(1, ['uri'], ['animekompi page'], [image['href']])]
                 TB.append(isi_TB)
             except Exception as e:
                 break
