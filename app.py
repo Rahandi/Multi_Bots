@@ -957,6 +957,32 @@ def awsubs(token):
     except Exception as e:
         raise e
 
+def animekompi(token):
+    try:
+        link = 'http://animekompi.web.id/'
+        data = requests.get(link).text
+        soup = BeautifulSoup(data, 'lxml')
+        TB = []
+        tipe = 'template'
+        for a in soup.find_all('div', {'class':'thumb'}):
+            try:
+                image = a.find('a')
+                isi_TB = {}
+                isi_TB['tumbnail'] = a.find('img')['src']
+                isi_TB['title'] = None
+                isi_TB['text'] = image['title'][:60]
+                isi_TB['action'] = [actionBuilder(1, ['uri'], ['animekompi web'], [image['href']])]
+                TB.append(isi_TB)
+            except Exception as e:
+                break
+        TB = [TB[i:i+10] for i in range(0, len(TB), 10)]
+        custom = []
+        for a in TB:
+            custom.append(TemplateSendMessage(alt_text='Multi_Bots Animekompi', template=templateBuilder(len(a), tipe, a)))
+        customMessage(token, custom)
+    except Exception as e:
+        raise e
+
 def loggedfile(text):
     try:
         log = open('%s/data/log' % (workdir), 'a')
