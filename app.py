@@ -1460,6 +1460,8 @@ def handle_message(event):
                 replyTextMessage(reply_token, 'hanya bisa digunakan di personal chat')
         elif msgtext.lower() == '/awsubs':
             awsubs(reply_token)
+        elif msgtext.lower() == '/animekompi':
+            animekompi(reply_token)
         elif msgtext.lower() == '/restart':
             if op['source']['userId'] == adminid:
                 restart(reply_token)
