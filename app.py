@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 from imgurpython import ImgurClient
 from data.MALScrapper import MAL
 from data.PixivScrapper import pixivapi
+from data.openweathermap import owm
 from clarifai.rest import ClarifaiApp
 from clarifai.rest import Image as ClImage
 
@@ -24,6 +25,7 @@ adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 botstart = time.time()
 workdir = os.getcwd()
 myanimelist = MAL()
+weatherApi = owm('6ad7dc6072c70ea84dd42fa1273091e3')
 pixiv = pixivapi('rahandinoor', 'rahandi')
 devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
 imgur = ImgurClient('19bd6586ad07952', '7cff9b3396b1b461b64d923e45d37ceff1e801fe', '663137659dbab6d44a9a1a2cb3f8af6c63b68762', '660b76c28420af23ce2e5e23b7a317c7a96a8907')
@@ -983,6 +985,27 @@ def animekompi(token):
     except Exception as e:
         raise e
 
+def cuaca(self, token, mode, query=None):
+    try:
+        if mode == 0:
+            data = weatherApi.currentWeatherCity(query)
+            TB = []
+            tipe = 'template'
+            for a in range(int(data['jumlah_kota'])):
+                isi_TB = {}
+                isi_TB['tumbnail'] = 'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=0&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (data['list'][a]['coord']['lat'], data['list'][a]['coord']['lng'])
+                isi_TB['title'] = data['list'][a]['nama']
+                isi_TB['text'] = data['list'][a]['cuaca']
+                isi_TB['action'] = [actionBuilder(1, ['postback'], ['details'], ['cuaca %s | %s' % (data['list'][a]['coord']['lat'], data['list'][a]['coord']['lng'])])]
+                TB.append(isi_TB)
+            TB = [TB[i:i+10] for i in range(0, len(TB), 10)]
+            custom = []
+            for a in TB:
+                custom.append(TemplateSendMessage(alt_text='Multi_Bots Cuaca', template=templateBuilder(len(a), tipe, a)))
+            customMessage(token, custom)
+    except Exception as e:
+        raise e
+
 def loggedfile(text):
     try:
         log = open('%s/data/log' % (workdir), 'a')
@@ -1466,6 +1489,9 @@ def handle_message(event):
             awsubs(reply_token)
         elif msgtext.lower() == '/animekompi':
             animekompi(reply_token)
+        elif msgtext.lower().startswith('/cuaca: '):
+            query = msgtext[8:]
+            cuaca(reply_token, 0, query)
         elif msgtext.lower() == '/restart':
             if op['source']['userId'] == adminid:
                 restart(reply_token)
