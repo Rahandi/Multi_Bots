@@ -968,7 +968,7 @@ def animekompi(token):
             try:
                 image = a.find('a')
                 isi_TB = {}
-                isi_TB['tumbnail'] = a.find('img')['src']
+                isi_TB['tumbnail'] = a.find('img')['src'].replace('http://', 'https://')
                 isi_TB['title'] = None
                 isi_TB['text'] = image['title'][:60]
                 isi_TB['action'] = [actionBuilder(1, ['uri'], ['animekompi web'], [image['href']])]
