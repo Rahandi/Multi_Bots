@@ -1518,6 +1518,42 @@ def handle_message(event):
                 files.write(text)
                 files.close()
                 replyTextMessage(reply_token, kirim)
+        elif msgtext.lower().startswith('/chat '):
+            toggle = msgtext[6:]
+            if toggle.lower() == 'on':
+                sourcetype = op['source']['type']
+                sourceuserid = op['source']['userId']
+                if sourcetype not in important['chaton']:
+                    important['chaton'][sourcetype] = {}
+                    if sourcetype == 'user':
+                        important['chaton'][sourcetype][sourceuserid] = True
+                    else:
+                        if sourcetype == 'room':
+                            chatid = op['source']['roomId']
+                        elif sourcetype == 'group':
+                            chatid = op['source']['groupId']
+                        important['chaton'][sourcetype][chatid] = True
+                else:
+                    if sourcetype == 'user':
+                        important['chaton'][sourcetype][sourceuserid] = True
+                    else:
+                        if sourcetype == 'room':
+                            chatid = op['source']['roomId']
+                        elif sourcetype == 'group':
+                            chatid = op['source']['groupId']
+                        important['chaton'][sourcetype][chatid] = True
+            elif toggle.lower() == 'off':
+                sourcetype = op['source']['type']
+                sourceuserid = op['source']['userId']
+                if sourcetype in important['chaton']:
+                    if sourcetype == 'user':
+                        important['chaton'][sourcetype][sourceuserid] = False
+                    else:
+                        if sourcetype == 'room':
+                            chatid = op['source']['roomId']
+                        elif sourcetype == 'group':
+                            chatid = op['source']['groupId']
+                        important['chaton'][sourcetype][chatid] = False
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
@@ -1662,6 +1698,22 @@ def handle_message(event):
             elif op['source']['type'] == 'room':
                 replyTextMessage(reply_token, ':(')
                 line_bot_api.leave_room(op['source']['roomId'])
+        else:
+            sourcetype = op['source']['type']
+            sourceuserid = op['source']['userId']
+            if sourcetype in important['chaton']:
+                if sourcetype == 'user':
+                    if sourceuserid in important['chaton'][sourcetype]:
+                        if important['chaton'][sourcetype][sourceuserid] == True:
+                            chatbot(reply_token, msgtext)
+                else:
+                    if sourcetype == 'room':
+                        chatid = op['source']['roomId']
+                    elif sourcetype == 'group':
+                        chatid = op['source']['groupId']
+                    if chatid in important['chaton'][sourcetype]:
+                        if important['chaton'][sourcetype][chatid] == True:
+                            chatbot(reply_token, msgtext)
         if time.time()-botstart > 24 * 3600:
             restart()
     except LineBotApiError as e:
