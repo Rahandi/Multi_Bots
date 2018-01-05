@@ -995,7 +995,7 @@ def cuaca(self, token, mode, query=None):
                 isi_TB = {}
                 isi_TB['tumbnail'] = 'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=0&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (data['list'][a]['coord']['lat'], data['list'][a]['coord']['lng'])
                 isi_TB['title'] = data['list'][a]['nama']
-                isi_TB['text'] = data['list'][a]['cuaca']
+                isi_TB['text'] = data['list'][a]['cuaca'][:60]
                 isi_TB['action'] = [actionBuilder(1, ['postback'], ['details'], ['cuaca %s | %s' % (data['list'][a]['coord']['lat'], data['list'][a]['coord']['lng'])])]
                 TB.append(isi_TB)
             TB = [TB[i:i+10] for i in range(0, len(TB), 10)]
@@ -1491,7 +1491,7 @@ def handle_message(event):
             animekompi(reply_token)
         elif msgtext.lower().startswith('/cuaca: '):
             query = msgtext[8:]
-            cuaca(reply_token, 0, query)
+            cuaca(token=reply_token, mode=0, query=query)
         elif msgtext.lower() == '/restart':
             if op['source']['userId'] == adminid:
                 restart(reply_token)
