@@ -1010,7 +1010,7 @@ def cuaca(token, mode, query=None):
             kirimin += '\nLokasi: %s' % (data['nama'])
             kirimin += '\nCuaca: %s' % (data['result']['cuaca'])
             kirimin += '\nTemperatur: %s°C' % (data['result']['temp'])
-            kirimin += '\nKelembapan: ' + data['result']['humidity'] + '%'
+            kirimin += '\nKelembapan: ' + str(data['result']['humidity']) + '%'
             custom = [
                 TextSendMessage(text=str(kirimin)),
                 LocationSendMessage(title='lokasi', address='%s, %s' % (data['nama'], data['negara']), latitude=data['coord']['lat'], longitude=data['coord']['lng'])
