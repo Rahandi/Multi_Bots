@@ -1542,6 +1542,7 @@ def handle_message(event):
                         elif sourcetype == 'group':
                             chatid = op['source']['groupId']
                         important['chaton'][sourcetype][chatid] = True
+                replyTextMessage(reply_token, 'chat mode diaktifkan')
             elif toggle.lower() == 'off':
                 sourcetype = op['source']['type']
                 sourceuserid = op['source']['userId']
@@ -1554,6 +1555,7 @@ def handle_message(event):
                         elif sourcetype == 'group':
                             chatid = op['source']['groupId']
                         important['chaton'][sourcetype][chatid] = False
+                replyTextMessage(reply_token, 'chat mode dimatikan')
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
