@@ -985,7 +985,7 @@ def animekompi(token):
     except Exception as e:
         raise e
 
-def cuaca(self, token, mode, query=None):
+def cuaca(token, mode, query=None):
     try:
         if mode == 0:
             data = weatherApi.currentWeatherCity(query)
