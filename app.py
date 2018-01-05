@@ -1003,6 +1003,19 @@ def cuaca(token, mode, query=None):
             for a in TB:
                 custom.append(TemplateSendMessage(alt_text='Multi_Bots Cuaca', template=templateBuilder(len(a), tipe, a)))
             customMessage(token, custom)
+        elif mode == 1:
+            query = query.split(' | ')
+            data = weatherApi.currentWeatherCoord(query[0], query[1])
+            kirimin = '『Kondisi cuaca saat ini』\n'
+            kirimin += '\nLokasi: %s' % (data['nama'])
+            kirimin += '\nCuaca: %s' % (data['result']['cuaca'])
+            kirimin += '\nTemperatur: %s°C' % (data['result']['temp'])
+            kirimin += '\nKelembapan: ' + data['result']['humidity'] + '%'
+            custom = [
+                TextSendMessage(text=str(kirimin)),
+                LocationSendMessage(title='lokasi', address='%s, %s' % (data['nama'], data['negara']), latitude=data['coord']['lat'], longitude=data['coord']['lng'])
+            ]
+            customMessage(token, custom)
     except Exception as e:
         raise e
 
@@ -1808,6 +1821,9 @@ def handle_postback(event):
         elif postbackdata.lower().startswith('anipv '):
             data = postbackdata[6:]
             myanime(reply_token, 5, data)
+        elif postbackdata.lower().startswith('cuaca '):
+            data = postbackdata[6:]
+            cuaca(reply_token, 1, data)
         else:
             replyTextMessage(reply_token, str(postbackdata))
     except LineBotApiError as e:
