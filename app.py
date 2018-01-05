@@ -993,10 +993,10 @@ def cuaca(token, mode, query=None):
             tipe = 'template'
             for a in range(int(data['jumlah_kota'])):
                 isi_TB = {}
-                isi_TB['tumbnail'] = 'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=0&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (data['list'][a]['coord']['lat'], data['list'][a]['coord']['lng'])
+                isi_TB['tumbnail'] = 'https://maps.googleapis.com/maps/api/streetview?location=%s,%s&size=600x400&heading=0&key=AIzaSyAQmw_o6BhLfnH5LMM2B8oDGyHMx6QC--Y' % (data['list'][a]['koordinat']['lat'], data['list'][a]['koordinat']['lng'])
                 isi_TB['title'] = data['list'][a]['nama']
                 isi_TB['text'] = data['list'][a]['cuaca'][:60]
-                isi_TB['action'] = [actionBuilder(1, ['postback'], ['details'], ['cuaca %s | %s' % (data['list'][a]['coord']['lat'], data['list'][a]['coord']['lng'])])]
+                isi_TB['action'] = [actionBuilder(1, ['postback'], ['details'], ['cuaca %s | %s' % (data['list'][a]['koordinat']['lat'], data['list'][a]['koordinat']['lng'])])]
                 TB.append(isi_TB)
             TB = [TB[i:i+10] for i in range(0, len(TB), 10)]
             custom = []
