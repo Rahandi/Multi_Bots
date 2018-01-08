@@ -1179,7 +1179,7 @@ def help(token, mode=0):
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/animekompi'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/awsubs'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/ssweb: google.com'])])
-            action.append([actionBuilder(2, ['msg', 'msg'], ['coba on', 'coba off'], ['/chat on'], ['/chat off'])])
+            action.append([actionBuilder(2, ['msg', 'msg'], ['coba on', 'coba off'], ['/chat on', '/chat off'])])
             text = []
             text.append('/gimage: [query]')
             text.append('/lyric: [query]')
