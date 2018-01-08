@@ -1024,7 +1024,10 @@ def cuaca(token, mode, query=None):
 
 def ssweb(token, query):
     try:
-        webscreenshot.convertUrlToFile('http://%s' % (query), 'example.png')
+        if 'http://' in query or 'https://' in query:
+            webscreenshot.convertUrlToFile(query, 'example.png')
+        else:
+            webscreenshot.convertUrlToFile('http://%s' % (query), 'example.png')
         path = 'example.png'
         uploaddata = imgur.upload_from_path(path, config=None, anon=False)
         os.remove(path)
