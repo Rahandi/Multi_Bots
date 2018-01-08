@@ -1,4 +1,4 @@
-import os, time, json, requests, pafy, random, wikipedia, deviantart, sys
+import os, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image, ImageDraw, ImageFont
@@ -25,6 +25,9 @@ adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 botstart = time.time()
 workdir = os.getcwd()
 myanimelist = MAL()
+webscreenshot = pdfcrowd.HtmlToImageClient('rahandi', '3ccf176260126b37e770268a8d4dbcc5')
+webscreenshot.setOutputFormat('png')
+webscreenshot.setScreenshotWidth(1366)
 weatherApi = owm('6ad7dc6072c70ea84dd42fa1273091e3')
 pixiv = pixivapi('rahandinoor', 'rahandi')
 devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
@@ -1016,6 +1019,16 @@ def cuaca(token, mode, query=None):
                 LocationSendMessage(title='lokasi', address='%s, %s' % (data['nama'], data['negara']), latitude=data['coord']['lat'], longitude=data['coord']['lng'])
             ]
             customMessage(token, custom)
+    except Exception as e:
+        raise e
+
+def ssweb(token, query):
+    try:
+        client.convertUrlToFile('http://%s' % (query), 'example.png')
+        path = 'example.png'
+        uploaddata = imgur.upload_from_path(path, config=None, anon=False)
+        os.remove(path)
+        replyImageMessage(token, uploaddata['link'], uploaddata['link'])
     except Exception as e:
         raise e
 
