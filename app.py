@@ -1178,6 +1178,8 @@ def help(token, mode=0):
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/memegen: coba | saja'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/animekompi'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/awsubs'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/ssweb: google.com'])])
+            action.append([actionBuilder(2, ['msg', 'msg'], ['coba on', 'coba off'], ['/chat on'], ['/chat off'])])
             text = []
             text.append('/gimage: [query]')
             text.append('/lyric: [query]')
@@ -1192,6 +1194,8 @@ def help(token, mode=0):
             text.append('/memegen: [top text] | [bottom text]')
             text.append('/animekompi')
             text.append('/awsubs')
+            text.append('/ssweb: [query]')
+            text.append('/chat: [on/off]')
             for a in range(len(action)):
                 isi_TB = {}
                 isi_TB['tumbnail'] = None
