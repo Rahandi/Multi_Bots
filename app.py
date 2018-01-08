@@ -1518,6 +1518,9 @@ def handle_message(event):
         elif msgtext.lower().startswith('/cuaca: '):
             query = msgtext[8:]
             cuaca(token=reply_token, mode=0, query=query)
+        elif msgtext.lower().startswith('/ssweb: '):
+            query = msgtext[8:]
+            ssweb(reply_token, query)
         elif msgtext.lower() == '/restart':
             if op['source']['userId'] == adminid:
                 restart(reply_token)
