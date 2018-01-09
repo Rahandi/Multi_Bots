@@ -1028,6 +1028,7 @@ def cuaca(token, mode, query=None):
 
 def ssweb(token, query):
     try:
+        ext = 'jpg'
         if 'http://' in query or 'https://' in query:
             webscreenshot.convertUrlToFile(query, tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False))
         else:
