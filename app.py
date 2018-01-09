@@ -1031,11 +1031,11 @@ def ssweb(token, query):
         ext = 'jpg'
         with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False) as tf:
             tempfile_path = tf.name
-        path = tempfile_path + '.' + ext
+        dist_path = tempfile_path + '.' + ext
         if 'http://' in query or 'https://' in query:
-            webscreenshot.convertUrlToFile(query, path)
+            webscreenshot.convertUrlToFile(query, dist_path)
         else:
-            webscreenshot.convertUrlToFile('http://%s' % (query), path)       
+            webscreenshot.convertUrlToFile('http://%s' % (query), dist_path)       
         dist_name = os.path.basename(dist_path)
         os.rename(tempfile_path, dist_path)
         directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
