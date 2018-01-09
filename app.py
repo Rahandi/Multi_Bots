@@ -1102,6 +1102,7 @@ def help(token, mode=0):
                 'https://cdn-images-1.medium.com/max/900/1*NwIjQsu95P2SlRlVqEJSeg.png',
                 'https://static1.squarespace.com/static/56c25cd620c647590146e9c2/572bc1101bbee0b556462e85/572bc1181bbee0b556462ed4/1462485275992/styleframes4.png',
                 'https://i.pinimg.com/736x/87/02/e6/8702e60c04893b6d32c7e96d9c7f7e32--social-community-antique-shops.jpg',
+                'https://www.pubnub.com/sites/default/files/TexttoSpeech.png',
                 'https://image.ibb.co/gjJwhG/TU_LOGO_300dpi.png',
                 'https://logosave.com/images/large/23/About-logo.gif']
             text = [
@@ -1111,6 +1112,7 @@ def help(token, mode=0):
                 'tebak gambar help',
                 'pixiv help',
                 'deviantart help',
+                'texttospeech help'
                 'stuff help',
                 'about']
             dataaction = [
@@ -1120,6 +1122,7 @@ def help(token, mode=0):
                 'help tbkgmbr',
                 'help pixiv',
                 'help deviantart',
+                'help texttospeech',
                 'help stuff',
                 'help about']
             amon = len(tumbnail)
@@ -1358,6 +1361,11 @@ def help(token, mode=0):
             data['alt'] = 'Multi_Bots Tebak Gambar help'
             data['template'] = templateBuilder(amon, tipe, TB)
             replyCarrouselMessage(token, data)
+        elif mode == 9:
+            file = open('%s/data/lang' % (workdir), 'r')
+            data = file.read()
+            file.close()
+            replyTextMessage(token, str(data))
     except Exception as e:
         raise e
 
@@ -1564,6 +1572,8 @@ def handle_message(event):
                 query = query[1:]
                 query = query.split(': ')
                 texttospeech(reply_token, query[1], query[0])
+            elif query.lower().startswith(' help'):
+                help(reply_token, 9)
             else:
                 replyTextMessage(reply_token, 'format salah')
         elif msgtext.lower() == '/restart':
