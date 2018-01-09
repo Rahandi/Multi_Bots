@@ -1555,6 +1555,17 @@ def handle_message(event):
         elif msgtext.lower().startswith('/ssweb: '):
             query = msgtext[8:]
             ssweb(reply_token, query)
+        elif msgtext.lower().startswith('/say'):
+            query = msgtext[4:]
+            if query.lower().startswith(': '):
+                query = query[2:]
+                texttospeech(reply_token, query)
+            elif query.lower().startswith('-'):
+                query = query[1:]
+                query = query.split(': ')
+                texttospeech(reply_token, query[0], query[1])
+            else:
+                replyTextMessage(reply_token, 'format salah')
         elif msgtext.lower() == '/restart':
             if op['source']['userId'] == adminid:
                 restart(reply_token)
