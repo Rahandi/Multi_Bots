@@ -1,4 +1,4 @@
-import os, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd
+import os, errno, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image, ImageDraw, ImageFont
@@ -36,6 +36,16 @@ file = open('%s/data/jsondata' % (workdir), 'r')
 important = file.read()
 file.close()
 important = json.loads(important)
+static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+
+def make_static_tmp_dir():
+    try:
+        os.makedirs(static_tmp_path)
+    except OSError as e:
+        if e.errno == errno.EEXIST and os.path.isdir(static_tmp_path):
+            pass
+        else:
+            raise
 
 def customMessage(token, cus):
     try:
@@ -1823,6 +1833,17 @@ def handle_imgmessage(event):
                                 pass
                             tebakgambar(reply_token, msgId, mode)
             savejson()
+        if userId == adminid:
+            ext = 'jpg'
+            mescon = line_bot_api.get_message_content(event.message.id)
+            with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False) as tf:
+                for chunk in mescon.iter_content():
+                    tf.write(chunk)
+                tempfile_path = tf.name
+            dist_path = tempfile_path + '.' + ext
+            dist_name = os.path.basename(dist_path)
+            os.rename(tempfile_path, dist_path)
+            replyTextMessage(reply_token, request.host_url + os.path.join('static', 'tmp', dist_name))
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
@@ -1911,5 +1932,6 @@ def handle_postback(event):
         print(e)
 
 if __name__ == "__main__":
+    make_static_tmp_dir()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, threaded=True)
