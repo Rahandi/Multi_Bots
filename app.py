@@ -1843,6 +1843,7 @@ def handle_imgmessage(event):
             dist_path = tempfile_path + '.' + ext
             dist_name = os.path.basename(dist_path)
             os.rename(tempfile_path, dist_path)
+            imgur.upload_from_path(dist_path, config=None, anon=False)
             replyTextMessage(reply_token, request.host_url + os.path.join('static', 'tmp', dist_name))
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
