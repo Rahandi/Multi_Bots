@@ -1029,11 +1029,13 @@ def cuaca(token, mode, query=None):
 def ssweb(token, query):
     try:
         ext = 'jpg'
-        if 'http://' in query or 'https://' in query:
-            webscreenshot.convertUrlToFile(query, tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False))
-        else:
-            webscreenshot.convertUrlToFile('http://%s' % (query), tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False))
+        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False) as tf:
+            tempfile_path = tf.name
         path = tempfile_path + '.' + ext
+        if 'http://' in query or 'https://' in query:
+            webscreenshot.convertUrlToFile(query, path)
+        else:
+            webscreenshot.convertUrlToFile('http://%s' % (query), path)       
         dist_name = os.path.basename(dist_path)
         os.rename(tempfile_path, dist_path)
         directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
