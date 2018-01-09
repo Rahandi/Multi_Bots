@@ -159,7 +159,7 @@ def donwloadContent(mId):
         dist_name = os.path.basename(dist_path)
         os.rename(tempfile_path, dist_path)
         directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
-        directlink.replace('http://', 'https://')
+        directlink = directlink.replace('http://', 'https://')
         return dist_path, directlink
     except Exception as e:
         raise e
@@ -1039,7 +1039,7 @@ def ssweb(token, query):
         dist_name = os.path.basename(dist_path)
         os.rename(tempfile_path, dist_path)
         directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
-        directlink.replace('http://', 'https://')
+        directlink = directlink.replace('http://', 'https://')
         replyImageMessage(token, directlink, directlink)
     except Exception as e:
         raise e
