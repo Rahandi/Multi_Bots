@@ -1112,7 +1112,7 @@ def help(token, mode=0):
                 'tebak gambar help',
                 'pixiv help',
                 'deviantart help',
-                'texttospeech help'
+                'texttospeech help',
                 'stuff help',
                 'about']
             dataaction = [
