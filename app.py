@@ -1032,6 +1032,7 @@ def ssweb(token, query):
         with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False) as tf:
             tempfile_path = tf.name
         dist_path = tempfile_path + '.' + ext
+        print(dist_path)
         if 'http://' in query or 'https://' in query:
             webscreenshot.convertUrlToFile(query, dist_path)
         else:
