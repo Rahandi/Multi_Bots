@@ -1563,7 +1563,7 @@ def handle_message(event):
             elif query.lower().startswith('-'):
                 query = query[1:]
                 query = query.split(': ')
-                texttospeech(reply_token, query[0], query[1])
+                texttospeech(reply_token, query[1], query[0])
             else:
                 replyTextMessage(reply_token, 'format salah')
         elif msgtext.lower() == '/restart':
