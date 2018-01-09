@@ -1029,13 +1029,15 @@ def cuaca(token, mode, query=None):
 def ssweb(token, query):
     try:
         if 'http://' in query or 'https://' in query:
-            webscreenshot.convertUrlToFile(query, 'example.png')
+            webscreenshot.convertUrlToFile(query, tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False))
         else:
-            webscreenshot.convertUrlToFile('http://%s' % (query), 'example.png')
-        path = 'example.png'
-        uploaddata = imgur.upload_from_path(path, config=None, anon=False)
-        os.remove(path)
-        replyImageMessage(token, uploaddata['link'], uploaddata['link'])
+            webscreenshot.convertUrlToFile('http://%s' % (query), tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False))
+        path = tempfile_path + '.' + ext
+        dist_name = os.path.basename(dist_path)
+        os.rename(tempfile_path, dist_path)
+        directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
+        directlink.replace('http://', 'https://')
+        replyImageMessage(token, directlink, directlink)
     except Exception as e:
         raise e
 
@@ -1827,18 +1829,6 @@ def handle_imgmessage(event):
                                 pass
                             tebakgambar(reply_token, msgId, mode)
             savejson()
-        if userId == adminid:
-            ext = 'jpg'
-            mescon = line_bot_api.get_message_content(event.message.id)
-            with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False) as tf:
-                for chunk in mescon.iter_content():
-                    tf.write(chunk)
-                tempfile_path = tf.name
-            dist_path = tempfile_path + '.' + ext
-            dist_name = os.path.basename(dist_path)
-            os.rename(tempfile_path, dist_path)
-            imgur.upload_from_path(dist_path, config=None, anon=False)
-            replyTextMessage(reply_token, request.host_url + os.path.join('static', 'tmp', dist_name))
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
