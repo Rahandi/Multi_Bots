@@ -1940,6 +1940,8 @@ def handle_postback(event):
             help(reply_token, 7)
         elif postbackdata.lower() == 'help tbkgmbr':
             help(reply_token, 8)
+        elif postbackdata.lower() == 'help texttospeech':
+            help(reply_token, 9)
         elif postbackdata.lower().startswith('anidesc '):
             data = postbackdata[8:]
             myanime(reply_token, 3, data)
