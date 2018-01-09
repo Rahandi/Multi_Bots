@@ -149,12 +149,18 @@ def templateBuilder(amount, type, template):
 
 def donwloadContent(mId):
     try:
-        path = '%s/data/temp/%s.jpg' % (workdir, str(random.randint(1, 1000000)))
-        message_content = line_bot_api.get_message_content(mId)
-        with open(path, 'wb') as fd:
-            for chunk in message_content.iter_content():
-                fd.write(chunk)
-        return path
+        ext = 'jpg'
+        mescon = line_bot_api.get_message_content(mId)
+        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False) as tf:
+            for chunk in mescon.iter_content():
+                tf.write(chunk)
+            tempfile_path = tf.name
+        dist_path = tempfile_path + '.' + ext
+        dist_name = os.path.basename(dist_path)
+        os.rename(tempfile_path, dist_path)
+        directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
+        directlink.replace('http://', 'https://')
+        return dist_path, directlink
     except Exception as e:
         raise e
 
@@ -643,7 +649,7 @@ def googlestreet(token, query):
 
 def kotakin(token, messageId, mode):
     try:
-        path = donwloadContent(messageId)
+        path, directlink = donwloadContent(messageId)
         im = Image.open(path)
         width, height = im.size
         if mode == 1:
@@ -662,18 +668,14 @@ def kotakin(token, messageId, mode):
         bottom = (height+ukuran)/2
         crop = im.crop((left, top, right, bottom))
         crop.save(path)
-        data = imgur.upload_from_path(path, config=None, anon=False)
-        os.remove(path)
-        replyImageMessage(token, data['link'], data['link'])
+        replyImageMessage(token, directlink, directlink)
     except Exception as e:
         raise e
 
 def memegen(token, msgId, query):
     try:
-        path = donwloadContent(msgId)
-        data = imgur.upload_from_path(path, config=None, anon=False)
-        os.remove(path)
-        link = 'https://memegen.link/custom/%s/%s.jpg?alt=%s' % (query[0], query[1], data['link'])
+        path, directlink = donwloadContent(msgId)
+        link = 'https://memegen.link/custom/%s/%s.jpg?alt=%s' % (query[0], query[1], directlink)
         replyImageMessage(token, link, link)
     except Exception as e:
         raise e
@@ -819,10 +821,8 @@ def tebakgambar(token, msgid, mode):
         clar = ClarifaiApp(api_key='c469606b715140bcbca2660c886d5220')
         if mode == 1:
             clarifaiapi = clar.models.get('general-v1.3')
-            path = donwloadContent(msgid)
-            data = imgur.upload_from_path(path, config=None, anon=False)
-            os.remove(path)
-            data = clarifaiapi.predict_by_url(url=data['link'])
+            path, directlink = donwloadContent(msgid)
+            data = clarifaiapi.predict_by_url(url=directlink)
             data = data['outputs'][0]['data']['concepts']
             kata = '『Hasil Tebak Gambar』\n'
             for a in range(5):
@@ -834,10 +834,8 @@ def tebakgambar(token, msgid, mode):
             replyTextMessage(token, str(kata))
         elif mode == 2:
             clarifaiapi = clar.models.get('food-items-v1.0')
-            path = donwloadContent(msgid)
-            data = imgur.upload_from_path(path, config=None, anon=False)
-            os.remove(path)
-            data = clarifaiapi.predict_by_url(url=data['link'])
+            path, directlink = donwloadContent(msgid)
+            data = clarifaiapi.predict_by_url(url=directlink)
             data = data['outputs'][0]['data']['concepts']
             kata = '『Hasil Tebak Gambar』\n'
             for a in range(5):
@@ -848,7 +846,7 @@ def tebakgambar(token, msgid, mode):
                 kata += '\n%s' % (dat)
             replyTextMessage(token, str(kata))
         elif mode == 3:
-            path = donwloadContent(msgid)
+            path, directlink = donwloadContent(msgid)
             clarifaiapi = clar.models.get('demographics')
             img = ClImage(file_obj=open(path, 'rb'))
             data = clarifaiapi.predict([img])
@@ -874,14 +872,12 @@ def tebakgambar(token, msgid, mode):
                 kata += '\ngender: %s' % (str(data[a]['data']['face']['gender_appearance']['concepts'][0]['name']))
                 kata += '\nrace: %s\n' % (str(data[a]['data']['face']['multicultural_appearance']['concepts'][0]['name']))
             img.save(path)
-            uploaddata = imgur.upload_from_path(path, config=None, anon=False)
-            os.remove(path)
             customMessage(token, [
-                ImageSendMessage(original_content_url=uploaddata['link'], preview_image_url=uploaddata['link']),
+                ImageSendMessage(original_content_url=directlink, preview_image_url=directlink),
                 TextSendMessage(text = str(kata))
             ])
         elif mode == 4:
-            path = donwloadContent(msgid)
+            path, directlink = donwloadContent(msgid)
             clarifaiapi = clar.models.get('celeb-v1.3')
             img = ClImage(file_obj=open(path, 'rb'))
             data = clarifaiapi.predict([img])
@@ -905,10 +901,8 @@ def tebakgambar(token, msgid, mode):
                 kata += '\nNo.%s' % (str(a+1))
                 kata += '\nmirip %s\n' % (str(data[a]['data']['face']['identity']['concepts'][0]['name']))
             img.save(path)
-            uploaddata = imgur.upload_from_path(path, config=None, anon=False)
-            os.remove(path)
             customMessage(token, [
-                ImageSendMessage(original_content_url=uploaddata['link'], preview_image_url=uploaddata['link']),
+                ImageSendMessage(original_content_url=directlink, preview_image_url=directlink),
                 TextSendMessage(text = str(kata))
             ])
     except Exception as e:
