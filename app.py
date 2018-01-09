@@ -8,6 +8,7 @@ from data.PixivScrapper import pixivapi
 from data.openweathermap import owm
 from clarifai.rest import ClarifaiApp
 from clarifai.rest import Image as ClImage
+from gtts import gTTS
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -1043,6 +1044,23 @@ def ssweb(token, query):
         directlink = directlink.replace('http://', 'https://')
         loggedfile(directlink)
         replyImageMessage(token, directlink, directlink)
+    except Exception as e:
+        raise e
+
+def texttospeech(token, query, bahasa='en'):
+    try:
+        tts = gTTS(text=query, lang=bahasa, slow=False)
+        ext = 'mp3'
+        with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext+'-', delete=False) as tf:
+            tempfile_path = tf.name
+        dist_path = tempfile_path + '.' + ext
+        os.rename(tempfile_path, dist_path)
+        tts.save(dist_path)
+        dist_name = os.path.basename(dist_path)
+        directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
+        directlink = directlink.replace('http://', 'https://')
+        loggedfile(directlink)
+        replyAudioMessage(token, directlink)
     except Exception as e:
         raise e
 

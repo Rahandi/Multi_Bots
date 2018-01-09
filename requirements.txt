@@ -12,3 +12,4 @@ Pillow
 pixivpy
 clarifai
 pdfcrowd
+gtts
