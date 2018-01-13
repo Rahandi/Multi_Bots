@@ -1058,7 +1058,6 @@ def texttospeech(token, query, bahasa='en'):
         dist_path = tempfile_path + '.' + ext
         os.rename(tempfile_path, dist_path)
         tts.save(dist_path)
-        print(dist_path)
         dist_name = os.path.basename(dist_path)
         directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
         directlink = directlink.replace('http://', 'https://')
@@ -1096,7 +1095,7 @@ def savejson():
 def ziptemp():
     try:
         path = '/app/static/tmp'
-        shutil.make_archive(path, 'zip', '%s/temp' % (workdir))
+        shutil.make_archive('%s/temp' % (workdir), 'zip', path)
         return '%s/temp.zip' % (workdir)
     except Exception as e:
         raise e

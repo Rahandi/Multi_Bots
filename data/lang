@@ -1,7 +1,7 @@
 [TextToSpeech help]
 
-say: [kata-kata]
-say-[kode bahasa]: [kata-kata]
+/say: [kata-kata]
+/say-[kode bahasa]: [kata-kata]
 
 kode bahasa :
 af : Afrikaans
