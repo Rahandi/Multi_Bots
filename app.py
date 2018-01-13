@@ -1443,7 +1443,7 @@ def handle_message(event):
             data['alt'] = 'Multi_Bots Youtube'
             data['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % dat.videoid
             data['title'] = None
-            data['text'] = str(dat.title)
+            data['text'] = str(dat.title)[:60]
             data['action'] = actionBuilder(4, ['msg', 'msg', 'msg', 'msg'], ['send Video', 'send Audio', 'download Video', 'download Audio'], ['/youtube-video: %s' % (query), '/youtube-audio: %s' % (query), '/youtube-download-video: %s' % (query), '/youtube-download-audio: %s' % (query)])
             replyTemplateMessage(reply_token, data)
         elif msgtext.lower().startswith('/youtube-search: '):
@@ -1470,7 +1470,7 @@ def handle_message(event):
             data['alt'] = 'Multi_Bots Youtube'
             data['tumbnail'] = 'https://img.youtube.com/vi/%s/hqdefault.jpg' % dat.videoid
             data['title'] = None
-            data['text'] = str(dat.title)
+            data['text'] = str(dat.title)[:60]
             data['action'] = actionBuilder(2, ['msg', 'msg'], ['download Video', 'download Audio'], ['/youtube-download-video: %s' % (query), '/youtube-download-audio: %s' % (query)])
             replyTemplateMessage(reply_token, data)
         elif msgtext.lower().startswith('/youtube-download-video: '):
