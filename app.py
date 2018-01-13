@@ -1,4 +1,4 @@
-import os, errno, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd
+import os, errno, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd, shutil
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image, ImageDraw, ImageFont
@@ -1095,7 +1095,9 @@ def savejson():
 
 def ziptemp():
     try:
-        pass
+        path = '/app/static/tmp'
+        shutil.make_archive(path, 'zip', '%s/temp' % (workdir))
+        return '%s/temp.zip' % (workdir)
     except Exception as e:
         raise e
 
@@ -1777,8 +1779,11 @@ def handle_message(event):
             data['text'] = 'developer'
             data['action'] = [actionBuilder(1, ['uri'], ['add'], ['line://ti/p/~rahandi'])]
             replyTemplateMessage(reply_token, data)
-        elif msgtext.lower() == '//coba help':
-            help(reply_token)
+        elif msgtext.lower() == '//get temp':
+            if op['source']['userId'] == adminid:
+                path = ziptemp()
+                replyTextMessage(reply_token ,json.dumps(uploadfile(0, path)))
+                os.remove(path)
         elif msgtext.lower() == '//cetak op':
             replyTextMessage(reply_token, json.dumps(op, indent=2))
         elif msgtext.lower() == '//cetak profile':
