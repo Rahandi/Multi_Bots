@@ -6,6 +6,7 @@ from imgurpython import ImgurClient
 from data.MALScrapper import MAL
 from data.PixivScrapper import pixivapi
 from data.openweathermap import owm
+from data.uploader import Uploader
 from clarifai.rest import ClarifaiApp
 from clarifai.rest import Image as ClImage
 from gtts import gTTS
@@ -29,6 +30,7 @@ myanimelist = MAL()
 webscreenshot = pdfcrowd.HtmlToImageClient('rahandi', '3ccf176260126b37e770268a8d4dbcc5')
 webscreenshot.setOutputFormat('png')
 webscreenshot.setScreenshotWidth(1366)
+uploadermodule = Uploader()
 weatherApi = owm('6ad7dc6072c70ea84dd42fa1273091e3')
 pixiv = pixivapi('rahandinoor', 'rahandi')
 devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
@@ -1056,6 +1058,7 @@ def texttospeech(token, query, bahasa='en'):
         dist_path = tempfile_path + '.' + ext
         os.rename(tempfile_path, dist_path)
         tts.save(dist_path)
+        print(dist_path)
         dist_name = os.path.basename(dist_path)
         directlink = request.host_url + os.path.join('static', 'tmp', dist_name)
         directlink = directlink.replace('http://', 'https://')
@@ -1087,6 +1090,23 @@ def savejson():
         file = open('%s/data/jsondata' % (workdir), 'w')
         file.write(json.dumps(important, indent=2))
         file.close
+    except Exception as e:
+        raise e
+
+def ziptemp():
+    try:
+        pass
+    except Exception as e:
+        raise e
+
+def uploadfile(mode, path=None, url=None, key=None):
+    try:
+        if mode == 0:
+            return uploadermodule.upload(path)
+        elif mode == 1:
+            return uploadermodule.status(url)
+        elif mode == 2:
+            return uploadermodule.delete(url, key)
     except Exception as e:
         raise e
 
