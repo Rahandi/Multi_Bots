@@ -1792,8 +1792,8 @@ def handle_message(event):
             replyTextMessage(reply_token, json.dumps(profile, indent=2))
         elif msgtext.lower() == '//test bioskop':
             starttime = time.time()
-            bioskopmodule.getallbioskop()
-            replyTextMessage(reply_token, str(time.time()-starttime))
+            nama, link = bioskopmodule.getallbioskop()
+            replyTextMessage(reply_token, str(nama))
         elif msgtext.lower() == '/leave':
             if op['source']['type'] == 'group':
                 replyTextMessage(reply_token, ':(')
