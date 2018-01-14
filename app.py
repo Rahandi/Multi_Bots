@@ -160,6 +160,7 @@ def donwloadContent(mId):
             for chunk in mescon.iter_content():
                 tf.write(chunk)
             tempfile_path = tf.name
+        print('downloaded image content from ' + str(mId))
         dist_path = tempfile_path + '.' + ext
         dist_name = os.path.basename(dist_path)
         os.rename(tempfile_path, dist_path)
@@ -1790,10 +1791,6 @@ def handle_message(event):
         elif msgtext.lower() == '//cetak profile':
             profile = json.loads(str(line_bot_api.get_profile(op['source']['userId'])))
             replyTextMessage(reply_token, json.dumps(profile, indent=2))
-        elif msgtext.lower() == '//test bioskop':
-            starttime = time.time()
-            nama, link = bioskopmodule.getallbioskop()
-            replyTextMessage(reply_token, str(nama))
         elif msgtext.lower() == '/leave':
             if op['source']['type'] == 'group':
                 replyTextMessage(reply_token, ':(')
