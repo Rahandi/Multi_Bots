@@ -1,4 +1,4 @@
-import os, errno, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd, shutil
+import os, errno, logging, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd, shutil
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image, ImageDraw, ImageFont
@@ -40,6 +40,8 @@ important = file.read()
 file.close()
 important = json.loads(important)
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 def make_static_tmp_dir():
     try:
