@@ -469,7 +469,16 @@ def lyriclagu(token, query):
         if data['find'] == True:
             kata = data['title'] + '\n\n'
             kata += data['lyric']
-            replyTextMessage(token, str(kata))
+            if len(kata) <= 2000:
+                replyTextMessage(token, str(kata))
+            else:
+                kata = [kata[i:i+2000] for i in range(0, len(kata), 2000)]
+                custom = []
+                for a in kata:
+                    custom.append(TextSendMessage(text=str(a)))
+                    if len(custom) >= 5:
+                        break
+                customMessage(token, custom)
         else:
             replyTextMessage(token, 'lyric tidak ditemukan')
     except Exception as e:
