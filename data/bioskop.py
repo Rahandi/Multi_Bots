@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 class Bioskop():
-	def getallbioskop():
+	def getallbioskop(self):
 		for a in range(1, 23):
 			namabioskop = []
 			linkbisokop = []
