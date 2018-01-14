@@ -7,6 +7,7 @@ from data.MALScrapper import MAL
 from data.PixivScrapper import pixivapi
 from data.openweathermap import owm
 from data.uploader import Uploader
+from data.bioskop import Bioskop
 from clarifai.rest import ClarifaiApp
 from clarifai.rest import Image as ClImage
 from gtts import gTTS
@@ -31,6 +32,7 @@ webscreenshot = pdfcrowd.HtmlToImageClient('rahandi', '3ccf176260126b37e770268a8
 webscreenshot.setOutputFormat('png')
 webscreenshot.setScreenshotWidth(1366)
 uploadermodule = Uploader()
+bioskopmodule = Bioskop()
 weatherApi = owm('6ad7dc6072c70ea84dd42fa1273091e3')
 pixiv = pixivapi('rahandinoor', 'rahandi')
 devapi = deviantart.Api('7267','daac0fc861e570e0f9553783507266fd')
@@ -1788,6 +1790,10 @@ def handle_message(event):
         elif msgtext.lower() == '//cetak profile':
             profile = json.loads(str(line_bot_api.get_profile(op['source']['userId'])))
             replyTextMessage(reply_token, json.dumps(profile, indent=2))
+        elif msgtext.lower() == '//test bioskop':
+            starttime = time.time()
+            bioskopmodule.getallbioskop()
+            replyTextMessage(reply_token, str(time.time()-starttime))
         elif msgtext.lower() == '/leave':
             if op['source']['type'] == 'group':
                 replyTextMessage(reply_token, ':(')
