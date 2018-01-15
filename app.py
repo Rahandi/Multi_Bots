@@ -1616,12 +1616,21 @@ def handle_message(event):
             if op['source']['userId'] == adminid:
                 text = '[LOG File]\n\n'
                 files = open('%s/data/log' % (workdir), 'r')
-                kirim = files.read()
+                kata = files.read()
                 files.close()
                 files = open('%s/data/log' % (workdir), 'w')
                 files.write(text)
                 files.close()
-                replyTextMessage(reply_token, kirim)
+                if len(kata) <= 2000:
+                    replyTextMessage(token, str(kata))
+                else:
+                    kata = [kata[i:i+2000] for i in range(0, len(kata), 2000)]
+                    custom = []
+                    for a in kata:
+                        custom.append(TextSendMessage(text=str(a)))
+                        if len(custom) >= 5:
+                            break
+                    customMessage(token, custom)
         elif msgtext.lower().startswith('/chat '):
             toggle = msgtext[6:]
             if toggle.lower() == 'on':
