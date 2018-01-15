@@ -554,8 +554,8 @@ def devian(token, mode, berapa, query=None):
             tipe = 'img'
             for a in range(len(listpict)):
                 isi_TB = {}
-                isi_TB['tumbnail'] = listpict[a]
-                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
+                isi_TB['tumbnail'] = listpict[a].replace('http://', 'https://')
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a].replace('http://', 'https://')])
                 TB.append(isi_TB)
             dat = {}
             dat['alt'] = 'Multi_Bots Deviantart Search'
@@ -579,8 +579,8 @@ def devian(token, mode, berapa, query=None):
             tipe = 'img'
             for a in range(len(listpict)):
                 isi_TB = {}
-                isi_TB['tumbnail'] = listpict[a]
-                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
+                isi_TB['tumbnail'] = listpict[a].replace('http://', 'https://')
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a].replace('http://', 'https://')])
                 TB.append(isi_TB)
             dat = {}
             dat['alt'] = 'Multi_Bots Deviantart Hot'
