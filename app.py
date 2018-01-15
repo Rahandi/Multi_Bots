@@ -1625,7 +1625,7 @@ def handle_message(event):
                 files.write(text)
                 files.close()
                 if len(kata) <= 2000:
-                    replyTextMessage(token, str(kata))
+                    replyTextMessage(reply_token, str(kata))
                 else:
                     kata = [kata[i:i+2000] for i in range(0, len(kata), 2000)]
                     custom = []
@@ -1633,7 +1633,7 @@ def handle_message(event):
                         custom.append(TextSendMessage(text=str(a)))
                         if len(custom) >= 5:
                             break
-                    customMessage(token, custom)
+                    customMessage(reply_token, custom)
         elif msgtext.lower().startswith('/chat '):
             toggle = msgtext[6:]
             if toggle.lower() == 'on':
