@@ -168,6 +168,8 @@ def donwloadContent(mId):
         directlink = directlink.replace('http://', 'https://')
         loggedfile(directlink)
         return dist_path, directlink
+    except LineBotApiError as e:
+        raise e
     except Exception as e:
         raise e
 
