@@ -543,7 +543,7 @@ def devian(token, mode, berapa, query=None):
             for a in listdev:
                 try:
                     dwn = devapi.download_deviation(a)
-                    listpict.append(dwn['src'])
+                    listpict.append(shorten(dwn['src']))
                 except:
                     pass
             TB = []
@@ -555,8 +555,8 @@ def devian(token, mode, berapa, query=None):
             tipe = 'img'
             for a in range(len(listpict)):
                 isi_TB = {}
-                isi_TB['tumbnail'] = listpict[a].replace('http://', 'https://')
-                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a].replace('http://', 'https://')])
+                isi_TB['tumbnail'] = listpict[a]
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
                 TB.append(isi_TB)
             dat = {}
             dat['alt'] = 'Multi_Bots Deviantart Search'
@@ -569,7 +569,7 @@ def devian(token, mode, berapa, query=None):
             for a in listdev:
                 try:
                     dwn = devapi.download_deviation(a)
-                    listpict.append(dwn['src'])
+                    listpict.append(shorten(dwn['src']))
                 except:
                     pass
             TB = []
@@ -580,8 +580,8 @@ def devian(token, mode, berapa, query=None):
             tipe = 'img'
             for a in range(len(listpict)):
                 isi_TB = {}
-                isi_TB['tumbnail'] = listpict[a].replace('http://', 'https://')
-                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a].replace('http://', 'https://')])
+                isi_TB['tumbnail'] = listpict[a]
+                isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [listpict[a]])
                 TB.append(isi_TB)
             dat = {}
             dat['alt'] = 'Multi_Bots Deviantart Hot'
