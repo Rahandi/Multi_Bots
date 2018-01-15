@@ -548,6 +548,7 @@ def devian(token, mode, berapa, query=None):
                     pass
             TB = []
             amon = len(listpict)
+            print(amon)
             if amon == 0:
                 replyTextMessage(token, '0 found')
                 return
