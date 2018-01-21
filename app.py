@@ -1133,7 +1133,7 @@ def help(token, mode=0):
             tipe = 'template'
             tumbnail = [
                 'https://i.ytimg.com/vi/CVXp3ZgUIr8/maxresdefault.jpg', 
-                'https://www.gulfeyes.net/content/uploads/2017/09/22/9221c046e5.jpg',
+                'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2000px-Instagram_logo_2016.svg.png',
                 'https://lh3.googleusercontent.com/-qXt3ofPwbOU/VVZ_PbR6CsI/AAAAAAAAABY/IeVNLmQOwpQ/s530-p/AnimeLogo.png',
                 'https://cdn-images-1.medium.com/max/900/1*NwIjQsu95P2SlRlVqEJSeg.png',
                 'https://static1.squarespace.com/static/56c25cd620c647590146e9c2/572bc1101bbee0b556462e85/572bc1181bbee0b556462ed4/1462485275992/styleframes4.png',
