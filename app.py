@@ -1090,18 +1090,17 @@ def news(token, country='id', query=None):
         tipe = 'template'
         if int(data['totalResults']) == 0:
             replyTextMessage(token, 'tidak ada berita ditemukan')
+            return
         for a in data['articles']:
             isi_TB = {}
-            if a['urlToImage'] == None:
-                imagelink = 'https://image.zalefree.com/thumbnail/eyJpIjozMTQ4NjIsInAiOiJcLy5cL3N0b3JhZ2VcL2ltYWdlXC82M1wvMzE0ODYyXC9pbWFnZTFfMzE0ODYyXzE0ODAzNTY2MTAuanBnIiwidyI6NDMzLCJoIjowLCJjIjoibm8iLCJzIjoibm8ifQ==.jpg'
-            elif a['urlToImage'].startswith('http://'):
+            if str(a['urlToImage'] or 'None').startswith('http://'):
                 imagelink = 'https://image.zalefree.com/thumbnail/eyJpIjozMTQ4NjIsInAiOiJcLy5cL3N0b3JhZ2VcL2ltYWdlXC82M1wvMzE0ODYyXC9pbWFnZTFfMzE0ODYyXzE0ODAzNTY2MTAuanBnIiwidyI6NDMzLCJoIjowLCJjIjoibm8iLCJzIjoibm8ifQ==.jpg'
             else:
                 imagelink = a['urlToImage']
             isi_TB['tumbnail'] = imagelink
-            isi_TB['title'] = a['title'][:40]
-            isi_TB['text'] = a['description'][:60]
-            isi_TB['action'] = [actionBuilder(1, ['uri'], ['source'], [a['url']])]
+            isi_TB['title'] = str(a['title'] or 'None')[40:]
+            isi_TB['text'] = str(a['description'] or 'None')[:60]
+            isi_TB['action'] = [actionBuilder(1, ['uri'], ['source'], [str(a['url'] or 'None')])]
             TB.append(isi_TB)
             if len(TB) >= 10:
                 break
