@@ -1098,9 +1098,9 @@ def news(token, country='id', query=None):
             else:
                 imagelink = a['urlToImage']
             isi_TB['tumbnail'] = imagelink
-            isi_TB['title'] = str(a['title'] or 'None')[40:]
+            isi_TB['title'] = str(a['title'] or 'None')[:40]
             isi_TB['text'] = str(a['description'] or 'None')[:60]
-            isi_TB['action'] = [actionBuilder(1, ['uri'], ['source'], [str(a['url'] or 'None')])]
+            isi_TB['action'] = [actionBuilder(1, ['uri'], ['source'], [a['url']])]
             TB.append(isi_TB)
             if len(TB) >= 10:
                 break
