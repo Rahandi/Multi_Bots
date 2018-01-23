@@ -1,4 +1,4 @@
-import os, errno, logging, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd, shutil
+import os, errno, logging, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd, shutil, humanfriendly
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
 from PIL import Image, ImageDraw, ImageFont
@@ -1840,6 +1840,8 @@ def handle_message(event):
             data['text'] = 'developer'
             data['action'] = [actionBuilder(1, ['uri'], ['add'], ['line://ti/p/~rahandi'])]
             replyTemplateMessage(reply_token, data)
+        elif msgtext.lower() == '//runtime':
+            replyTextMessage(reply_token, '%s' % str(humanfriendly.format_timespan(time.time()-botstart)))
         elif msgtext.lower() == '//get temp':
             if op['source']['userId'] == adminid:
                 path = ziptemp()
@@ -1873,8 +1875,6 @@ def handle_message(event):
                     if chatid in important['chaton'][sourcetype]:
                         if important['chaton'][sourcetype][chatid] == True:
                             chatbot(reply_token, msgtext)
-        if time.time()-botstart > 24 * 3600:
-            restart()
     except LineBotApiError as e:
         replyTextMessage(reply_token, 'error')
         print(e.status_code)
