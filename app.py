@@ -1277,6 +1277,7 @@ def help(token, mode=0):
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/animekompi'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/awsubs'])])
             action.append([actionBuilder(1, ['msg'], ['coba'], ['/ssweb: google.com'])])
+            action.append([actionBuilder(1, ['msg'], ['coba'], ['/news'])])
             text = []
             text.append('/gimage: [query]')
             text.append('/lyric: [query]')
@@ -1292,6 +1293,7 @@ def help(token, mode=0):
             text.append('/animekompi')
             text.append('/awsubs')
             text.append('/ssweb: [query]')
+            text.append('/news atau /news: [query]')
             for a in range(len(action)):
                 isi_TB = {}
                 isi_TB['tumbnail'] = None
