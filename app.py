@@ -1092,7 +1092,7 @@ def news(token, country='id', query=None):
             replyTextMessage(token, 'tidak ada berita ditemukan')
         for a in data['articles']:
             isi_TB = {}
-            if a['urlToImage'].startswith('http://'):
+            if str(a['urlToImage']).startswith('http://'):
                 imagelink = 'https://image.zalefree.com/thumbnail/eyJpIjozMTQ4NjIsInAiOiJcLy5cL3N0b3JhZ2VcL2ltYWdlXC82M1wvMzE0ODYyXC9pbWFnZTFfMzE0ODYyXzE0ODAzNTY2MTAuanBnIiwidyI6NDMzLCJoIjowLCJjIjoibm8iLCJzIjoibm8ifQ==.jpg'
             else:
                 imagelink = a['urlToImage']
@@ -1664,7 +1664,7 @@ def handle_message(event):
                             break
                     customMessage(reply_token, custom)
         elif msgtext.lower().startswith('/news'):
-            if msgtext.startswith('/news: '):
+            if msgtext.lower().startswith('/news: '):
                 query = msgtext[7:]
                 news(reply_token, query=query)
             else:
