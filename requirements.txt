@@ -13,3 +13,4 @@ pixivpy
 clarifai
 pdfcrowd
 gtts
+newsapi-python

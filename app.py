@@ -10,6 +10,7 @@ from data.uploader import Uploader
 from clarifai.rest import ClarifaiApp
 from clarifai.rest import Image as ClImage
 from gtts import gTTS
+from newsapi import NewsApiClient
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -27,6 +28,7 @@ adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 botstart = time.time()
 workdir = os.getcwd()
 myanimelist = MAL()
+news = NewsApiClient(api_key='9f067ac1ce5f4f86b8800bfbb3b98ae4')
 webscreenshot = pdfcrowd.HtmlToImageClient('rahandi', '3ccf176260126b37e770268a8d4dbcc5')
 webscreenshot.setOutputFormat('png')
 webscreenshot.setScreenshotWidth(1366)
@@ -1081,6 +1083,33 @@ def texttospeech(token, query, bahasa='en'):
     except Exception as e:
         raise e
 
+def news(token, country='id', query=None):
+    try:
+        data = news.get_top_headlines(q=query, country=country)
+        TB = []
+        tipe = 'template'
+        if int(data['totalResults']) == 0:
+            replyTextMessage(token, 'tidak ada berita ditemukan')
+        for a in data['articles']:
+            isi_TB = {}
+            if a['urlToImage'].startswith('http://'):
+                imagelink = 'https://image.zalefree.com/thumbnail/eyJpIjozMTQ4NjIsInAiOiJcLy5cL3N0b3JhZ2VcL2ltYWdlXC82M1wvMzE0ODYyXC9pbWFnZTFfMzE0ODYyXzE0ODAzNTY2MTAuanBnIiwidyI6NDMzLCJoIjowLCJjIjoibm8iLCJzIjoibm8ifQ==.jpg'
+            else:
+                imagelink = a['urlToImage']
+            isi_TB['tumbnail'] = imagelink
+            isi_TB['title'] = a['title'][:40]
+            isi_TB['text'] = a['description'][:60]
+            isi_TB['action'] = [actionBuilder(1, ['uri'], ['source'], [a['url']])]
+            TB.append(isi_TB)
+            if len(TB) >= 10:
+                break
+        dat = {}
+        dat['alt'] = 'Multi_Bots Top News'
+        dat['template'] = templateBuilder(len(TB), tipe, TB)
+        replyCarrouselMessage(token, dat)
+    except Exception as e:
+        raise e
+
 def loggedfile(text):
     try:
         log = open('%s/data/log' % (workdir), 'a')
@@ -1634,6 +1663,13 @@ def handle_message(event):
                         if len(custom) >= 5:
                             break
                     customMessage(reply_token, custom)
+        elif msgtext.lower().startswith('/news'):
+            msg = msgtext[len('/news'):]
+            if msg.startswith(': '):
+                query = msg[2:]
+                news(reply_token, query=query)
+            else:
+                news(reply_token)
         elif msgtext.lower().startswith('/chat '):
             toggle = msgtext[6:]
             if toggle.lower() == 'on':
