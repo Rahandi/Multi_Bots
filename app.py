@@ -1664,9 +1664,8 @@ def handle_message(event):
                             break
                     customMessage(reply_token, custom)
         elif msgtext.lower().startswith('/news'):
-            msg = msgtext[len('/news'):]
-            if msg.startswith(': '):
-                query = msg[2:]
+            if msgtext.startswith('/news: '):
+                query = msgtext[7:]
                 news(reply_token, query=query)
             else:
                 news(reply_token)
