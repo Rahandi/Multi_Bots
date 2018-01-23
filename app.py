@@ -28,7 +28,7 @@ adminid = 'Uc8eed8927818997fec7df0239b827d4e'
 botstart = time.time()
 workdir = os.getcwd()
 myanimelist = MAL()
-news = NewsApiClient(api_key='9f067ac1ce5f4f86b8800bfbb3b98ae4')
+newsAPI = NewsApiClient(api_key='9f067ac1ce5f4f86b8800bfbb3b98ae4')
 webscreenshot = pdfcrowd.HtmlToImageClient('rahandi', '3ccf176260126b37e770268a8d4dbcc5')
 webscreenshot.setOutputFormat('png')
 webscreenshot.setScreenshotWidth(1366)
@@ -1085,7 +1085,7 @@ def texttospeech(token, query, bahasa='en'):
 
 def news(token, country='id', query=None):
     try:
-        data = news.get_top_headlines(q=query, country=country)
+        data = newsAPI.get_top_headlines(q=query, country=country)
         TB = []
         tipe = 'template'
         if int(data['totalResults']) == 0:
