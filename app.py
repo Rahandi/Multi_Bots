@@ -1092,7 +1092,7 @@ def news(token, country='id', query=None):
             replyTextMessage(token, 'tidak ada berita ditemukan')
         for a in data['articles']:
             isi_TB = {}
-            print(a['urlToImage'])
+            print(a)
             if str(a['urlToImage']).startswith('http://'):
                 imagelink = 'https://image.zalefree.com/thumbnail/eyJpIjozMTQ4NjIsInAiOiJcLy5cL3N0b3JhZ2VcL2ltYWdlXC82M1wvMzE0ODYyXC9pbWFnZTFfMzE0ODYyXzE0ODAzNTY2MTAuanBnIiwidyI6NDMzLCJoIjowLCJjIjoibm8iLCJzIjoibm8ifQ==.jpg'
             else:
