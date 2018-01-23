@@ -1093,7 +1093,7 @@ def news(token, country='id', query=None):
             return
         for a in data['articles']:
             isi_TB = {}
-            if str(a['urlToImage'] or 'None').startswith('http://'):
+            if str(a['urlToImage'] or 'http://').startswith('http://'):
                 imagelink = 'https://image.zalefree.com/thumbnail/eyJpIjozMTQ4NjIsInAiOiJcLy5cL3N0b3JhZ2VcL2ltYWdlXC82M1wvMzE0ODYyXC9pbWFnZTFfMzE0ODYyXzE0ODAzNTY2MTAuanBnIiwidyI6NDMzLCJoIjowLCJjIjoibm8iLCJzIjoibm8ifQ==.jpg'
             else:
                 imagelink = a['urlToImage']
