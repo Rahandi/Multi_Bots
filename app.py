@@ -1,6 +1,7 @@
 import os, errno, logging, tempfile, time, json, requests, pafy, random, wikipedia, deviantart, sys, pdfcrowd, shutil, humanfriendly
 from flask import Flask, request, abort
 from bs4 import BeautifulSoup, SoupStrainer
+from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont
 from imgurpython import ImgurClient
 from data.MALScrapper import MAL
@@ -1124,6 +1125,9 @@ def restart(token=''):
         if token != '':
             replyTextMessage(token, 'restarting')
         print('\n\nRESTARTING\n\n')
+        jam = (datetime.utcnow() + timedelta(hours = 7)).strftime('%H:%M:%S %d-%m-%Y')
+        cetak = '[%s] restart' % (str(jam))
+        loggedfile(cetak)
         python = sys.executable
         os.execl(python, python, * sys.argv)
     except Exception as e:
@@ -1649,12 +1653,8 @@ def handle_message(event):
                 restart(reply_token)
         elif msgtext.lower() == '/log':
             if op['source']['userId'] == adminid:
-                text = '[LOG File]\n\n'
                 files = open('%s/data/log' % (workdir), 'r')
                 kata = files.read()
-                files.close()
-                files = open('%s/data/log' % (workdir), 'w')
-                files.write(text)
                 files.close()
                 if len(kata) <= 2000:
                     replyTextMessage(reply_token, str(kata))
@@ -1666,6 +1666,13 @@ def handle_message(event):
                         if len(custom) >= 5:
                             break
                     customMessage(reply_token, custom)
+        elif msgtext.lower() == '/reset log':
+            if op['source']['userId'] == adminid:
+                text = '[LOG File]\n\n'
+                files = open('%s/data/log' % (workdir), 'w')
+                files.write(text)
+                files.close()
+                replyTextMessage(reply_token, 'log reset')
         elif msgtext.lower().startswith('/news'):
             if msgtext.lower().startswith('/news: '):
                 query = msgtext[7:]
