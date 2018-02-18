@@ -429,15 +429,12 @@ def gimage(token, query):
         amon = 10
         tipe = 'img'
         random.shuffle(piclist)
-        removemark = []
-        for a in range(len(piclist)):
-            if 'http://' in piclist[a]:
-                removemark.append(piclist[a])
-        for a in removemark:
-            piclist.remove(a)
         for a in range(10):
             isi_TB = {}
-            isi_TB['tumbnail'] = piclist[a]
+            if 'https://' in piclist[a]:
+                isi_TB['tumbnail'] = piclist[a]
+            else:
+                isi_TB['tumbnail'] = shorten(piclist[a])
             isi_TB['action'] = actionBuilder(1, ['uri'], ['direct link'], [piclist[a]])
             TB.append(isi_TB)
         dat = {}
@@ -466,6 +463,7 @@ def wikiped(token, query):
             replyTextMessage(token, str(hasil))
     except Exception as e:
         raise e
+
 def lyriclagu(token, query):
     try:
         query = requests.utils.requote_uri(query)
