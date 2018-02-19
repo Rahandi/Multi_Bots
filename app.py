@@ -142,14 +142,18 @@ def templateBuilder(amount, type, template):
                 title = template[i]['title']
                 text = template[i]['text']
                 action = template[i]['action']
-                if 'https://' in thumbnail or thumbnail == None:
+                if thumbnail == None:
+                    apped = CarouselColumn(thumbnail_image_url=thumbnail, title=title, text=text, actions=action)
+                elif 'https://' in thumbnail:
                     apped = CarouselColumn(thumbnail_image_url=thumbnail, title=title, text=text, actions=action)
                 else:
                     apped = CarouselColumn(thumbnail_image_url=shorten(thumbnail), title=title, text=text, actions=action)
             elif type == 'img':
                 thumbnail = template[i]['tumbnail']
                 action = template[i]['action']
-                if 'https://' in thumbnail or thumbnail == None:
+                if thumbnail == None:
+                    apped = ImageCarouselColumn(image_url=thumbnail, action=action)
+                elif 'https://' in thumbnail or thumbnail == None:
                     apped = ImageCarouselColumn(image_url=thumbnail, action=action)
                 else:
                     apped = ImageCarouselColumn(image_url=shorten(thumbnail), action=action)
