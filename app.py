@@ -1563,15 +1563,18 @@ def handle_message(event):
             sekarang = time.time()
             line_bot_api.reply_message(reply_token, [TextSendMessage(text = '...'), TextSendMessage(text = str(time.time()-sekarang))])
         elif msgtext.lower().startswith('/instapost '):
-            query = msgtext[11:]
-            query = query.split(' ')
-            instapost(reply_token, query[1], query[0], 1)
+            # query = msgtext[11:]
+            # query = query.split(' ')
+            # instapost(reply_token, query[1], query[0], 1)
+            replyTextMessage(reply_token, "currently unavailable due to ban from instagram")
         elif msgtext.lower().startswith('/instastory '):
-            query = msgtext[12:]
-            instastory(reply_token, query, 1)
+            # query = msgtext[12:]
+            # instastory(reply_token, query, 1)
+            replyTextMessage(reply_token, "currently unavailable due to ban from instagram")
         elif msgtext.lower().startswith('/instainfo '):
-            query = msgtext[11:]
-            instainfo(reply_token, query, 1)
+            # query = msgtext[11:]
+            # instainfo(reply_token, query, 1)
+            replyTextMessage(reply_token, "currently unavailable due to ban from instagram")
         elif msgtext.lower().startswith('/gimage: '):
             query = msgtext[9:]
             gimage(reply_token, query)
