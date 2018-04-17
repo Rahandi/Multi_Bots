@@ -274,7 +274,6 @@ def instapost(token, username, query, berapa):
     try:
         link = 'http://139.195.155.180:5000/instapost/%s/%s?key=randi123' % (username, query)
         data = json.loads(requests.get(link).text)
-        print(json.dumps(data, indent=4))
         if data['find'] == True:
             if data['see'] == True:
                 if data['banyak'] == True:
@@ -325,17 +324,9 @@ def instapost(token, username, query, berapa):
             else:
                 replyTextMessage(token, 'akun di private, akan mencoba mem-follow, coba beberapa saat lagi')
         else:
-            if int(berapa) >= 5:
-                replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
-            else:
-                berapa = str(int(berapa)+1)
-                instapost(token, username, query, berapa)
+            replyTextMessage(token, 'akun %s tidak ditemukan' % (username))
     except Exception as e:
-        if int(berapa) >= 5:
-            raise e
-        else:
-            berapa = str(int(berapa) + 1)
-            instapost(token, username, query, berapa)
+        raise e
 
 def instastory(token, username, berapa):
     try:
