@@ -285,6 +285,7 @@ def instapost(token, username, query, berapa):
                     if medtipe == 1:
                         url = data['url']
                         kata += '\nlink: %s' % (shorten(url))
+                        print(kata)
                         customMessage(token, [
                             ImageSendMessage(original_content_url=url, preview_image_url=url),
                             TextSendMessage(text = str(kata))
