@@ -274,6 +274,7 @@ def instapost(token, username, query, berapa):
     try:
         link = 'http://139.195.155.180:5000/instapost/%s/%s?key=randi123' % (username, query)
         data = json.loads(requests.get(link).text)
+        print(json.dumps(data, indent=4))
         if data['find'] == True:
             if data['see'] == True:
                 if data['banyak'] == True:
