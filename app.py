@@ -272,7 +272,7 @@ def humansize(nbytes):
 
 def instapost(token, username, query, berapa):
     try:
-        link = 'http://139.195.155.180:5000/instapost/%s/%s?key=randi123' % (username, query)
+        link = 'http://139.195.141.92:5000/instapost/%s/%s?key=randi123' % (username, query)
         data = json.loads(requests.get(link).text)
         if data['find'] == True:
             if data['see'] == True:
