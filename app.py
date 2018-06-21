@@ -12,6 +12,7 @@ from clarifai.rest import ClarifaiApp
 from clarifai.rest import Image as ClImage
 from gtts import gTTS
 from newsapi import NewsApiClient
+from data.QrCodeGenerator import QrCodeGenerator
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -1717,6 +1718,14 @@ def handle_message(event):
                             chatid = op['source']['groupId']
                         important['chaton'][sourcetype][chatid] = False
                 replyTextMessage(reply_token, 'chat mode dimatikan')
+        elif msgtext.lower().startswith('/qrcode '):
+            query = msgtext[8:]
+            mode = int(query[:1])
+            query = query[2:]
+            if mode == 1:
+                pass
+            elif mode == 2:
+                pass
         elif msgtext.lower().startswith('/kotakin: '):
             query = msgtext[10:]
             query = int(query)
