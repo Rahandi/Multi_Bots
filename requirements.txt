@@ -15,3 +15,4 @@ pdfcrowd
 gtts
 newsapi-python
 humanfriendly
+pyqrcode
